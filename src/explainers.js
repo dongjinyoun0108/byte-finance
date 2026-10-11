@@ -122,11 +122,11 @@ const EXTRA_FILE = new URL('../content/explainers.json', import.meta.url);
 export const EXTRA_TOPICS = existsSync(EXTRA_FILE) ? JSON.parse(readFileSync(EXTRA_FILE, 'utf8')) : [];
 export const ALL_TOPICS = [...TOPICS, ...EXTRA_TOPICS];
 
-/** Weekend days since Sat 17 Oct 2026 (Sat, Sun, Sat, ...): consecutive weekend posts get consecutive topics. */
+/** Weekend posts so far: lesson 0 went out Sun 11 Oct 2026, then Sat 17, Sun 18, Sat 24... get 1, 2, 3... */
 export function weekendIndex(dateKey) {
-  const d = Math.round((Date.parse(`${dateKey}T00:00:00Z`) - Date.parse('2026-10-17T00:00:00Z')) / 86400e3);
+  const d = Math.round((Date.parse(`${dateKey}T00:00:00Z`) - Date.parse('2026-10-10T00:00:00Z')) / 86400e3);
   const w = Math.floor(d / 7);
-  return w * 2 + Math.min(((d % 7) + 7) % 7, 1);
+  return w * 2 + Math.min(((d % 7) + 7) % 7, 1) - 1;
 }
 
 /** Topics are used in order; new ones are appended, so past and upcoming picks never shift. Wraps only if the bank runs out. */
