@@ -8,7 +8,10 @@ import { fileURLToPath } from 'node:url';
 
 const here = join(dirname(fileURLToPath(import.meta.url)), '..');
 const repo = join(here, '../..');
-const D = JSON.parse(readFileSync(process.argv[2] || join(here, 'sample.json'), 'utf8'));
+const args = process.argv.slice(2);
+const AI = args.includes('--ai'); // use AI-animated coin clips (reels/coin-motion/sprites) where they exist
+const D = JSON.parse(readFileSync(args.find((a) => !a.startsWith('--')) || join(here, 'sample.json'), 'utf8'));
+const OUT = args.find((a) => a.startsWith('--out='))?.slice(6) || 'index.html';
 
 const COIN_POSES = ['bbq', 'cbd_strut', 'celebrating', 'coffee', 'coffee_alt', 'cricket', 'finger_gun', 'kangaroo', 'newspaper', 'padel', 'performative', 'quarter_zip', 'rocket', 'run_club', 'shocked', 'surfing', 'thinking', 'trading_desk', 'umbrella', 'wipeout', 'worried'];
 const pose = (p, dflt) => (COIN_POSES.includes(p) ? p : dflt);
@@ -31,9 +34,38 @@ const poses = {
   s: stories.map((s, i) => pose(s.pose, ['thinking', 'celebrating', 'finger_gun'][i])),
   outro: pose(D.outroPose, 'cbd_strut'),
 };
-for (const p of new Set([poses.hook, poses.phone, ...poses.s, poses.outro, 'finger_gun'])) {
+const hookReact = hookUpFlag(D) ? 'celebrating' : 'shocked';
+for (const p of new Set([poses.hook, hookReact, poses.phone, ...poses.s, poses.outro])) {
   const src = join(repo, 'render/assets/coin', `${p}.png`);
   if (existsSync(src)) copyFileSync(src, join(here, 'assets/coin', `${p}.png`));
+}
+
+function hookUpFlag(d) { return (d.hook?.pct ?? 0) >= 0; }
+// Where each pose's feet sit (alpha bbox bottom / 1100), so swaps keep the coin planted.
+const FOOT = { bbq: .893, cbd_strut: .949, celebrating: .87, coffee: .895, coffee_alt: .898, cricket: .903, finger_gun: .893, kangaroo: .905, newspaper: .888, padel: .901, performative: .938, quarter_zip: .915, rocket: .979, run_club: .935, shocked: .897, surfing: .807, thinking: .899, trading_desk: .876, umbrella: .905, wipeout: .896, worried: .893 };
+/** A rigged coin: .actor (travel) > .shadow + .abody (squash/lean) > .breath (idle) > one <img> per pose. */
+function actor(id, list, { left, top, width }) {
+  const uniq = [...new Set(list)];
+  return `<div class="actor" id="${id}" style="left:${left}px; top:${top}px; width:${width}px; height:${width}px">
+    <i class="shadow"></i><div class="abody"><div class="breath">${uniq.map((p, i) => `<img class="pose" data-pose="${p}" src="assets/coin/${p}.png" alt="" style="top:${Math.round((0.9 - (FOOT[p] ?? 0.9)) * width)}px${i ? '; opacity:0' : ''}">`).join('')}</div></div></div>`;
+}
+
+// AI sprite sheets keyed from Higgsfield clips, keyed by the pose they replace.
+const SPRITES = {};
+if (AI) {
+  mkdirSync(join(here, 'assets/sprites'), { recursive: true });
+  for (const [pose, name] of [['coffee', 'coffee'], ['cbd_strut', 'strut']]) {
+    const meta = join(repo, 'reels/coin-motion/sprites', `${name}.json`);
+    if (!existsSync(meta)) continue;
+    SPRITES[pose] = { name, ...JSON.parse(readFileSync(meta, 'utf8')) };
+    copyFileSync(join(repo, 'reels/coin-motion/sprites', `${name}.png`), join(here, 'assets/sprites', `${name}.png`));
+  }
+}
+/** Same rig as actor(), but the body is a sprite sheet stepped frame by frame. */
+function spriteActor(id, sp, { left, top, width, dw }) {
+  const h = Math.round(dw * sp.fh / sp.fw), rows = Math.ceil(sp.frames / sp.cols);
+  return `<div class="actor" id="${id}" data-sprite="${sp.frames},${sp.cols},${sp.fps}" style="left:${left}px; top:${top}px; width:${width}px; height:${width}px">
+    <i class="shadow"></i><div class="abody"><div class="breath"><div class="sprite" style="left:${Math.round((width - dw) / 2)}px; top:${Math.round(0.9 * width - sp.feet * h)}px; width:${dw}px; height:${h}px; background-image:url(assets/sprites/${sp.name}.png); background-size:${sp.cols * 100}% ${rows * 100}%"></div></div></div></div>`;
 }
 
 // ---- helpers ----
@@ -99,7 +131,7 @@ const st0 = `
   <div id="h-pct" class="d" data-layout-ignore style="color:${hookUp ? C.up : C.down}">${wheelNumber(hookPctText)}</div>
   <div id="h-sub" class="mask"><span>while you slept</span></div>
   <div id="h-disc"></div>
-  <img id="h-coin" src="assets/coin/${poses.hook}.png" alt="">
+  ${SPRITES[poses.hook] ? spriteActor('h-coin', SPRITES[poses.hook], { left: 480, top: 1030, width: 540, dw: 470 }) : actor('h-coin', [poses.hook, hookReact], { left: 480, top: 1030, width: 540 })}
 </section>`;
 
 const rows = (D.board?.rows || []).slice(0, 9);
@@ -151,11 +183,11 @@ function storyStation(s, i) {
       <div class="notif" id="p-notif" data-layout-ignore><div class="nhead"><b class="app"></b><span>Byte Finance</span><span class="dim">now</span></div>
         <div class="ntag">${esc(s.tag)}</div><div class="ntext">${esc(s.headline)}</div></div>
     </div></div></div>
-    <img id="p-coin" class="coin" src="assets/coin/${poses.phone}.png" alt="" style="left:600px; top:1060px; width:440px">
+    ${actor('p-coin', [poses.phone, poses.s[0]], { left: 600, top: 1060, width: 440 })}
   </div>
   <div class="inside" id="p-in" style="background:${bg}">
     ${storyBody(s, i)}
-    <img class="coin" id="s${i}-coin" src="assets/coin/${poses.s[i]}.png" alt="" style="left:640px; top:1110px; width:400px">
+    ${actor(`s${i}-coin`, [poses.s[i]], { left: 640, top: 1110, width: 400 })}
   </div>
 </section>`;
   }
@@ -163,7 +195,7 @@ function storyStation(s, i) {
     return `
 <section class="st" id="st${k}" style="left:${k * P}px; background:${bg}">
   ${storyBody(s, i, { bars: true })}
-  <img class="coin" id="s${i}-coin" src="assets/coin/${poses.s[i]}.png" alt="" style="left:640px; top:1110px; width:400px">
+  ${actor(`s${i}-coin`, [poses.s[i]], { left: 640, top: 1110, width: 400 })}
 </section>`;
   }
   // Kinetic headline beats
@@ -179,7 +211,7 @@ function storyStation(s, i) {
     ${f && !figInHead ? `<div class="figrow" id="s${i}-figrow"><span class="d" style="color:${deep}">${esc(f)}</span>${s.figureLabel ? ` <span class="figlab" style="color:${deep}">${esc(s.figureLabel)}</span>` : ''}</div>` : ''}
     <p class="why fit" id="s${i}-why" data-maxh="200">${esc(s.why)}</p>
   </div>
-  <img class="coin" id="s${i}-coin" src="assets/coin/${poses.s[i]}.png" alt="" style="left:640px; top:1110px; width:400px">
+  ${actor(`s${i}-coin`, [poses.s[i]], { left: 640, top: 1110, width: 400 })}
 </section>`;
 }
 
@@ -214,7 +246,11 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: ${C.bu
 .wstrip span, .wch { display: block; height: 1em; line-height: 1em; font-variant-numeric: tabular-nums; }
 #h-sub { position: absolute; left: 84px; top: 1010px; font-size: 46px; font-weight: 600; }
 #h-disc { position: absolute; left: 470px; top: 1060px; width: 560px; height: 560px; border-radius: 50%; background: ${C.sun}; }
-#h-coin { position: absolute; left: 480px; top: 1030px; width: 540px; }
+.actor { position: absolute; }
+.actor .shadow { position: absolute; left: 22%; width: 56%; top: 86%; height: 7%; border-radius: 50%; background: rgba(23,24,28,.13); display: block; }
+.actor .abody, .actor .breath { position: absolute; inset: 0; }
+.actor .pose { position: absolute; left: 0; width: 100%; height: 100%; }
+.actor .sprite { position: absolute; background-repeat: no-repeat; background-position: 0% 0%; }
 /* board */
 #b-head { position: absolute; left: 80px; top: 360px; }
 #b-asof { position: absolute; left: 84px; top: 600px; }
@@ -269,7 +305,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: ${C.bu
 #o-follow { position: absolute; left: 80px; top: 720px; }
 #o-follow span { display: inline-block; font-size: 42px; font-weight: 650; padding: 20px 38px; border-radius: 999px; background: ${C.ink}; color: ${C.butter}; }
 #o-disc { position: absolute; left: 84px; top: 1290px; width: 540px; font-size: 22px; line-height: 1.4; color: rgba(23,24,28,.66); }
-#o-coin { position: absolute; left: 0; top: 1230px; width: 360px; }
+
 `;
 
 const runtime = `
@@ -355,6 +391,85 @@ function build() {
     tl.to(cam, { scale: 1, duration: 0.5, ease: 'power2.in' }, at + 0.5);
   };
 
+  // ================= coin acting kit =================
+  const A = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    const a = { el, body: el.querySelector('.abody'), breath: el.querySelector('.breath'), shadow: el.querySelector('.shadow'), poses: [...el.querySelectorAll('.pose')] };
+    tl.set(a.body, { transformOrigin: '50% 90%', scaleX: 1, scaleY: 1, rotation: 0, y: 0 }, 0);
+    tl.set(a.breath, { transformOrigin: '50% 90%' }, 0);
+    tl.set(a.shadow, { transformOrigin: '50% 50%' }, 0);
+    return a;
+  };
+  // Step a sprite sheet: frame index derived from one proxy tween, so any seek lands the same frame.
+  const play = (a, at, dur, { from = 0, to } = {}) => {
+    const sp = a.el.querySelector('.sprite');
+    if (!sp) return;
+    const [frames, cols] = a.el.dataset.sprite.split(',').map(Number);
+    const rows = Math.ceil(frames / cols), last = to ?? frames - 1;
+    const o = { f: from };
+    const show = () => { const i = Math.min(last, Math.round(o.f)); sp.style.backgroundPosition = (cols > 1 ? (i % cols) / (cols - 1) * 100 : 0) + '% ' + (rows > 1 ? Math.floor(i / cols) / (rows - 1) * 100 : 0) + '%'; };
+    tl.fromTo(o, { f: from }, { f: last, duration: dur, ease: 'none', onUpdate: show, onStart: show }, at);
+  };
+  const isSprite = (a) => !!a.el.dataset.sprite;
+  const pose = (a, name, at) => a.poses.forEach((p) => tl.set(p, { opacity: p.dataset.pose === name ? 1 : 0 }, at));
+  const land = (a, at, lean = 0) => {
+    tl.to(a.body, { scaleX: 1.16, scaleY: 0.82, rotation: -lean * 0.5, duration: 0.08, ease: 'power2.out' }, at);
+    tl.to(a.body, { scaleX: 1, scaleY: 1, rotation: 0, duration: 0.62, ease: 'elastic.out(1, 0.42)' }, at + 0.08);
+    tl.to(a.shadow, { scaleX: 1.15, opacity: 1, duration: 0.08 }, at);
+    tl.to(a.shadow, { scaleX: 1, duration: 0.4, ease: 'power2.out' }, at + 0.08);
+  };
+  // Hop in on an arc: crouch-free entrance, lean into travel, squash on landing, wobble out.
+  const hopIn = (a, at, { fromX = 600, fromY = 0, peak = -200, dur = 0.66 } = {}) => {
+    const lean = fromX > 0 ? -12 : fromX < 0 ? 12 : 0;
+    tl.fromTo(a.el, { x: fromX }, { x: 0, duration: dur, ease: 'power1.out' }, at);
+    tl.fromTo(a.el, { y: fromY }, { y: peak, duration: dur * 0.45, ease: 'power2.out' }, at);
+    tl.to(a.el, { y: 0, duration: dur * 0.55, ease: 'power2.in' }, at + dur * 0.45);
+    tl.fromTo(a.body, { rotation: lean, scaleX: 0.9, scaleY: 1.12 }, { rotation: lean * 0.4, scaleX: 0.96, scaleY: 1.05, duration: dur, ease: 'power1.inOut' }, at);
+    tl.fromTo(a.shadow, { scaleX: 0.3, opacity: 0 }, { scaleX: 0.55, opacity: 0.5, duration: dur * 0.45 }, at);
+    tl.to(a.shadow, { scaleX: 1, opacity: 1, duration: dur * 0.55, ease: 'power2.in' }, at + dur * 0.45);
+    land(a, at + dur, lean);
+  };
+  // Double-take: crouch, spring up, swap pose at the top, land with a squash.
+  const react = (a, at, name, { height = 120 } = {}) => {
+    tl.to(a.body, { scaleX: 1.1, scaleY: 0.86, duration: 0.12, ease: 'power2.out' }, at);
+    tl.to(a.el, { y: -height, duration: 0.24, ease: 'power2.out' }, at + 0.12);
+    tl.to(a.body, { scaleX: 0.92, scaleY: 1.1, duration: 0.14, ease: 'power2.out' }, at + 0.12);
+    tl.to(a.body, { scaleX: 1, scaleY: 1, duration: 0.14 }, at + 0.26);
+    tl.to(a.shadow, { scaleX: 0.55, opacity: 0.45, duration: 0.24, ease: 'power2.out' }, at + 0.12);
+    if (name) pose(a, name, at + 0.24);
+    tl.to(a.el, { y: 0, duration: 0.2, ease: 'power2.in' }, at + 0.36);
+    tl.to(a.shadow, { opacity: 1, duration: 0.2, ease: 'power2.in' }, at + 0.36);
+    land(a, at + 0.56);
+  };
+  // Breathing + sway between actions (finite yoyo so every frame is seekable).
+  const idle = (a, from, to) => {
+    let n = Math.floor((to - from) / B); if (n % 2) n--;
+    if (n < 2) return;
+    tl.fromTo(a.breath, { scaleY: 1, scaleX: 1 }, { scaleY: 1.03, scaleX: 0.985, duration: B, yoyo: true, repeat: n - 1, ease: 'sine.inOut' }, from);
+    let m = Math.floor((to - from) / (2 * B)); if (m % 2) m--;
+    if (m >= 2) tl.fromTo(a.breath, { rotation: -1.6 }, { rotation: 1.6, duration: 2 * B, yoyo: true, repeat: m - 1, ease: 'sine.inOut' }, from);
+  };
+  // Anticipation, then a stretched dash off screen.
+  const dash = (a, at, dir = 1) => {
+    tl.to(a.body, { rotation: -8 * dir, scaleX: 0.9, scaleY: 1.06, duration: 0.14, ease: 'power2.out' }, at);
+    tl.to(a.el, { x: 760 * dir, duration: 0.42, ease: 'power3.in' }, at + 0.14);
+    tl.to(a.body, { rotation: 14 * dir, scaleX: 1.18, scaleY: 0.9, duration: 0.3, ease: 'power2.in' }, at + 0.14);
+  };
+  // A strut: steps on the half-beat, each with a bob, a hip tilt and a heel-strike squash.
+  const walk = (a, at, fromX, toX, steps) => {
+    const st = B / 2;
+    tl.fromTo(a.el, { x: fromX }, { x: toX, duration: steps * st, ease: 'none' }, at);
+    for (let i = 0; i < steps; i++) {
+      const t = at + i * st, side = i % 2 ? 1 : -1;
+      tl.to(a.body, { y: -22, rotation: 5 * side, scaleY: 1.03, scaleX: 0.98, duration: st * 0.5, ease: 'power1.out' }, t);
+      tl.to(a.body, { y: 0, scaleY: 0.95, scaleX: 1.04, duration: st * 0.5, ease: 'power1.in' }, t + st * 0.5);
+      tl.to(a.shadow, { scaleX: 0.8, duration: st * 0.5 }, t);
+      tl.to(a.shadow, { scaleX: 1, duration: st * 0.5 }, t + st * 0.5);
+    }
+    land(a, at + steps * st, 0);
+  };
+
   // ================= S0 HOOK =================
   {
     const t0 = 0;
@@ -371,9 +486,12 @@ function build() {
     });
     tl.to('#h-top', { y: -34, duration: 0.4, ease: 'power3.out' }, land + 0.02);
     tl.fromTo('#h-sub > span', { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: 'power3.out' }, land + 0.3);
-    tl.fromTo('#h-disc', { scale: 0 }, { scale: 1, duration: 0.6, ease: 'expo.out' }, t0 + 1.05);
-    tl.fromTo('#h-coin', { x: 520, rotation: 14 }, { x: 0, rotation: 0, duration: 0.7, ease: 'power3.out' }, t0 + 1.15);
-    tl.to('#h-coin', { y: -14, duration: B, ease: 'sine.inOut', yoyo: true, repeat: 3 }, t0 + 1.85);
+    tl.fromTo('#h-disc', { scale: 0 }, { scale: 1, duration: 0.6, ease: 'expo.out' }, t0 + 0.2);
+    const hc = A('h-coin');
+    hopIn(hc, t0 + 0.3, { fromX: 640, peak: -240 });
+    tl.fromTo(hc.breath, { rotation: 0 }, { rotation: -4, duration: 0.25, yoyo: true, repeat: 1, ease: 'sine.inOut' }, t0 + 1.15);
+    if (isSprite(hc)) play(hc, t0 + 0.35, T[1] - 0.35);   // the AI clip: sip, wink, shoulder bounce
+    else { react(hc, land + 0.12, '${hookReact}', { height: 150 }); idle(hc, land + 0.9, T[1] + 0.2); }
   }
   whip(1, T[1] - 0.28);
 
@@ -432,23 +550,30 @@ function build() {
       tl.fromTo(bars.querySelectorAll('i'), { scaleX: 0 }, { scaleX: 1, duration: 1.0, stagger: 0.12, ease: 'power3.out' }, t0 + 0.8);
     }
     if (why) tl.fromTo(splitLines(why), { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, t0 + (bars ? 1.4 : 1.2));
-    if (coin && !opts.noCoin) tl.fromTo(coin, { y: 600, rotation: -8 }, { y: 0, rotation: 0, duration: 0.7, ease: 'power3.out' }, t0 + 0.9);
+    const ac = coin && A(coin.id);
+    if (ac) {
+      hopIn(ac, t0 + 0.85, { fromX: 0, fromY: 700, peak: -150, dur: 0.6 });
+      if (bars) { react(ac, t0 + 2.0, null, { height: 140 }); react(ac, t0 + 2.75, null, { height: 90 }); idle(ac, t0 + 3.5, opts.until); }
+      else idle(ac, t0 + 1.7, opts.until);
+    }
   };
 
   for (let i = 0; i < NS; i++) {
     const t0 = T[2 + i];
     if (i === 0) {
       // phone: notification drops, then the camera dives through the screen into the story
-      tl.fromTo('#p-coin', { x: 500 }, { x: 0, duration: 0.6, ease: 'power3.out' }, t0 + 0.05);
+      const pc = A('p-coin');
+      hopIn(pc, t0 + 0.2, { fromX: 520, peak: -170, dur: 0.6 });
+      react(pc, t0 + 1.0, '${poses.s[0]}', { height: 110 });
       tl.fromTo('#p-notif', { y: -260, opacity: 0, scale: 0.92 }, { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'expo.out' }, t0 + 0.55);
       const dive = t0 + 1.75;
       tl.to('#p-dive', { scale: 3.6, x: 120, y: 260, transformOrigin: '42% 38%', duration: 0.75, ease: 'power3.in' }, dive);
-      tl.to('#p-coin', { x: 520, duration: 0.6, ease: 'power3.in' }, dive);
+      dash(pc, dive - 0.1, 1);
       tl.to('#p-out', { opacity: 0, duration: 0.2, ease: 'none' }, dive + 0.58);
       tl.fromTo('#p-in', { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power3.out' }, dive + 0.55);
-      storyIn(0, dive + 0.65);
+      storyIn(0, dive + 0.65, { until: T[3] });
     } else if (document.getElementById('s' + i + '-head')) {
-      storyIn(i, t0 + 0.1);
+      storyIn(i, t0 + 0.1, { until: T[3 + i] });
     } else {
       // kinetic beats
       const kbs = [...document.querySelectorAll('#st' + (2 + i) + ' .kin')];
@@ -471,7 +596,15 @@ function build() {
       if (figrow) tl.fromTo(figrow, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'expo.out' }, end);
       const why = document.getElementById('s' + i + '-why');
       if (why) tl.fromTo(splitLines(why), { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, end + 0.25);
-      tl.fromTo('#s' + i + '-coin', { x: 560, rotation: 10 }, { x: 0, rotation: 0, duration: 0.6, ease: 'power3.out' }, end - 0.1);
+      const kc = A('s' + i + '-coin');
+      // slides in, skids to a stop leaning back, then fires the finger-gun as the figure lands
+      tl.fromTo(kc.el, { x: 620 }, { x: 0, duration: 0.5, ease: 'power3.out' }, end - 0.55);
+      tl.fromTo(kc.body, { rotation: -10, scaleX: 1.08, scaleY: 0.94 }, { rotation: 9, scaleX: 1, scaleY: 1, duration: 0.5, ease: 'power2.out' }, end - 0.55);
+      tl.to(kc.body, { rotation: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' }, end - 0.05);
+      tl.fromTo(kc.shadow, { opacity: 0 }, { opacity: 1, duration: 0.3 }, end - 0.55);
+      tl.to(kc.body, { rotation: -9, x: 18, duration: 0.07, ease: 'power2.out' }, end + 0.35);
+      tl.to(kc.body, { rotation: 0, x: 0, duration: 0.5, ease: 'elastic.out(1, 0.45)' }, end + 0.42);
+      idle(kc, end + 1.0, T[3 + i]);
     }
     if (i + 1 < NS) {
       if (i === 0) dolly(3 + i, T[3 + i] - 0.5); else whip(3 + i, T[3 + i] - 0.28);
@@ -492,8 +625,13 @@ function build() {
     tl.fromTo(lines, { yPercent: 110 }, { yPercent: 0, duration: 0.6, stagger: 0.09, ease: 'power3.out' }, t0 + 0.5);
     tl.fromTo('#o-follow span', { scale: 0.6, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.45, ease: 'expo.out' }, t0 + 0.95);
     tl.fromTo('#o-disc', { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 1.7);
-    tl.fromTo('#o-coin', { x: -420 }, { x: 680, duration: 2.0, ease: 'power1.out' }, t0 + 0.4);
-    tl.fromTo('#o-coin', { y: 0 }, { y: -16, duration: B / 2, yoyo: true, repeat: 7, ease: 'sine.inOut' }, t0 + 0.4);
+    const oc = A('o-coin');
+    if (isSprite(oc)) {
+      tl.fromTo(oc.el, { x: -420 }, { x: 700, duration: 9 * B / 2, ease: 'none' }, t0 + 0.4);
+      play(oc, t0 + 0.4, 9 * B / 2);
+      land(oc, t0 + 0.4 + 9 * B / 2, 0);
+    } else walk(oc, t0 + 0.4, -420, 680, 9);
+    tl.to(oc.breath, { rotation: -6, duration: 0.18, yoyo: true, repeat: 1, ease: 'sine.inOut' }, t0 + 0.4 + 9 * B / 2 + 0.25);
   }
 
   window.__timelines['main'] = tl;
@@ -529,7 +667,7 @@ const html = `<!doctype html>
     <div id="outro" data-layout-allow-overlap>
       <div id="o-head" class="d">See you tomorrow, 7:30am</div>
       <div id="o-follow"><span>Follow @byte.finance.au</span></div>
-      <img id="o-coin" src="assets/coin/${poses.outro}.png" alt="">
+      ${SPRITES[poses.outro] ? spriteActor('o-coin', SPRITES[poses.outro], { left: 0, top: 1230, width: 360, dw: 250 }) : actor('o-coin', [poses.outro], { left: 0, top: 1230, width: 360 })}
       <p id="o-disc">${DISCLAIMER}</p>
     </div>
   </div>
@@ -542,5 +680,5 @@ const html = `<!doctype html>
 </body>
 </html>`;
 
-writeFileSync(join(here, 'index.html'), html);
+writeFileSync(join(here, OUT), html);
 console.log(`index.html: ${stations} stations, ${nS} stories, ${TOTAL}s; scene starts ${T.join(', ')}`);
