@@ -88,16 +88,19 @@ export const SLOTS = {
   },
 };
 
-// Hashtags: Instagram allows at most 5 per post (since Dec 2025).
+// Hashtags: Instagram allows at most 5 per post (since Dec 2025), and says fewer, targeted tags beat generic ones.
+// Post counts (Oct 2026) in brackets. Slots: community + format + market, then up to two tags from today's news.
 export const MAX_HASHTAGS = 5;
-export const BASE_HASHTAGS = ['#ByteFinance', '#AusFinance'];
-export const FILLER_HASHTAGS = ['#StockMarket', '#MarketNews', '#ASX'];
+export const BASE_HASHTAGS = ['#AusFinance', '#FinanceNews', '#ShareMarket']; // 18k niche community, 351k news format, 5.4m Aussie market term
+export const FILLER_HASHTAGS = ['#ASX200', '#BusinessNews', '#AustralianEconomy']; // used when there are fewer stories
 export const TAG_HASHTAGS = {
-  'Interest rates': '#RBA', Economy: '#AusEconomy', 'Aussie dollar': '#AUD', ASX: '#ASX', Property: '#AusProperty',
-  Jobs: '#AusEconomy', Inflation: '#Inflation', 'Wall Street': '#WallStreet', Fed: '#FederalReserve',
-  Tech: '#TechStocks', 'US economy': '#USEconomy', Crypto: '#Bitcoin', Commodities: '#Commodities',
-  'Big business': '#Business', Earnings: '#Earnings', Deals: '#Business', Banks: '#Banking', Mining: '#Mining', Retail: '#Retail',
+  'Interest rates': '#RBA', Economy: '#AustralianEconomy', 'Aussie dollar': '#AustralianEconomy', ASX: '#ASX200', Property: '#AustralianProperty',
+  Jobs: '#AustralianEconomy', Inflation: '#Inflation', 'Wall Street': '#WallStreet', Fed: '#FederalReserve',
+  Tech: '#TechStocks', 'US economy': '#Economics', Crypto: '#BitcoinNews', Commodities: '#Commodities',
+  'Big business': '#BusinessNews', Earnings: '#Earnings', Deals: '#BusinessNews', Banks: '#Banking', Mining: '#Mining', Retail: '#Retail',
 };
+// Biggest overnight mover -> tag (used when a story slot is empty)
+export const MOVER_HASHTAGS = { btc: '#BitcoinNews', eth: '#Ethereum', asx: '#ASX200', oil: '#OilPrice', gold: '#Commodities', sp500: '#WallStreet', nasdaq: '#TechStocks', dow: '#WallStreet', aud: '#AustralianEconomy' };
 
 export const DISCLAIMER =
   'General information only, not financial advice. It doesn’t consider your objectives, financial situation or needs.';

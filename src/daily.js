@@ -98,8 +98,16 @@ export async function prepare({ now = new Date(), fetchImpl = fetch, writer = ca
   });
   slides.push({ name: `${slides.length + 1}-outro`, html: outroSlide({ pose: [0, 1, 2].map((j) => OUTRO_POSES[(idx + j) % OUTRO_POSES.length]).find((x) => x !== pose && x !== (sp && boardMood(sp).pose)), handle: '@byte.finance.au', disclaimer: DISCLAIMER }) });
 
+  // Alt text per slide (accessibility, and Instagram reads it for search)
+  const alts = slides.map((sl) => {
+    if (sl.name.endsWith('cover')) return `Byte Finance cover for ${coverDate(now)}: ${hook ? hook.headline.replace('\n', ' ') : 'your morning money brief'}. Cartoon gold coin mascot.`;
+    if (sl.name.endsWith('board')) return `Overnight markets board: ${board.rows.map((r) => `${r.label.replace(' (close)', '')} ${r.change.replace(/^[↑↓] /, '')}`).join(', ')}.`;
+    if (sl.name.endsWith('outro')) return 'See you tomorrow at 7:30am. Follow @byte.finance.au for Aussie finance news every weekday.';
+    const s = stories[sl.name.split('-')[1]];
+    return s ? `${s.tag}: ${s.headline}. ${s.body} ${s.why}` : '';
+  });
   return {
-    key: day.dateKey, slides, caption: car.caption, boardOk: car.boardOk, storyCount: n,
+    key: day.dateKey, slides, caption: car.caption, alts, boardOk: car.boardOk, storyCount: n,
     log: { board: { loaded: board.rows.length, missing: board.missing }, news: { items: news.items.length, errors: news.errors }, writer: log },
     stories: Object.fromEntries(Object.entries(stories).map(([k, s]) => [k, { headline: s.headline, source: s.item.source, link: s.item.link }])),
     bg: FIELDS.cover.bg,

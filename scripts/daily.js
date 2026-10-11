@@ -106,12 +106,12 @@ async function main() {
   const ig = instagram({ userId, token });
   let mediaId, format = '3:4';
   try {
-    mediaId = await ig.publishCarousel({ imageUrls: urls34, caption: p.caption });
+    mediaId = await ig.publishCarousel({ imageUrls: urls34, caption: p.caption, altTexts: p.alts });
   } catch (e) {
     if (!/aspect|ratio|dimension|size/i.test(e.message)) throw e;
     console.warn(`3:4 rejected (${e.message}); posting the 4:5 versions`);
     format = '4:5';
-    mediaId = await ig.publishCarousel({ imageUrls: urls45, caption: p.caption });
+    mediaId = await ig.publishCarousel({ imageUrls: urls45, caption: p.caption, altTexts: p.alts });
   }
   await writeFile(`${dir}/posted.json`, JSON.stringify({ mediaId, username, format, postedAt: new Date().toISOString(), stories: p.stories }, null, 1));
   commitPush([dir], `Posted ${p.key}`);

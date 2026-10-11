@@ -34,10 +34,22 @@ export function instagram({
   }
 
   return {
-    async publishCarousel({ imageUrls, caption }) {
+    async publishCarousel({ imageUrls, caption, altTexts = [] }) {
       if (imageUrls.length < 2 || imageUrls.length > 10) throw new Error('A carousel needs 2-10 images');
       const children = [];
-      for (const url of imageUrls) children.push((await call(`${userId}/media`, { image_url: url, is_carousel_item: 'true' })).id);
+      let useAlt = altTexts.length > 0;
+      for (const [i, url] of imageUrls.entries()) {
+        const params = { image_url: url, is_carousel_item: 'true' };
+        if (useAlt && altTexts[i]) params.alt_text = altTexts[i].slice(0, 1000);
+        try {
+          children.push((await call(`${userId}/media`, params)).id);
+        } catch (e) {
+          if (!params.alt_text) throw e;
+          useAlt = false; // alt text not accepted here: carry on without it
+          delete params.alt_text;
+          children.push((await call(`${userId}/media`, params)).id);
+        }
+      }
       for (const id of children) await waitReady(id);
       const { id: parent } = await call(`${userId}/media`, { media_type: 'CAROUSEL', children: children.join(','), caption });
       await waitReady(parent);

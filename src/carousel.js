@@ -1,6 +1,6 @@
 // Turns market data + stories into (a) the Canva autofill data, (b) which pages to export, (c) the caption.
 
-import { ASSETS, PAGES, SLOTS, BASE_HASHTAGS, FILLER_HASHTAGS, TAG_HASHTAGS, MAX_HASHTAGS, DISCLAIMER } from './config.js';
+import { ASSETS, PAGES, SLOTS, BASE_HASHTAGS, FILLER_HASHTAGS, TAG_HASHTAGS, MOVER_HASHTAGS, MAX_HASHTAGS, DISCLAIMER } from './config.js';
 import { coverDate, clockLabel, sydney } from './time.js';
 
 const text = (t) => ({ type: 'text', text: t });
@@ -82,10 +82,17 @@ export const CAPTION_CTAS = [
   'Share with someone who needs their morning money fix ☕',
 ];
 
-export function hashtags(stories) {
+/** 3 fixed tags + the two most specific tags from today's stories (or the biggest mover). Max 5. */
+export function hashtags(stories, board) {
   const tags = [...BASE_HASHTAGS];
   for (const k of ['aus', 'us', 'biz']) {
     const h = stories[k] && TAG_HASHTAGS[stories[k].tag];
+    if (h && !tags.includes(h)) tags.push(h);
+  }
+  const rows = board?.rows || [];
+  if (rows.length) {
+    const top = rows.filter((r) => MOVER_HASHTAGS[r.key]).sort((a, b) => Math.abs(b.changePct) - Math.abs(a.changePct))[0];
+    const h = top && MOVER_HASHTAGS[top.key];
     if (h && !tags.includes(h)) tags.push(h);
   }
   for (const h of FILLER_HASHTAGS) if (!tags.includes(h)) tags.push(h);
@@ -140,17 +147,18 @@ export function buildCarousel({ board, stories, now }) {
 
   const hookMood = !sp ? 'unknown' : sp.changePct >= 0.3 ? 'up' : sp.changePct > -0.3 ? 'flat' : 'down';
   const hooks = CAPTION_HOOKS[hookMood];
-  const lines = [`${hooks[idx % hooks.length]}`, `Byte Finance, ${coverDate(now)}`, ''];
-  if (boardOk) {
-    const pick = ['sp500', 'nasdaq', 'asx', 'btc', 'aud'].map((k) => board.rows.find((r) => r.key === k)).filter(Boolean);
-    lines.push(pick.map((r) => `${r.label} ${r.change.replace(/^([↑↓]) [+-]?/, '$1 ')}`).join('  |  '), '');
-  }
+  // The first ~125 characters show before "more" and feed Instagram search, so lead with keywords and the headlines.
+  const lines = [hooks[idx % hooks.length], `Aussie finance news, ${coverDate(now)}`, ''];
   const heads = ['aus', 'us', 'biz'].filter((k) => stories[k]).map((k, i) => `${i + 1}. ${stories[k].headline}`);
   if (heads.length) lines.push(...heads, '');
+  if (boardOk) {
+    const pick = ['sp500', 'nasdaq', 'asx', 'btc', 'aud'].map((k) => board.rows.find((r) => r.key === k)).filter(Boolean);
+    lines.push(`Overnight: ${pick.map((r) => `${r.label.replace(' (close)', '')} ${r.change.replace(/^([↑↓]) [+-]?/, '$1 ')}`).join('  |  ')}`, '');
+  }
   lines.push(CAPTION_CTAS[idx % CAPTION_CTAS.length], '');
   const sources = [...new Set(['aus', 'us', 'biz'].filter((k) => stories[k]).map((k) => stories[k].item.source))].filter((x) => OFFICIAL_SOURCES.includes(x));
   lines.push(`${DISCLAIMER}${boardOk ? ` Prices as at ${clockLabel(now)}.` : ''}${sources.length ? ` Includes info from ${sources.join(', ')}.` : ''}`, '');
-  lines.push(hashtags(stories).join(' '));
+  lines.push(hashtags(stories, board).join(' '));
 
   return { data, pages, caption: lines.join('\n'), boardOk, storyCount: n };
 }

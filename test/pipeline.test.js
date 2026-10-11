@@ -194,7 +194,7 @@ test('carousel: fills every template field, picks pills and poses, max 5 hashtag
   assert.equal(Object.keys(c.data).length, 51);
   const tags = c.caption.trim().split('\n').at(-1).split(' ');
   assert.ok(tags.length <= 5 && tags.length >= 3);
-  assert.deepEqual(tags.slice(0, 2), ['#ByteFinance', '#AusFinance']);
+  assert.deepEqual(tags.slice(0, 3), ['#AusFinance', '#FinanceNews', '#ShareMarket']);
   assert.match(c.caption, /not financial advice/);
   assert.match(c.caption, /S&P 500 ↑ 0\.84%/);
   assert.match(c.caption, /1\. RBA Keeps Rates on Hold/);
@@ -216,7 +216,7 @@ test('carousel: board mood follows the S&P 500', () => {
   assert.equal(boardMood({ changePct: 0.05 }).pose, 'newspaper');
   assert.equal(boardMood({ changePct: -0.5 }).headline, 'Wall Street closes lower');
   assert.equal(boardMood({ changePct: -2 }).pose, 'shocked');
-  assert.deepEqual(hashtags({}), ['#ByteFinance', '#AusFinance', '#StockMarket', '#MarketNews', '#ASX']);
+  assert.deepEqual(hashtags({}), ['#AusFinance', '#FinanceNews', '#ShareMarket', '#ASX200', '#BusinessNews']);
 });
 
 // ---------- Canva ----------
@@ -355,5 +355,5 @@ test('no Yahoo credit on slides or caption; official sources still credited', as
   assert.ok(!/yahoo/i.test(allText));
   assert.equal(c.data.aus_source.text, 'Source: RBA');
   assert.equal(c.data.us_source.text, '@byte.finance.au');
-  assert.match(c.caption, /^.*\nByte Finance, Wed 7 October/);
+  assert.match(c.caption, /^.*\nAussie finance news, Wed 7 October/);
 });
