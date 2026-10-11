@@ -6,74 +6,80 @@
 @font-face { font-family: 'Bricolage'; src: url(assets/fonts/bricolage.woff2) format('woff2'); font-weight: 200 800; font-stretch: 75% 100%; }
 @font-face { font-family: 'InterT'; src: url(assets/fonts/inter-tight.woff2) format('woff2'); font-weight: 100 900; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 1080px; height: 1920px; overflow: hidden; background: #C8DAF2; }
-#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #C8DAF2; color: #17181C; font-family: 'InterT', sans-serif; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #CFE8D8; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #CFE8D8; color: #17181C; font-family: 'InterT', sans-serif; }
 .clip { position: absolute; inset: 0; }
-.d { font-family: 'Bricolage', sans-serif; font-weight: 700; font-stretch: 88%; letter-spacing: -.035em; }
-#grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.55) 2px, transparent 2px), linear-gradient(90deg, rgba(255,255,255,.55) 2px, transparent 2px); background-size: 60px 60px; }
+.d { font-family: 'Bricolage', sans-serif; font-weight: 700; font-stretch: 88%; letter-spacing: -.03em; }
+#grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.5) 2px, transparent 2px), linear-gradient(90deg, rgba(255,255,255,.5) 2px, transparent 2px); background-size: 60px 60px; }
 #chrome { position: absolute; left: 80px; right: 80px; top: 230px; display: flex; justify-content: space-between; align-items: center; }
-.chip { display: inline-block; font-size: 30px; font-weight: 650; padding: 12px 24px; border-radius: 999px; background: #17181C; color: #C8DAF2; }
+.chip { display: inline-block; font-size: 30px; font-weight: 650; padding: 12px 24px; border-radius: 999px; background: #17181C; color: #CFE8D8; }
 .dots { display: flex; gap: 10px; } .dots i { width: 14px; height: 14px; border-radius: 50%; background: rgba(23,24,28,.18); display: block; }
-.dots b { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #17181C; display: block; }
 #title { position: absolute; left: 80px; top: 640px; width: 920px; font-size: 150px; line-height: .9; }
 #title .ln { overflow: hidden; padding-bottom: 10px; } #title .ln > span { display: inline-block; }
 .txt { position: absolute; left: 80px; top: 330px; width: 920px; }
 .txt .head { font-size: 84px; line-height: .95; }
 .txt .body { font-size: 36px; line-height: 1.32; margin-top: 18px; width: 860px; color: rgba(23,24,28,.88); font-weight: 500; }
 .ln { overflow: hidden; } .ln > span { display: inline-block; }
-#vp { position: absolute; left: 60px; top: 700px; width: 960px; height: 800px; }
-#world { position: absolute; left: 0; top: 0; width: 1500px; height: 900px; transform-origin: 0 0; }
-#baseline { position: absolute; left: 0; top: 760px; height: 4px; width: 1450px; background: #17181C; border-radius: 2px; transform-origin: 0 50%; }
-.col { position: absolute; bottom: 140px; display: flex; flex-direction: column; justify-content: flex-end; transform-origin: 50% 100%; }
-.seg { display: block; width: 100%; }
-.seg.prin { background: #2D4E86; border-radius: 0 0 2px 2px; }
-.seg.int { background: #E9B21A; }
-.seg.comp { background: #B9780C; border-radius: 6px 6px 0 0; }
-.yl { position: absolute; top: 776px; transform: translateX(-50%); font-size: 22px; font-weight: 650; white-space: nowrap; color: rgba(23,24,28,.8); }
-.blk { position: absolute; width: 50px; border-radius: 6px; }
-.tag { position: absolute; white-space: nowrap; font-size: 15px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: #fff; box-shadow: 0 4px 12px rgba(23,24,28,.12); }
-#curve { position: absolute; left: 0; top: 0; overflow: visible; }
-#curve path { fill: none; stroke: #17181C; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
-#ring { position: absolute; overflow: visible; }
-#ring path { fill: none; stroke: #17181C; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
-#legend { position: absolute; left: 80px; top: 1530px; display: flex; gap: 22px; font-size: 24px; font-weight: 650; }
-#legend span { display: flex; align-items: center; gap: 10px; } #legend i { width: 22px; height: 22px; border-radius: 6px; display: block; }
-#counter { position: absolute; left: 80px; top: 720px; }
-#counter .num { font-size: 110px; line-height: 1; font-variant-numeric: tabular-nums; color: #2D4E86; white-space: nowrap; }
-#counter .lab { font-size: 30px; font-weight: 650; margin-top: 8px; color: rgba(23,24,28,.8); }
-.coin { position: absolute; left: 720px; top: 1380px; width: 320px; height: 320px; }
+#vp { position: absolute; left: 60px; top: 700px; width: 960px; height: 800px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 36px, #000 calc(100% - 36px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 36px, #000 calc(100% - 36px), transparent 100%); }
+#world { position: absolute; left: 0; top: 0; width: 1000px; height: 800px; transform-origin: 0 0; }
+#edges { position: absolute; left: 0; top: 0; overflow: visible; }
+.edge .line { fill: none; stroke: #17181C; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.edge.dashed .line { stroke-dasharray: 0.02 0.02; stroke-dashoffset: 0; }
+.edge .head { fill: none; stroke: #17181C; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.elab { position: absolute; white-space: nowrap; font-size: 26px; font-weight: 700; padding: 6px 14px; border-radius: 999px; background: #17181C; color: #fff; }
+.node { position: absolute; }
+.node .nb { position: absolute; inset: 0; border-radius: 26px; border: 3px solid #17181C; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px 16px; box-shadow: 0 6px 0 rgba(23,24,28,.14); }
+.nl { font-size: 42px; line-height: 1; }
+.ns { font-size: 26px; font-weight: 600; margin-top: 8px; opacity: .85; line-height: 1.15; }
+.node.bar .nb { border: 0; box-shadow: none; align-items: stretch; justify-content: flex-start; padding: 0; }
+.blab { font-size: 32px; font-weight: 700; text-align: left; margin-bottom: 12px; }
+.track { position: relative; height: 70px; border-radius: 16px; border: 3px solid #17181C; background: rgba(255,255,255,.75); overflow: visible; }
+.slice { position: absolute; top: 0; bottom: 0; display: block; transform-origin: 0 50%; }
+.slab { position: absolute; top: 82px; white-space: nowrap; font-size: 26px; font-weight: 700; }
+.mark { position: absolute; top: -26px; bottom: -14px; width: 0; border-left: 4px dashed #17181C; display: block; }
+.mark span { position: absolute; top: -34px; left: -2px; white-space: nowrap; font-size: 22px; font-weight: 800; }
+.hl { position: absolute; inset: -12px; border-radius: 34px; border: 5px solid #17181C; opacity: 0; display: block; }
+.node.bar .hl { inset: 30px -14px -14px -14px; border-radius: 22px; }
+.tok { position: absolute; left: -15px; top: -15px; width: 30px; height: 30px; border-radius: 50%; background: #E9B21A; border: 3px solid #17181C; box-shadow: inset -4px -4px 0 rgba(0,0,0,.12); opacity: 0; display: block; }
+.badge { position: absolute; width: 0; height: 0; }
+.badge .bin { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; align-items: center; background: #17181C; color: #fff; border-radius: 22px; padding: 12px 26px 14px; white-space: nowrap; }
+.badge.above .bin { top: auto; bottom: 0; }
+.bf { font-size: 76px; line-height: 1; color: #F4D27A; font-variant-numeric: tabular-nums; }
+.bl { font-size: 24px; font-weight: 650; margin-top: 4px; opacity: .9; }
+.coin { position: absolute; left: 760px; top: 1440px; width: 280px; height: 280px; }
 .coin img { position: absolute; inset: 0; width: 100%; height: 100%; }
 #outro { position: absolute; inset: 0; }
 #o-head { position: absolute; left: 80px; top: 560px; width: 920px; font-size: 128px; line-height: .9; }
-#o-sub { position: absolute; left: 84px; top: 820px; font-size: 40px; font-weight: 600; color: rgba(23,24,28,.72); }
+#o-sub { position: absolute; left: 84px; top: 820px; font-size: 40px; font-weight: 600; color: rgba(23,24,28,.8); }
 #o-follow { position: absolute; left: 80px; top: 920px; }
-#o-follow span { display: inline-block; font-size: 42px; font-weight: 650; padding: 20px 38px; border-radius: 999px; background: #17181C; color: #C8DAF2; }
-#o-disc { position: absolute; left: 84px; top: 1300px; width: 560px; font-size: 22px; line-height: 1.4; color: rgba(23,24,28,.66); }
+#o-follow span { display: inline-block; font-size: 42px; font-weight: 650; padding: 20px 38px; border-radius: 999px; background: #17181C; color: #CFE8D8; }
+#o-disc { position: absolute; left: 84px; top: 1300px; width: 560px; font-size: 22px; line-height: 1.4; color: rgba(23,24,28,.75); }
 </style></head>
 <body>
 <div id="root" data-composition-id="main" data-start="0" data-duration="31.96" data-width="1080" data-height="1920">
  <div id="scene" class="clip" data-start="0" data-duration="31.96" data-track-index="0">
   <div id="grid" data-layout-ignore></div>
   <div id="chrome"><span class="chip">Money explained</span><div class="dots"><i id="dot0"></i><i id="dot1"></i><i id="dot2"></i><i id="dot3"></i></div></div>
-  <div id="title" class="d"><div class="ln"><span>Compound interest,</span></div><div class="ln"><span>explained</span></div></div>
-  <div class="txt" id="t0"><div class="d head fit" data-maxh="170">Interest on interest</div><div class="body fit" data-maxh="150">You earn interest on your savings, then interest on that interest. Growth speeds up the longer it runs.</div></div>
-<div class="txt" id="t1"><div class="d head fit" data-maxh="170">After 10 years</div><div class="body fit" data-maxh="150">Compounded yearly at 5%, $10,000 grows to about $16,289 in a decade.</div></div>
-<div class="txt" id="t2"><div class="d head fit" data-maxh="170">Time does the work</div><div class="body fit" data-maxh="150">Double the time and the result is far more than double the first decade’s gain.</div></div>
-<div class="txt" id="t3"><div class="d head fit" data-maxh="170">It cuts both ways</div><div class="body fit" data-maxh="150">Credit card debt compounds the same way, which is why unpaid balances can snowball.</div></div>
+  <div id="title" class="d"><div class="ln"><span>How super</span></div><div class="ln"><span>actually works</span></div></div>
+  <div class="txt" id="t0"><div class="d head fit" data-maxh="170">Your employer chips in</div><div class="body fit" data-maxh="150">Employers pay a share of your ordinary earnings into a super fund in your name, on top of your pay.</div></div>
+<div class="txt" id="t1"><div class="d head fit" data-maxh="170">Locked away for later</div><div class="body fit" data-maxh="150">You generally can’t access it until you reach preservation age and retire, with a few exceptions.</div></div>
+<div class="txt" id="t2"><div class="d head fit" data-maxh="170">Your fund puts it to work</div><div class="body fit" data-maxh="150">Funds spread it across assets through options like balanced or high growth. Fees and returns differ between funds.</div></div>
+<div class="txt" id="t3"><div class="d head fit" data-maxh="170">Taxed lightly</div><div class="body fit" data-maxh="150">That’s generally lower than most people’s income tax rate. Higher earners can pay more.</div></div>
   <div id="vp" data-layout-allow-overflow data-layout-allow-overlap><div id="world">
-    <div id="baseline"></div>
-    <div class="col" id="col0" style="left:40px; width:50px"><i class="seg comp" style="height:0.00px"></i><i class="seg int" style="height:0.00px"></i><i class="seg prin" style="height:241.21px"></i></div><span class="yl" style="left:65px">Now</span><div class="col" id="col1" style="left:106px; width:50px"><i class="seg comp" style="height:0.00px"></i><i class="seg int" style="height:12.06px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col2" style="left:172px; width:50px"><i class="seg comp" style="height:0.60px"></i><i class="seg int" style="height:24.12px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col3" style="left:238px; width:50px"><i class="seg comp" style="height:1.84px"></i><i class="seg int" style="height:36.18px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col4" style="left:304px; width:50px"><i class="seg comp" style="height:3.74px"></i><i class="seg int" style="height:48.24px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col5" style="left:370px; width:50px"><i class="seg comp" style="height:6.34px"></i><i class="seg int" style="height:60.30px"></i><i class="seg prin" style="height:241.21px"></i></div><span class="yl" style="left:395px">Yr 5</span><div class="col" id="col6" style="left:436px; width:50px"><i class="seg comp" style="height:9.67px"></i><i class="seg int" style="height:72.36px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col7" style="left:502px; width:50px"><i class="seg comp" style="height:13.77px"></i><i class="seg int" style="height:84.42px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col8" style="left:568px; width:50px"><i class="seg comp" style="height:18.68px"></i><i class="seg int" style="height:96.48px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col9" style="left:634px; width:50px"><i class="seg comp" style="height:24.44px"></i><i class="seg int" style="height:108.54px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col10" style="left:700px; width:50px"><i class="seg comp" style="height:31.09px"></i><i class="seg int" style="height:120.60px"></i><i class="seg prin" style="height:241.21px"></i></div><span class="yl" style="left:725px">Yr 10</span><div class="col" id="col11" style="left:766px; width:50px"><i class="seg comp" style="height:38.68px"></i><i class="seg int" style="height:132.67px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col12" style="left:832px; width:50px"><i class="seg comp" style="height:47.24px"></i><i class="seg int" style="height:144.73px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col13" style="left:898px; width:50px"><i class="seg comp" style="height:56.84px"></i><i class="seg int" style="height:156.79px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col14" style="left:964px; width:50px"><i class="seg comp" style="height:67.52px"></i><i class="seg int" style="height:168.85px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col15" style="left:1030px; width:50px"><i class="seg comp" style="height:79.34px"></i><i class="seg int" style="height:180.91px"></i><i class="seg prin" style="height:241.21px"></i></div><span class="yl" style="left:1055px">Yr 15</span><div class="col" id="col16" style="left:1096px; width:50px"><i class="seg comp" style="height:92.35px"></i><i class="seg int" style="height:192.97px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col17" style="left:1162px; width:50px"><i class="seg comp" style="height:106.62px"></i><i class="seg int" style="height:205.03px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col18" style="left:1228px; width:50px"><i class="seg comp" style="height:122.20px"></i><i class="seg int" style="height:217.09px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col19" style="left:1294px; width:50px"><i class="seg comp" style="height:139.17px"></i><i class="seg int" style="height:229.15px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col20" style="left:1360px; width:50px"><i class="seg comp" style="height:157.58px"></i><i class="seg int" style="height:241.21px"></i><i class="seg prin" style="height:241.21px"></i></div><span class="yl" style="left:1385px">Yr 20</span>
-    <div class="blk" id="drop1" style="background:#E9B21A"></div>
-    <div class="blk" id="drop2" style="background:#B9780C"></div>
-    <span class="tag" id="tag0">$10,000</span>
-    <span class="tag" id="tag1">+$500 interest</span>
-    <span class="tag" id="tag2">+$25 interest on interest</span>
-    <svg id="ring" width="10" height="10"><path pathLength="1" d=""/></svg>
-    <svg id="curve" width="1500" height="900"><path pathLength="1" d="M65.0,518.8 L131.0,506.7 L197.0,494.1 L263.0,480.8 L329.0,466.8 L395.0,452.1 L461.0,436.8 L527.0,420.6 L593.0,403.6 L659.0,385.8 L725.0,367.1 L791.0,347.5 L857.0,326.8 L923.0,305.2 L989.0,282.4 L1055.0,258.5 L1121.0,233.5 L1187.0,207.1 L1253.0,179.5 L1319.0,150.5 L1385.0,120.0"/></svg>
+    <svg id="edges" width="1000" height="800"><g id="e-ey" class="edge"><path class="line" pathLength="1" d="M360.0,90.0 Q510.0,90.0 660.0,90.0"/><path class="head" d="M642,100.8 L660,90 L642,79.2"/></g><g id="e-ef" class="edge"><path class="line" pathLength="1" d="M272.2,155.0 Q338.9,215.0 405.6,275.0"/><path class="head" d="M384.95144182158407,270.9862116102653 L405.55555555555554,275 L399.40108002462904,254.93105805132652"/></g><g id="e-fl" class="edge dashed"><path class="line" pathLength="1" d="M330.0,360.0 Q307.5,360.0 285.0,360.0"/><path class="head" d="M303,349.2 L285,360 L303,370.8"/></g><g id="e-fs" class="edge"><path class="line" pathLength="1" d="M412.1,445.0 Q339.7,515.0 267.2,585.0"/><path class="head" d="M272.6769314332761,564.724527795415 L267.2413793103448,585 L287.6894087251816,580.2546767180759"/></g><g id="e-fb" class="edge"><path class="line" pathLength="1" d="M500.0,445.0 Q500.0,525.0 500.0,605.0"/><path class="head" d="M489.2,587 L500,605 L510.8,587"/></g><g id="e-fp" class="edge"><path class="line" pathLength="1" d="M587.9,445.0 Q660.3,515.0 732.8,585.0"/><path class="head" d="M712.3105912748183,580.2546767180759 L732.7586206896551,585 L727.3230685667238,564.724527795415"/></g><g id="e-fa" class="edge"><path class="line" pathLength="1" d="M670.0,360.0 Q710.0,360.0 750.0,360.0"/><path class="head" d="M732,370.8 L750,360 L732,349.2"/></g></svg>
+    <span class="elab" id="el-ey" style="left:510px; top:90px">wages</span><span class="elab" id="el-ef" style="left:338.8888888888889px; top:215px">on top of pay</span><span class="elab" id="el-fa" style="left:710px; top:360px">tax</span>
+    <div class="node" id="n-emp" style="left:50px; top:35px; width:300px; height:110px"><div class="nb" style="background:#FFFFFF; color:#17181C"><div class="d nl">Your employer</div></div><i class="hl"></i></div>
+<div class="node" id="n-you" style="left:670px; top:35px; width:260px; height:110px"><div class="nb" style="background:#FFFFFF; color:#17181C"><div class="d nl">Your pay</div></div><i class="hl"></i></div>
+<div class="node" id="n-fund" style="left:340px; top:285px; width:320px; height:150px"><div class="nb" style="background:#F4D27A; color:#17181C"><div class="d nl">Super fund</div><div class="ns">in your name</div></div><i class="hl"></i></div>
+<div class="node" id="n-lock" style="left:25px; top:285px; width:250px; height:150px"><div class="nb" style="background:#17181C; color:#FFFFFF"><div class="d nl">Retirement</div><div class="ns">locked till then</div></div><i class="hl"></i></div>
+<div class="node" id="n-sh" style="left:90px; top:595px; width:220px; height:110px"><div class="nb" style="background:#FFFFFF; color:#17181C"><div class="d nl">Shares</div></div><i class="hl"></i></div>
+<div class="node" id="n-bo" style="left:390px; top:615px; width:220px; height:110px"><div class="nb" style="background:#FFFFFF; color:#17181C"><div class="d nl">Bonds</div></div><i class="hl"></i></div>
+<div class="node" id="n-pr" style="left:690px; top:595px; width:220px; height:110px"><div class="nb" style="background:#FFFFFF; color:#17181C"><div class="d nl">Property</div></div><i class="hl"></i></div>
+<div class="node" id="n-ato" style="left:760px; top:305px; width:200px; height:110px"><div class="nb" style="background:#F5C8C6; color:#8C2323"><div class="d nl">ATO</div></div><i class="hl"></i></div>
+    <i class="tok" id="tk-ey-0"></i><i class="tok" id="tk-ey-1"></i><i class="tok" id="tk-ey-2"></i><i class="tok" id="tk-ef-0"></i><i class="tok" id="tk-ef-1"></i><i class="tok" id="tk-ef-2"></i><i class="tok" id="tk-fl-0"></i><i class="tok" id="tk-fl-1"></i><i class="tok" id="tk-fl-2"></i><i class="tok" id="tk-fs-0"></i><i class="tok" id="tk-fs-1"></i><i class="tok" id="tk-fs-2"></i><i class="tok" id="tk-fb-0"></i><i class="tok" id="tk-fb-1"></i><i class="tok" id="tk-fb-2"></i><i class="tok" id="tk-fp-0"></i><i class="tok" id="tk-fp-1"></i><i class="tok" id="tk-fp-2"></i><i class="tok" id="tk-fa-0"></i><i class="tok" id="tk-fa-1"></i><i class="tok" id="tk-fa-2"></i>
+    <div class="badge below" id="bd0" style="left:500px; top:453px" data-node="fund"><div class="bin"><span class="d bf" data-figure="12%">12%</span><span class="bl">employer super rate since July 2025</span></div></div><div class="badge below" id="bd1" style="left:150px; top:453px" data-node="lock"><div class="bin"><span class="d bf" data-figure="60">60</span><span class="bl">preservation age</span></div></div><div class="badge right" id="bd3" style="left:984px; top:298px" data-node="ato"><div class="bin"><span class="d bf" data-figure="15%">15%</span><span class="bl">tax on employer contributions</span></div></div>
   </div></div>
-  <div id="counter"><div class="d num" data-from="11576">$10,000</div><div class="lab">after <span id="cyrs">3</span> years at 5%</div></div>
-  <div id="legend"><span><i style="background:#2D4E86"></i>Your $10,000</span><span><i style="background:#E9B21A"></i>Interest</span><span><i style="background:#B9780C"></i>Interest on interest</span></div>
-  <div class="coin" id="coin"><img src="assets/coin/rocket.png" alt="" id="pose0"><img src="assets/coin/worried.png" alt="" id="pose1" style="opacity:0"></div>
+  <div class="coin" id="coin"><img src="assets/coin/cbd_strut.png" alt="" id="pose0"><img src="assets/coin/thinking.png" alt="" id="pose1" style="opacity:0"></div>
   <div id="outro" data-layout-allow-overlap>
     <div id="o-head" class="d">See you next weekend</div>
     <div id="o-sub">Money explained, every Sunday and Monday</div>
@@ -85,11 +91,9 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #C8DAF
    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":1},{"t":30.76,"v":1},{"t":31.96,"v":0}]}]}'></audio>
 </div>
 <script>
-const B = 0.5357142857142857, T = [0,3.214,9.643,15,21.429,27.858,31.608], BASE = 760, K = 0.024120926903872027, STEP = 66, COLW = 50, X0 = 40, YRS = 20;
-const VALS = [10000,10500,11025,11576,12155,12763,13401,14071,14775,15513,16289,17103,17959,18856,19799,20789,21829,22920,24066,25270,26533];
-const START = 10000, RATE = 0.05;
-const colX = (i) => X0 + i * STEP;
-
+const B = 0.5357142857142857, T = [0,3.214,9.643,15,21.429,27.858,31.608], TOTAL = 31.96;
+const SPEC = {"nodes":{"emp":{"bar":false,"slices":[],"marker":null},"you":{"bar":false,"slices":[],"marker":null},"fund":{"bar":false,"slices":[],"marker":null},"lock":{"bar":false,"slices":[],"marker":null},"sh":{"bar":false,"slices":[],"marker":null},"bo":{"bar":false,"slices":[],"marker":null},"pr":{"bar":false,"slices":[],"marker":null},"ato":{"bar":false,"slices":[],"marker":null}},"edges":[{"id":"ey","both":false},{"id":"ef","both":false},{"id":"fl","both":false},{"id":"fs","both":false},{"id":"fb","both":false},{"id":"fp","both":false},{"id":"fa","both":false}],"steps":[{"show":["emp","you","fund","ey","ef"],"flow":["ef"],"badge":"fund","focus":["emp","you","fund"]},{"show":["lock","fl"],"badge":"lock","focus":["fund","lock"],"highlight":["lock"]},{"show":["sh","bo","pr","fs","fb","fp"],"flow":["fs","fb","fp"],"focus":["fund","sh","bo","pr"]},{"show":["ato","fa"],"flow":["fa"],"badge":"ato","focus":["fund","ato"],"badgeSide":"right"}]};
+const GEO = {"N":{"emp":[50,35,300,110],"you":[670,35,260,110],"fund":[340,285,320,150],"lock":[25,285,250,150],"sh":[90,595,220,110],"bo":[390,615,220,110],"pr":[690,595,220,110],"ato":[760,305,200,110]},"BD":{"bd0":[253.25,453,493.5,128],"bd1":[22,453,256,128],"bd3":[984,298,418.5,128]},"W":1000,"H":800};
 function fitText(el) {
   const maxh = +el.dataset.maxh || 9999;
   let fs = parseFloat(getComputedStyle(el).fontSize);
@@ -103,28 +107,39 @@ function lines(el) {
   el.innerHTML = rows.map((r) => '<div class="ln" style="padding-bottom:.08em; margin-bottom:-.08em"><span>' + r.w.join(' ') + '</span></div>').join('');
   return [...el.querySelectorAll('.ln > span')];
 }
+function fitNodes() {
+  document.querySelectorAll('.node:not(.bar) .nl').forEach((el) => { let fs = 42; const box = el.parentElement; for (let i = 0; i < 20 && (el.scrollWidth > box.clientWidth - 30 || box.scrollHeight > box.clientHeight + 1); i++) { fs *= 0.93; el.style.fontSize = fs + 'px'; } });
+}
+function parseFig(str) {
+  const m = String(str).match(/^([^\d]*?)(\d[\d,]*(?:\.\d+)?)([^\d]*)$/);
+  return m ? { pre: m[1], num: parseFloat(m[2].replace(/,/g, '')), dec: (m[2].split('.')[1] || '').length, comma: m[2].includes(','), post: m[3] } : null;
+}
 
 function build() {
   document.querySelectorAll('.fit').forEach(fitText);
+  fitNodes();
   const tl = gsap.timeline({ paused: true });
   const world = document.getElementById('world');
 
-  // camera: show a range of years [a, b], with the baseline at viewport y = by
-  const cam = (a, b, by = 660) => {
-    const s = Math.min(2.4, 900 / (colX(b) + COLW - colX(a) + 40));
-    return { scale: s, x: 30 - s * (colX(a) - 20), y: by - s * BASE };
+  // ---- camera: frame the boxes a step is about ----
+  const frame = (ids, step) => {
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    const list = (ids && ids.length ? ids : Object.keys(GEO.N)).map((id) => GEO.N[id]);
+    if (step != null && GEO.BD['bd' + step]) list.push(GEO.BD['bd' + step]); // keep the step's badge in shot
+    list.forEach((r) => { if (!r) return; x0 = Math.min(x0, r[0]); y0 = Math.min(y0, r[1]); x1 = Math.max(x1, r[0] + r[2]); y1 = Math.max(y1, r[1] + r[3]); });
+    const pad = 70, s = Math.max(0.74, Math.min(1.5, 960 / (x1 - x0 + pad * 2), 760 / (y1 - y0 + pad * 2)));
+    return { scale: s, x: 480 - s * (x0 + x1) / 2, y: 400 - s * (y0 + y1) / 2 };
   };
-  tl.set(world, { ...cam(0, 3), transformOrigin: '0 0' }, 0);
+  const steps = SPEC.steps;
+  tl.set(world, { ...frame(steps[0] && steps[0].focus, 0), transformOrigin: '0 0' }, 0);
 
-  // ===== OPEN: title words rise in, then lift away =====
+  // ---- title + step text (shared shell) ----
   const tlines = [...document.querySelectorAll('#title .ln > span')];
   tl.fromTo('#chrome', { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.05);
   tl.fromTo(tlines, { yPercent: 110 }, { yPercent: 0, duration: 0.7, stagger: 0.12, ease: 'power4.out' }, 0.15);
   tl.fromTo('#coin', { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.6);
   tl.to(tlines, { yPercent: -110, duration: 0.5, stagger: 0.06, ease: 'power3.in' }, T[1] - 0.55);
   tl.set('#title', { opacity: 0 }, T[1] + 0.05);
-
-  // step text: head lines rise, body lines follow; the previous step's text lifts out
   const txt = [...document.querySelectorAll('.txt')].map((el) => ({ el, head: lines(el.querySelector('.head')), body: lines(el.querySelector('.body')) }));
   txt.forEach((t, i) => {
     const t0 = T[1 + i];
@@ -139,82 +154,116 @@ function build() {
     tl.to(dot, { scale: 1, duration: 0.3 }, t0 + 0.3);
   });
 
-  // ===== STEP 1: interest on interest (years 0-3, close up) =====
-  const s1 = T[1];
-  const col = (i) => document.getElementById('col' + i);
-  const segs = (i) => col(i).querySelectorAll('.seg');
-  const HIDE = 'inset(100% 0% 0% 0%)', SHOW = 'inset(0% 0% 0% 0%)';
-  const upTo = (i, v) => 'inset(' + ((1 - v / VALS[i]) * 100).toFixed(2) + '% 0% 0% 0%)';
-  for (let i = 0; i <= YRS; i++) tl.set(col(i), { clipPath: HIDE, scaleY: 1 }, 0);
-  const rise = (i, at, dur = 0.5) => tl.fromTo(col(i), { clipPath: HIDE }, { clipPath: SHOW, duration: dur, ease: 'power3.out', immediateRender: false }, at);
-  tl.fromTo('#baseline', { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: 'power3.inOut' }, s1 - 0.2);
-  tl.fromTo('.yl', { opacity: 0 }, { opacity: 1, duration: 0.4, stagger: 0.1 }, s1 + 0.3);
-  tl.fromTo('#legend', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, s1 + 0.6);
-  // year 0: your money rises
-  rise(0, s1 + 0.3, 0.7);
-  const top = (i) => BASE - VALS[i] * K;
-  const tag = (id, x, y, at) => { tl.fromTo('#' + id, { x, y: y + 16, opacity: 0, scale: 0.8 }, { x, y, opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(2)' }, at); };
-  tag('tag0', colX(0) - 6, top(0) - 40, s1 + 0.8);
-  // year 1: same money carried over, then +5% drops on top and lands with a little squash
-  const drop = (id, i, h, yTop, at) => {
-    tl.set('#' + id, { x: colX(i), height: h, opacity: 0 }, 0);
-    tl.fromTo('#' + id, { y: yTop - 180, opacity: 0 }, { y: yTop, opacity: 1, duration: 0.38, ease: 'power2.in' }, at);
-    tl.fromTo('#' + id, { scaleY: 1, transformOrigin: '50% 100%' }, { scaleY: 0.7, duration: 0.07, yoyo: true, repeat: 1, ease: 'power1.out' }, at + 0.38);
+  // ---- diagram vocabulary ----
+  const node = (id) => document.getElementById('n-' + id), edge = (id) => document.getElementById('e-' + id);
+  const shown = new Set();
+  Object.keys(GEO.N).forEach((id) => tl.set(node(id), { opacity: 0 }, 0));
+  SPEC.edges.forEach((e) => { tl.set(edge(e.id), { opacity: 0 }, 0); const l = document.getElementById('el-' + e.id); if (l) tl.set(l, { opacity: 0 }, 0); });
+  document.querySelectorAll('.badge').forEach((b) => tl.set(b, { opacity: 0 }, 0));
+
+  const showNode = (id, at) => {
+    const el = node(id), n = SPEC.nodes[id];
+    tl.set(el, { opacity: 1 }, at);
+    tl.fromTo(el.querySelector('.nb'), { opacity: 0, scale: 0.82, y: 26 }, { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: 'back.out(1.6)' }, at);
+    if (n.bar) {
+      n.slices.forEach((st, i) => { if (!st) growSlice(id, i, at + 0.3 + i * 0.25); else hideSlice(id, i); });
+      if (n.marker === 0) dropMarker(id, at + 0.6); else if (n.marker) tl.set('#' + id + '-mk', { opacity: 0 }, 0);
+    }
   };
-  const y1 = s1 + 1.6;
-  tl.fromTo(col(1), { clipPath: HIDE }, { clipPath: upTo(1, 10000), duration: 0.45, ease: 'power3.out', immediateRender: false }, y1);
-  drop('drop1', 1, 500 * K, top(1), y1 + 0.4);
-  tl.to('#tag0', { opacity: 0, y: '-=10', duration: 0.25 }, y1 + 0.7);
-  tag('tag1', colX(1) - 30, top(1) - 40, y1 + 0.85);
-  tl.set(col(1), { clipPath: SHOW }, y1 + 0.8); tl.set('#drop1', { opacity: 0 }, y1 + 0.8);
-  // year 2: the interest itself earns interest - a tiny extra block, circled
-  const y2 = s1 + 3.0;
-  tl.fromTo(col(2), { clipPath: HIDE }, { clipPath: upTo(2, 10000 + 2 * 500), duration: 0.45, ease: 'power3.out', immediateRender: false }, y2);
-  drop('drop2', 2, Math.max(4, 25 * K), top(2), y2 + 0.4);
-  tl.set(col(2), { clipPath: SHOW }, y2 + 0.8); tl.set('#drop2', { opacity: 0 }, y2 + 0.8);
-  const rcx = colX(2) + COLW / 2, rcy = top(2) + 2, rr = 34;
-  const ring = document.querySelector('#ring path');
-  ring.setAttribute('d', 'M' + (rcx + rr) + ',' + rcy + ' a' + rr + ',' + (rr * 0.8) + ' 0 1,0 ' + (-2 * rr) + ',0 a' + rr + ',' + (rr * 0.8) + ' 0 1,0 ' + (2 * rr + 6) + ',-4');
-  tl.to(ring, { strokeDashoffset: 0, duration: 0.6, ease: 'power2.inOut' }, y2 + 0.85);
-  tag('tag2', colX(2) + 44, top(2) - 58, y2 + 1.1);
-  // year 3
-  rise(3, s1 + 4.6);
+  const hideSlice = (id, i) => { tl.set('#' + id + '-s' + i, { scaleX: 0 }, 0); const l = document.getElementById(id + '-sl' + i); if (l) tl.set(l, { opacity: 0 }, 0); };
+  const growSlice = (id, i, at) => {
+    tl.fromTo('#' + id + '-s' + i, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: 'power3.inOut' }, at);
+    const l = document.getElementById(id + '-sl' + i);
+    if (l) tl.fromTo(l, { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.35 }, at + 0.6);
+  };
+  const dropMarker = (id, at) => tl.fromTo('#' + id + '-mk', { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, at);
+  const drawEdge = (id, at) => {
+    const g = edge(id);
+    tl.set(g, { opacity: 1 }, at);
+    const line = g.querySelector('.line');
+    if (!g.classList.contains('dashed')) tl.fromTo(line, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.6, ease: 'power2.inOut' }, at);
+    else tl.fromTo(line, { opacity: 0 }, { opacity: 1, duration: 0.5 }, at);
+    tl.fromTo(g.querySelectorAll('.head'), { opacity: 0 }, { opacity: 1, duration: 0.15 }, at + 0.5);
+    const l = document.getElementById('el-' + id);
+    if (l) tl.fromTo(l, { xPercent: -50, yPercent: -50, opacity: 0, scale: 0.7 }, { xPercent: -50, yPercent: -50, opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(2)' }, at + 0.45);
+  };
+  // coins along an arrow: points sampled once at build, position derived from one progress value per coin
+  const samples = {};
+  SPEC.edges.forEach((e) => {
+    const p = edge(e.id).querySelector('.line'), L = p.getTotalLength(), pts = [];
+    for (let i = 0; i <= 60; i++) { const q = p.getPointAtLength((L * i) / 60); pts.push([q.x, q.y]); }
+    samples[e.id] = pts;
+  });
+  const at = (pts, f) => { const x = Math.max(0, Math.min(1, f)) * 60, i = Math.min(59, Math.floor(x)), r = x - i; return [pts[i][0] + (pts[i + 1][0] - pts[i][0]) * r, pts[i][1] + (pts[i + 1][1] - pts[i][1]) * r]; };
+  const flowCount = {};
+  const flow = (id, t, reverse = false) => {
+    const pts = samples[id];
+    [0, 1, 2].forEach((k) => {
+      const el = document.getElementById('tk-' + id + '-' + k), o = { f: 0 };
+      const put = () => { const [x, y] = at(pts, reverse ? 1 - o.f : o.f); el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)'; };
+      const s = t + k * 0.24;
+      tl.fromTo(o, { f: 0 }, { f: 1, duration: 1.05, ease: 'power1.inOut', onUpdate: put, onStart: put, immediateRender: false }, s);
+      tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.18, immediateRender: false }, s);
+      tl.to(el, { opacity: 0, duration: 0.18 }, s + 0.9);
+    });
+  };
+  const badge = (i, t) => {
+    const b = document.getElementById('bd' + i);
+    if (!b) return;
+    tl.set(b, { opacity: 1 }, t);
+    const xp = b.classList.contains('right') ? 0 : b.classList.contains('left') ? -100 : -50;
+    tl.fromTo(b.querySelector('.bin'), { xPercent: xp, scale: 0.5, opacity: 0, transformOrigin: xp === 0 ? '0% 50%' : xp === -100 ? '100% 50%' : '50% 0%' }, { xPercent: xp, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.8)' }, t);
+    const f = b.querySelector('.bf'), m = parseFig(f.dataset.figure);
+    if (m && !/[–-]/.test(f.dataset.figure.replace(/^-/, ''))) {
+      const o = { v: 0 };
+      f.style.minWidth = f.getBoundingClientRect().width + 'px';
+      tl.fromTo(o, { v: 0 }, { v: m.num, duration: 0.9, ease: 'power3.out', immediateRender: false, onUpdate: () => { f.textContent = m.pre + (m.comma || m.num >= 10000 ? o.v.toLocaleString('en-US', { minimumFractionDigits: m.dec, maximumFractionDigits: m.dec }) : o.v.toFixed(m.dec)) + m.post; } }, t + 0.05);
+    }
+    return b;
+  };
+  const highlight = (id, t) => {
+    const h = node(id).querySelector('.hl');
+    tl.fromTo(h, { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out' }, t);
+    tl.to(h, { opacity: 0, duration: 0.5 }, t + 1.6);
+  };
+  const wobble = (id, t) => tl.fromTo(node(id).querySelector('.nb'), { y: 0 }, { y: -12, duration: 0.16, yoyo: true, repeat: 5, ease: 'sine.inOut', immediateRender: false }, t);
 
-  // ===== STEP 2: ten years; camera pulls back, counter rolls =====
-  const s2 = T[2];
-  tl.to(world, { ...cam(0, 10), duration: 1.1, ease: 'power3.inOut' }, s2 - 0.1);
-  tl.to(['#tag0', '#tag1', '#tag2', '#ring'], { opacity: 0, duration: 0.3 }, s2);
-  for (let i = 4; i <= 10; i++) rise(i, s2 + 0.5 + (i - 4) * 0.2);
-  const num = document.querySelector('#counter .num'), yrsEl = document.getElementById('cyrs');
-  const cnt = { v: VALS[3], y: 3 };
-  const writeCount = () => { num.textContent = '$' + Math.round(cnt.v).toLocaleString('en-US'); yrsEl.textContent = Math.round(cnt.y); };
-  tl.fromTo('#counter', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, s2 + 0.3);
-  tl.fromTo(cnt, { v: VALS[3], y: 3 }, { v: VALS[10], y: 10, duration: 0.5 + 6 * 0.2 + 0.4, ease: 'power1.inOut', onUpdate: writeCount }, s2 + 0.5);
-  tl.fromTo(col(10), { filter: 'brightness(1)' }, { filter: 'brightness(1.12)', duration: 0.25, yoyo: true, repeat: 1 }, s2 + 2.3);
+  // ---- steps ----
+  let lastBadge = null;
+  steps.forEach((st, i) => {
+    const t0 = T[1 + i];
+    if (i > 0) tl.to(world, { ...frame(st.focus, i), duration: 1.0, ease: 'power3.inOut' }, t0 - 0.15);
+    let t = t0 + 0.35;
+    (st.show || []).forEach((id) => {
+      if (GEO.N[id]) { if (!shown.has(id)) { showNode(id, t); shown.add(id); t += 0.28; } }
+      else if (edge(id)) { drawEdge(id, t); t += 0.22; }
+    });
+    // slices / markers that wait for this step
+    Object.entries(SPEC.nodes).forEach(([id, n]) => {
+      if (!n.bar) return;
+      n.slices.forEach((s, k) => { if (s === i + 1) growSlice(id, k, t0 + 0.6 + k * 0.1); });
+      if (n.marker === i + 1) dropMarker(id, t0 + 0.8);
+    });
+    const tf = Math.max(t + 0.3, t0 + 1.4);
+    (st.flow || []).forEach((id, k) => { flow(id, tf + k * 0.35); const e = SPEC.edges.find((x) => x.id === id); if (e && e.both) flow(id, tf + k * 0.35 + 1.3, true); });
+    if (st.badge) {
+      if (lastBadge) tl.to(lastBadge, { opacity: 0, duration: 0.3 }, t0 + 0.1);
+      lastBadge = badge(i, Math.max(t, t0 + 1.0)) || lastBadge;
+    } else if (lastBadge && i > 0) { tl.to(lastBadge, { opacity: 0, duration: 0.3 }, t0 + 0.1); lastBadge = null; }
+    (st.highlight || []).forEach((id) => highlight(id, tf + 0.6));
+    (st.wobble || []).forEach((id) => wobble(id, tf + 0.4));
+    // dim what this step isn't about
+    if (st.dim) Object.keys(GEO.N).forEach((id) => { if (shown.has(id)) tl.to(node(id).querySelector('.nb'), { opacity: (st.focus || []).includes(id) ? 1 : 0.32, duration: 0.4, immediateRender: false }, t0 + 0.1); });
+    else if (i > 0 && steps[i - 1].dim) Object.keys(GEO.N).forEach((id) => { if (shown.has(id)) tl.to(node(id).querySelector('.nb'), { opacity: 1, duration: 0.4 }, t0 + 0.1); });
+  });
 
-  // ===== STEP 3: twenty years; full pull-back, the curve draws over the tops =====
-  const s3 = T[3];
-  tl.to(world, { ...cam(0, YRS), duration: 1.2, ease: 'power3.inOut' }, s3 - 0.1);
-  for (let i = 11; i <= YRS; i++) rise(i, s3 + 0.6 + (i - 11) * 0.15, 0.45);
-  tl.to('#curve path', { strokeDashoffset: 0, duration: 2.4, ease: 'power2.inOut' }, s3 + 0.6);
-  tl.to(cnt, { v: VALS[YRS], y: YRS, duration: 0.45 + 9 * 0.15 + 0.4, ease: 'power1.inOut', onUpdate: writeCount }, s3 + 0.6);
-  tl.to(num, { scale: 1.06, transformOrigin: '0% 100%', duration: 0.2, yoyo: true, repeat: 1, ease: 'power2.out' }, s3 + 2.8);
+  // ---- coin: one gentle swap on the last step, breathing throughout ----
+  tl.to('#pose0', { opacity: 0, duration: 0.35 }, T[4] + 1.0);
+  tl.fromTo('#pose1', { opacity: 0 }, { opacity: 1, duration: 0.35 }, T[4] + 1.0);
+  let n = Math.floor((TOTAL - 2) / (2 * B)); if (n % 2) n--;
+  tl.fromTo('#coin img', { scaleY: 1, transformOrigin: '50% 90%' }, { scaleY: 1.018, duration: 2 * B, yoyo: true, repeat: n - 1, ease: 'sine.inOut' }, 1.5);
 
-  // ===== STEP 4: it cuts both ways - the chart flips into debt =====
-  const s4 = T[4];
-  tl.to('#counter', { opacity: 0, y: -20, duration: 0.35, ease: 'power2.in' }, s4 - 0.1);
-  tl.to('#curve', { opacity: 0, duration: 0.3 }, s4);
-  tl.to(world, { ...cam(0, YRS, 160), duration: 0.9, ease: 'power3.inOut' }, s4 + 0.1);
-  for (let i = 0; i <= YRS; i++) tl.to(col(i), { scaleY: -1, duration: 0.8, ease: 'power3.inOut' }, s4 + 0.5 + i * 0.025);
-  tl.to('.seg.prin', { backgroundColor: '#8C2323', duration: 0.6 }, s4 + 0.7);
-  tl.to(['.seg.int', '.seg.comp'], { backgroundColor: '#C5453A', duration: 0.6 }, s4 + 0.7);
-  tl.to('.yl', { opacity: 0, duration: 0.3 }, s4 + 0.4);
-  tl.to('#legend', { opacity: 0, duration: 0.3 }, s4 + 0.3);
-  tl.to('#pose0', { opacity: 0, duration: 0.35 }, s4 + 1.0);
-  tl.fromTo('#pose1', { opacity: 0 }, { opacity: 1, duration: 0.35 }, s4 + 1.0);
-  tl.fromTo('#coin', { y: 0 }, { y: -12, duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }, s4 + 1.0);
-
-  // ===== OUTRO =====
+  // ---- outro ----
   const s5 = T[5];
   tl.to('#vp', { opacity: 0, y: 40, duration: 0.5, ease: 'power2.in' }, s5 - 0.3);
   tl.fromTo('#outro', { opacity: 0 }, { opacity: 1, duration: 0.01 }, s5 + 0.1);
@@ -225,14 +274,9 @@ function build() {
   tl.to('#pose1', { opacity: 0, duration: 0.3 }, s5);
   tl.to('#pose0', { opacity: 1, duration: 0.3 }, s5);
 
-  // gentle breathing on the coin throughout (finite repeats, seek-safe)
-  let n = Math.floor((TOTAL_ - 2) / (2 * B)); if (n % 2) n--;
-  tl.fromTo('#coin img', { scaleY: 1, transformOrigin: '50% 90%' }, { scaleY: 1.018, duration: 2 * B, yoyo: true, repeat: n - 1, ease: 'sine.inOut' }, 1.5);
-
   window.__timelines['main'] = tl;
   if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
 }
-const TOTAL_ = 31.96;
 document.fonts.ready.then(build);
 </script>
 </body></html>

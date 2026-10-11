@@ -38,6 +38,13 @@ const T = [0];
 for (const b of beats) T.push(+(T[T.length - 1] + b * B).toFixed(3));
 const TOTAL = +(T[T.length - 1] + 0.35).toFixed(2);
 
+if (V.type === 'flow') {
+  const { flowHtml } = await import('./flow.mjs');
+  writeFileSync(join(here, 'index.html'), flowHtml({ topic, V, T, TOTAL, B, poses, field: V.field || '#C8DAF2' }));
+  console.log(`lesson ${id} (flow): ${TOTAL}s, music ${MUSIC}, scenes at ${T.join(', ')}`);
+  process.exit(0);
+}
+
 // ---- growth model (compound-interest style) ----
 const g = V.type === 'growth' ? (() => {
   const yrs = V.years, vals = Array.from({ length: yrs + 1 }, (_, i) => V.start * (1 + V.rate) ** i);

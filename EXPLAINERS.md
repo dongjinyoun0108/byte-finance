@@ -57,10 +57,35 @@ The weekend job posts lessons in order, so never reorder or edit the existing on
 }
 ```
 
+## The Reel diagram for each lesson (`content/lesson-visuals.json`)
+
+Every lesson also becomes a 32-second Reel: one diagram on a 1000 x 800 canvas that builds step by step while a
+camera frames each step. Add one entry per new lesson, keyed by the lesson `id`. Use `"type": "flow"`:
+
+- `field`: background, one of "#C9DDF1" "#DDD6F3" "#CFE8D8" "#C8DAF2" "#F3D5CE" "#F4E2A2" (vary it from the last few lessons).
+- `endPose`: the coin pose for step 4 (same list as `pose`).
+- `nodes`: `{ id: { x, y, label, sub?, w?, tone? } }`. `x`,`y` are the box centre. Default width 300; height is
+  110 (150 with a `sub`). `label` at most 26 characters, `sub` at most 34. `tone`: paper (default), ink, gold, blue,
+  red, mint. Keep boxes inside the canvas and at least 16px apart. Use words only: every number on screen must come
+  from the lesson's own `figure`s.
+- Proportion bars: `{ kind: "bar", x, y, w, label, max?, slices: [{ from?, pct, tone?, label?, step? }], marker?: { pct, label, step? } }`.
+  `step` (1-4) delays a slice or marker until that step. Only use percentages the lesson itself states.
+- `edges`: `[{ id, from, to, label?, bend?, both?, dashed? }]`. Arrows draw themselves; `label` at most 24 characters.
+  Leave out the label when the two boxes are close together.
+- `steps`: exactly 4, matching the lesson's steps: `{ show: [node and edge ids, in order], flow: [edge ids that get
+  travelling coins], focus: [node ids the camera frames], badge?: nodeId, badgeSide?: right|left|above|below,
+  highlight?: [ids], wobble?: [ids], dim?: true }`.
+  A step whose lesson step has a `figure` must have a `badge` (the box the figure belongs to). Every node and edge
+  must be shown in some step.
+
+Look at existing entries (e.g. `cash-rate`, `super`, `inflation`) for the style: 4–7 boxes, short labels, money
+moving along arrows, the camera moving in on what each step is about.
+
 ## Check, then push
 
 ```bash
-node --test test/weekend.test.js
+node --test test/weekend.test.js test/lesson-visuals.test.js
 ```
 
-Fix anything it reports. Then commit only `content/explainers.json` and push to `main`.
+Fix anything it reports (for a badge that covers a box, set `badgeSide`). Then commit only
+`content/explainers.json` and `content/lesson-visuals.json` and push to `main`.
