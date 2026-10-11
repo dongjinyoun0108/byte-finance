@@ -19,14 +19,14 @@ test('weekend topics: no advice/prediction wording, 4 steps, 2 tags each, unique
   }
 });
 
-test('weekend rotation: Sat and Sun get consecutive topics, no repeats for 6 weeks', () => {
-  assert.equal(weekendIndex('2026-10-11'), 0);
-  assert.equal(weekendIndex('2026-10-17'), 1);
-  assert.equal(weekendIndex('2026-10-18'), 2);
-  assert.equal(weekendIndex('2026-10-24'), 3);
+test('lesson rotation: Sun and Mon get consecutive topics, no repeats for 6 weeks', () => {
+  assert.equal(weekendIndex('2026-10-11'), 0); // Sun
+  assert.equal(weekendIndex('2026-10-12'), 1); // Mon
+  assert.equal(weekendIndex('2026-10-18'), 2); // Sun
+  assert.equal(weekendIndex('2026-10-19'), 3); // Mon
   const seen = new Set();
   for (let w = 0; w < 6; w++) for (const d of [0, 1]) {
-    const key = new Date(Date.parse('2026-10-11T00:00:00Z') + (w * 7 + d * 6) * 86400e3).toISOString().slice(0, 10);
+    const key = new Date(Date.parse('2026-10-11T00:00:00Z') + (w * 7 + d) * 86400e3).toISOString().slice(0, 10);
     seen.add(pickTopic(key, TOPICS).id);
   }
   assert.equal(seen.size, 12);

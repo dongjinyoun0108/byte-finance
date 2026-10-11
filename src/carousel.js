@@ -40,12 +40,12 @@ export const COVER_POSES = {
   unknown: ['coffee', 'performative', 'bbq', 'quarter_zip', 'newspaper', 'thinking'],
 };
 
-/** Weekdays elapsed since Mon 5 Jan 2026 for a Sydney date key: consecutive posting days get consecutive numbers
- * (Friday -> Monday is +1), so rotations never repeat back to back. */
+/** Market posting days (Tue-Sat Sydney) elapsed since Tue 6 Jan 2026: consecutive posting days get consecutive
+ * numbers (Saturday -> Tuesday is +1), so rotations never repeat back to back. */
 export function dayIndex(dateKey) {
-  const dd = Math.round((Date.parse(`${dateKey}T00:00:00Z`) - Date.parse('2026-01-05T00:00:00Z')) / 86400e3);
+  const dd = Math.round((Date.parse(`${dateKey}T00:00:00Z`) - Date.parse('2026-01-06T00:00:00Z')) / 86400e3);
   const w = Math.floor(dd / 7);
-  const r = ((dd % 7) + 7) % 7;
+  const r = ((dd % 7) + 7) % 7; // 0 Tue .. 4 Sat, 5 Sun, 6 Mon
   return w * 5 + Math.min(r, 4);
 }
 

@@ -102,7 +102,7 @@ export async function prepare({ now = new Date(), fetchImpl = fetch, writer = ca
   const alts = slides.map((sl) => {
     if (sl.name.endsWith('cover')) return `Byte Finance cover for ${coverDate(now)}: ${hook ? hook.headline.replace('\n', ' ') : 'your morning money brief'}. Cartoon gold coin mascot.`;
     if (sl.name.endsWith('board')) return `Overnight markets board: ${board.rows.map((r) => `${r.label.replace(' (close)', '')} ${r.change.replace(/^[↑↓] /, '')}`).join(', ')}.`;
-    if (sl.name.endsWith('outro')) return 'See you tomorrow at 7:30am. Follow @byte.finance.au for Aussie finance news every weekday.';
+    if (sl.name.endsWith('outro')) return 'See you tomorrow at 7:30am. Follow @byte.finance.au for Aussie finance news every morning.';
     const s = stories[sl.name.split('-')[1]];
     return s ? `${s.tag}: ${s.headline}. ${s.body} ${s.why}` : '';
   });

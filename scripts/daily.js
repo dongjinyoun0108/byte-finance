@@ -2,7 +2,7 @@
 //   node scripts/daily.js            normal scheduled run (waits for 7:25/7:30 Sydney, posts once per day)
 //   node scripts/daily.js --dry      render to ./out only, post nothing, ignore time and day
 //   node scripts/daily.js --force    post now, even outside the window or if today already posted
-//   add --weekend / --weekday to force which format is made (default: by the Sydney day)
+//   add --weekend / --weekday to force which format is made (default: lesson on Sun/Mon, market news Tue-Sat)
 import { mkdir, writeFile, access } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { chromium } from 'playwright';
@@ -82,14 +82,13 @@ async function main() {
   }
   const now = new Date();
   const day = sydney(now);
-  const WEEKEND = arg('weekend') || (day.weekday > 5 && !arg('weekday'));
+  // Market posts follow the US session: Tue-Sat Sydney mornings. Lessons on Sun + Mon (no US trading overnight).
+  const WEEKEND = arg('weekend') || ((day.weekday === 7 || day.weekday === 1) && !arg('weekday'));
   const dir = DRY ? 'out' : `posts/${day.dateKey}`;
   if (!DRY && !FORCE) {
-    if (WEEKEND) {
-      if (day.hh < 8 || day.hh >= 13) return console.log(`outside the weekend window (${day.hhmm} Sydney)`);
-    } else if (day.hh < 6 || day.hh >= 11) return console.log(`outside the morning window (${day.hhmm} Sydney)`);
+    if (day.hh < 6 || day.hh >= 11) return console.log(`outside the morning window (${day.hhmm} Sydney)`);
     if (await exists(`${dir}/posted.json`)) return console.log('already posted today');
-    await waitUntil(WEEKEND ? '08:58' : '07:25');
+    await waitUntil('07:25');
   }
   if (!DRY && !WEEKEND) {
     // pick up stories.json committed by the scheduled Claude writer since checkout
@@ -120,7 +119,7 @@ async function main() {
   const urls34 = tall.map((_, i) => raw(`${i + 1}.jpg`));
   const urls45 = short.map((_, i) => raw(`45/${i + 1}.jpg`));
   await waitPublic([...urls34, ...urls45, raw('story.jpg')]);
-  if (!FORCE) await waitUntil(WEEKEND ? '09:00' : '07:30');
+  if (!FORCE) await waitUntil('07:30');
 
   const { userId, username } = await instagramUserId(token);
   const ig = instagram({ userId, token });

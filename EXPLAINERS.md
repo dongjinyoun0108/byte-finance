@@ -1,6 +1,6 @@
 # Monthly brief: weekend "Money explained" lessons
 
-Once a month, add **8 new lessons** (4 weekends × Sat + Sun) to the end of `content/explainers.json`.
+Once a month, add **8 new lessons** (4 weeks × Sun + Mon) to the end of `content/explainers.json`.
 The weekend job posts lessons in order, so never reorder or edit the existing ones. Only append.
 
 ## Picking topics

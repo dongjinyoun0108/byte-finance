@@ -1,12 +1,12 @@
 # Byte Finance (@byte.finance.au)
 
-A daily Instagram carousel for Australian finance news. It posts at **7:30am Sydney time, Monday to Friday**, plus a **"Money explained" lesson at 9:00am on Saturday and Sunday**. Nobody needs to approve it.
+A daily Instagram carousel for Australian finance news. It posts every day at **7:30am Sydney time**: **market news Tuesday to Saturday** (after each US trading session) and a **"Money explained" lesson on Sunday and Monday** (no US trading overnight). Nobody needs to approve it.
 
-Weekend lessons come from a fact-checked bank of 12 topics in `src/explainers.js` (cash rate, compound interest, super, ETFs, franking, offset vs redraw, inflation, ASX 200, CGT discount, bond yields, the Aussie dollar, credit scores). They rotate Sat/Sun, so the bank lasts 6 weekends before repeating. Add topics there to extend it.
+Weekend lessons come from a fact-checked bank of 12 topics in `src/explainers.js` (cash rate, compound interest, super, ETFs, franking, offset vs redraw, inflation, ASX 200, CGT discount, bond yields, the Aussie dollar, credit scores). They rotate Sun/Mon in order; a scheduled task appends 8 new lessons on the 25th of each month. Add topics there to extend it.
 
 ## How a day runs (`.github/workflows/daily.yml`)
 
-1. GitHub Actions starts at about 6:50am and waits until 7:25am.
+1. GitHub Actions starts at about 6:50am every day and waits until 7:25am.
 2. Prices come from Yahoo Finance and headlines from the Yahoo, RBA and Fed feeds.
 3. Stories come from `posts/YYYY-MM-DD/stories.json`, which a scheduled Claude task writes and commits at about 6:45am (brief: `WRITER.md`). This uses your Claude plan, so there's no API fee. If an `ANTHROPIC_API_KEY` secret is set, the job can also write stories itself when that file is missing. With neither, it posts cover + markets board + outro.
 4. Every story passes `src/guardrails.js` or it's dropped:

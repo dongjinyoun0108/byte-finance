@@ -1,6 +1,6 @@
 # Morning writer brief (for the scheduled Claude task)
 
-Each weekday morning you write the three story slides for the Byte Finance carousel. Commit them as
+Each Tuesday to Saturday morning you write the three story slides for the Byte Finance carousel. Commit them as
 `posts/YYYY-MM-DD/stories.json`, using the Sydney date. The GitHub Action renders and posts them at 7:30am Sydney.
 **Push by 7:20am Sydney.** If you can't, push what you have; empty slots are fine.
 

@@ -298,10 +298,10 @@ test('dry run returns slides and caption without touching Canva or Instagram', a
 });
 
 test('cover: headline and pose change every posting day and always fit', () => {
-  // Mon 12 Oct .. Fri 23 Oct 2026, weekdays only
-  const days = ['2026-10-12', '2026-10-13', '2026-10-14', '2026-10-15', '2026-10-16', '2026-10-19', '2026-10-20', '2026-10-21', '2026-10-22', '2026-10-23'];
+  // Tue 13 Oct .. Sat 24 Oct 2026, market posting days only (Tue-Sat)
+  const days = ['2026-10-13', '2026-10-14', '2026-10-15', '2026-10-16', '2026-10-17', '2026-10-20', '2026-10-21', '2026-10-22', '2026-10-23', '2026-10-24'];
   const idx = days.map(dayIndex);
-  for (let i = 1; i < idx.length; i++) assert.equal(idx[i], idx[i - 1] + 1, 'Friday -> Monday counts as the next day');
+  for (let i = 1; i < idx.length; i++) assert.equal(idx[i], idx[i - 1] + 1, 'Saturday -> Tuesday counts as the next day');
   const heads = idx.map((i) => coverHeadline(3, i));
   for (let i = 1; i < heads.length; i++) assert.notEqual(heads[i], heads[i - 1]);
   const poses = idx.map((i) => coverPose({ changePct: 0.5 }, i));

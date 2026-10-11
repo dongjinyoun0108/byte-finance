@@ -6,7 +6,7 @@ import { explainerCover, storySlide, outroSlide, FIELDS } from '../render/slides
 
 const SLOTS = ['aus', 'us', 'biz', 'aus']; // colour fields for the four steps
 const STEP_POSES = ['thinking', 'newspaper', 'coffee', 'finger_gun'];
-const HOOKS = ['Weekend money lesson ☕', 'Your 60-second money lesson 🪙', 'Money explained, no jargon ☕', 'Learn this once, use it forever 📌'];
+const HOOKS = ['Your money lesson for today ☕', 'Your 60-second money lesson 🪙', 'Money explained, no jargon ☕', 'Learn this once, use it forever 📌'];
 const CTAS = ['Save this for later 📌 and send it to a mate who always asks.', 'Save this so you have it handy 📌', 'Send this to someone who’s always asking 👀', 'Which topic should we explain next? Tell us below 👇'];
 
 export function prepareWeekend({ now = new Date() } = {}) {
@@ -27,7 +27,7 @@ export function prepareWeekend({ now = new Date() } = {}) {
   });
   slides.push({
     name: `${slides.length + 1}-outro`,
-    html: outroSlide({ pose: 'cbd_strut', handle: '@byte.finance.au', disclaimer: DISCLAIMER, headline: 'Save this\nfor later', ribbon: 'Weekday market news at 7:30am  ✦  Byte Finance  ✦', cta: 'Follow @byte.finance.au' }),
+    html: outroSlide({ pose: 'cbd_strut', handle: '@byte.finance.au', disclaimer: DISCLAIMER, headline: 'Save this\nfor later', ribbon: 'Market news Tue–Sat at 7:30am  ✦  Byte Finance  ✦', cta: 'Follow @byte.finance.au' }),
   });
 
   const tags = [...WEEKEND_BASE_HASHTAGS, ...topic.tags].filter((t, k, a) => a.indexOf(t) === k).slice(0, MAX_HASHTAGS);
@@ -38,7 +38,7 @@ export function prepareWeekend({ now = new Date() } = {}) {
     ...topic.steps.map((s, k) => `${k + 1}. ${s.head}`),
     '',
     CTAS[i % CTAS.length],
-    'Weekday mornings: Aussie market news at 7:30am. Follow @byte.finance.au',
+    'Market news after every US session, Tue–Sat at 7:30am. Follow @byte.finance.au',
     '',
     DISCLAIMER,
     '',
@@ -47,7 +47,7 @@ export function prepareWeekend({ now = new Date() } = {}) {
   const alts = [
     `Money explained: ${title}. Four things to know: ${topic.steps.map((s) => s.head).join('; ')}.`,
     ...topic.steps.map((s, k) => `Step ${k + 1}: ${s.head}. ${s.figure ? `${s.figure}, ${s.figureLabel}. ` : ''}${s.body}`),
-    'Save this for later. Follow @byte.finance.au for Aussie market news every weekday at 7:30am.',
+    'Save this for later. Follow @byte.finance.au for Aussie market news Tuesday to Saturday at 7:30am.',
   ];
   return { key: day.dateKey, topic: topic.id, slides, caption, alts, bg: FIELDS.cover.bg };
 }

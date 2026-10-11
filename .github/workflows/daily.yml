@@ -2,13 +2,11 @@ name: Daily carousel
 
 on:
   schedule:
-    # 6:50am Sydney on weekdays. Two UTC times cover daylight saving (AEDT/AEST);
+    # 6:50am Sydney every day (waits until 7:30). Two UTC times cover daylight saving (AEDT/AEST);
     # the script ignores the run that lands outside 6-11am and posts only once per day.
-    - cron: '50 19 * * 0-4'
-    - cron: '50 20 * * 0-4'
-    # Weekends: "Money explained" lesson at 9:00am Sydney (Sat + Sun)
-    - cron: '50 21 * * 5,6'
-    - cron: '50 22 * * 5,6'
+    # Tue-Sat: market news (after each US session). Sun + Mon: "Money explained" lesson.
+    - cron: '50 19 * * *'
+    - cron: '50 20 * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -17,7 +15,7 @@ on:
         options: [dry, check, force]
         default: dry
       format:
-        description: 'which post to make (auto = weekday news on weekdays, lesson on weekends)'
+        description: 'which post to make (auto = market news Tue-Sat, lesson Sun/Mon)'
         type: choice
         options: [auto, weekday, weekend]
         default: auto
