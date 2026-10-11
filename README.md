@@ -6,7 +6,7 @@ A daily Instagram carousel for Australian finance news. It posts at **7:30am Syd
 
 1. GitHub Actions starts at about 6:50am and waits until 7:25am.
 2. Prices come from Yahoo Finance and headlines from the Yahoo, RBA and Fed feeds.
-3. The writer picks three stories and writes them in its own words. The writer is Claude when an `ANTHROPIC_API_KEY` secret is set. Otherwise it uses the free GitHub Models model through the job's own token, so there's no extra fee.
+3. Stories come from `posts/YYYY-MM-DD/stories.json`, which a scheduled Claude task writes and commits at about 6:45am (brief: `WRITER.md`). This uses your Claude plan, so there's no API fee. If an `ANTHROPIC_API_KEY` secret is set, the job can also write stories itself when that file is missing. With neither, it posts cover + markets board + outro.
 4. Every story passes `src/guardrails.js` or it's dropped:
    - no numbers that aren't in the source
    - no advice or prediction wording
@@ -22,7 +22,7 @@ The slides are 1080x1440 (3:4). The job also saves a 4:5 copy of each slide. If 
 | Name | What |
 |---|---|
 | `IG_ACCESS_TOKEN` | Instagram long-lived token (from the Meta app, "Instagram API with Instagram Login"). The job refreshes it weekly and stores the new one encrypted in `state/ig-token.enc`. |
-| `ANTHROPIC_API_KEY` | Optional. Without it the free GitHub Models writer is used. |
+| `ANTHROPIC_API_KEY` | Optional backup writer (Claude Haiku, about a cent a day) for days the scheduled writer misses. |
 
 To pause posting, add a repository variable `PAUSED` = `true`.
 

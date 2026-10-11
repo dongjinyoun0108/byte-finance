@@ -38,23 +38,27 @@ export async function callClaude(messages, { apiKey = process.env.ANTHROPIC_API_
   return data.content.map((c) => c.text || '').join('');
 }
 
-/** Free fallback when there is no Anthropic key: GitHub Models (uses the workflow's GITHUB_TOKEN). */
-export async function callGithubModels(messages, { token = process.env.GITHUB_TOKEN, model = process.env.GH_MODEL || 'openai/gpt-4.1', fetchImpl = fetch } = {}) {
-  if (!token) throw new Error('GITHUB_TOKEN missing');
-  const res = await fetchImpl('https://models.github.ai/inference/chat/completions', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/json', 'Content-Type': 'application/json', 'X-GitHub-Api-Version': '2022-11-28' },
-    body: JSON.stringify({ model, temperature: 0.4, max_tokens: 1500, messages: [{ role: 'system', content: SYSTEM }, ...messages] }),
-  });
-  const raw = await res.text();
-  if (!res.ok) throw new Error(`GitHub Models ${res.status}: ${raw.slice(0, 300)}`);
-  let data;
-  try { data = JSON.parse(raw); } catch { throw new Error(`GitHub Models returned non-JSON (${res.status} ${res.headers.get('content-type')}): ${raw.slice(0, 200)}`); }
-  return data.choices?.[0]?.message?.content || '';
-}
+export const callWriter = (messages, opts) => callClaude(messages, opts);
 
-/** Claude when ANTHROPIC_API_KEY is set, otherwise the free GitHub Models fallback. */
-export const callWriter = (messages, opts) => (process.env.ANTHROPIC_API_KEY ? callClaude(messages, opts) : callGithubModels(messages, opts));
+/**
+ * Checks a ready-made draft (e.g. stories.json written by the scheduled Claude task) with the same
+ * guardrails. Returns { stories, problems }.
+ */
+export function acceptDraft({ draft, items, board = { rows: [] } }) {
+  const byId = new Map(items.map((it) => [it.id, it]));
+  const extraNumbers = board.rows.flatMap((r) => [r.changePct, r.price, Math.abs(r.changePct)]);
+  const stories = {};
+  const problems = {};
+  for (const k of SLOT_KEYS) {
+    const s = draft[k];
+    if (s == null) continue;
+    const used = Object.entries(stories).find(([, v]) => v.item_id === s.item_id);
+    const errors = used ? [`item ${s.item_id} already used for ${used[0]}`] : checkStory(s, { item: byId.get(s.item_id), slot: SLOTS[k], moods: MOODS, extraNumbers });
+    if (errors.length) problems[k] = errors;
+    else stories[k] = { ...s, item: byId.get(s.item_id) };
+  }
+  return { stories, problems };
+}
 
 export function extractJson(text) {
   const start = text.indexOf('{');

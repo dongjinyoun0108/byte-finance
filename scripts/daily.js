@@ -66,6 +66,12 @@ async function main() {
     if (await exists(`${dir}/posted.json`)) return console.log('already posted today');
     await waitUntil('07:25');
   }
+  if (!DRY) {
+    // pick up stories.json committed by the scheduled Claude writer since checkout
+    const pull = () => { try { git('pull', '--rebase', 'origin', BRANCH); } catch { /* keep going with what we have */ } };
+    pull();
+    if (!FORCE && !(await exists(`${dir}/stories.json`))) { await waitUntil('07:28'); pull(); }
+  }
 
   const p = await prepare({ now: new Date() });
   console.log(JSON.stringify({ key: p.key, slides: p.slides.map((s) => s.name), log: p.log, stories: p.stories }, null, 1));

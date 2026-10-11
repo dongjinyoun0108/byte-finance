@@ -5,7 +5,8 @@
 import { BOARD, FEEDS, DISCLAIMER } from './config.js';
 import { fetchBoard } from './sources/yahoo.js';
 import { fetchNews } from './sources/news.js';
-import { writeStories, callWriter } from './writer.js';
+import { writeStories, callWriter, acceptDraft } from './writer.js';
+import { readFile } from 'node:fs/promises';
 import { buildCarousel, boardMood, coverPose, dayIndex, OFFICIAL_SOURCES } from './carousel.js';
 import { sydney, coverDate, clockLabel } from './time.js';
 import { coverSlide, boardSlide, storySlide, outroSlide, FIELDS } from '../render/slides.js';
@@ -44,8 +45,20 @@ export async function prepare({ now = new Date(), fetchImpl = fetch, writer = ca
   const day = sydney(now);
   const idx = dayIndex(day.dateKey);
   const [board, news] = await Promise.all([fetchBoard(BOARD, { fetchImpl }), fetchNews(FEEDS, { now, fetchImpl })]);
-  const { stories, log } = await writeStories({ items: news.items, board, claude: (m) => writer(m, { fetchImpl }) })
-    .catch((e) => ({ stories: {}, log: [String(e.message || e)] }));
+  // Stories: posts/DATE/stories.json from the scheduled Claude task if it's there; otherwise the API writer
+  // (needs ANTHROPIC_API_KEY); otherwise board-only. Either way every story goes through the guardrails.
+  let stories = {}, log = [];
+  const draftFile = `posts/${day.dateKey}/stories.json`;
+  const draft = await readFile(draftFile, 'utf8').then(JSON.parse, () => null);
+  if (draft) {
+    const r = acceptDraft({ draft, items: draft.items || [], board });
+    stories = r.stories; log = [{ from: draftFile, accepted: Object.keys(r.stories), problems: r.problems }];
+  }
+  if (!Object.keys(stories).length && process.env.ANTHROPIC_API_KEY) {
+    ({ stories, log } = await writeStories({ items: news.items, board, claude: (m) => writer(m, { fetchImpl }) })
+      .catch((e) => ({ stories: {}, log: [String(e.message || e)] })));
+  }
+  if (!draft && !process.env.ANTHROPIC_API_KEY) log.push('no stories.json and no ANTHROPIC_API_KEY: board-only');
 
   const car = buildCarousel({ board, stories, now }); // caption + which slides survive the checks
   const sp = board.rows.find((r) => r.key === 'sp500');
