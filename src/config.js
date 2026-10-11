@@ -116,5 +116,7 @@ export const REEL = {
   music: process.env.REEL_MUSIC || 'morning-desk', // render/assets/audio/music/<name>.wav
   shareToFeed: false,          // Reels tab only; keeps the profile grid to carousels
   dir: 'reels/daily-news',
+  lessonDir: 'reels/lesson',   // Sun + Mon: living-diagram lesson Reels (topics listed in content/lesson-visuals.json)
+  lessonMusic: process.env.REEL_LESSON_MUSIC || 'sunday-paper',
   hyperframes: '0.8.147',
 };

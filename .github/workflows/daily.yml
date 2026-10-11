@@ -48,6 +48,7 @@ jobs:
           PAUSED: ${{ vars.PAUSED }}
           REELS: ${{ vars.REELS }}
           REEL_MUSIC: ${{ vars.REEL_MUSIC }}
+          REEL_LESSON_MUSIC: ${{ vars.REEL_LESSON_MUSIC }}
         run: |
           if [ "$PAUSED" = "true" ]; then echo "Paused"; exit 0; fi
           node scripts/daily.js ${{ github.event_name == 'workflow_dispatch' && format('--{0}', inputs.mode) || '' }} ${{ github.event_name == 'workflow_dispatch' && inputs.format != 'auto' && format('--{0}', inputs.format) || '' }}

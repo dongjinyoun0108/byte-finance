@@ -15,6 +15,8 @@ import { instagram } from '../src/instagram.js';
 import { currentToken, instagramUserId } from '../src/igtoken.js';
 import { sydney } from '../src/time.js';
 import { REEL } from '../src/config.js';
+import { readFileSync } from 'node:fs';
+const hasLessonVisual = (id) => { try { return !!JSON.parse(readFileSync('content/lesson-visuals.json', 'utf8'))[id]; } catch { return false; } };
 
 const arg = (n) => process.argv.includes(`--${n}`);
 const PREVIEW = arg('preview'); // like --dry, but commits today's reel.mp4 to previews/ so it can be checked
@@ -83,19 +85,20 @@ const runCmd = (cmd, args, opts = {}) => new Promise((ok, fail) => {
   c.on('close', (code) => (code === 0 ? ok(log) : fail(new Error(`${cmd} ${args.join(' ')} exited ${code}\n${log.slice(-2000)}`))));
 });
 
-/** Builds and renders today's Reel (reels/daily-news) to an MP4. Returns the file's bytes. */
-async function renderReel(data, dataFile, outFile) {
+/**
+ * Builds and renders a Reel project to an MP4 and returns the file's bytes.
+ *   market days: reels/daily-news from the day's data;  lesson days: reels/lesson for the day's topic.
+ */
+async function renderReel({ dir, buildArgs, outFile }) {
   const t0 = Date.now();
-  await writeFile(dataFile, JSON.stringify({ ...data, music: REEL.music }, null, 1));
   // build.mjs rewrites the tracked composition; keep git from treating that as a local change mid-run
-  try { execFileSync('git', ['update-index', '--skip-worktree', `${REEL.dir}/index.html`]); } catch { /* not a git checkout */ }
-  console.log((await runCmd('node', [`${REEL.dir}/scripts/build.mjs`, dataFile, '--ai'])).trim());
+  try { execFileSync('git', ['update-index', '--skip-worktree', `${dir}/index.html`]); } catch { /* not a git checkout */ }
+  console.log((await runCmd('node', [`${dir}/scripts/build.mjs`, ...buildArgs])).trim());
   const env = { ...process.env };
   const hs = await headlessShell();
   if (hs) env.HYPERFRAMES_BROWSER_PATH = hs;
-  const log = await runCmd('npx', ['--yes', `hyperframes@${REEL.hyperframes}`, 'render', '--output', resolve(outFile)], { cwd: REEL.dir, env });
+  const log = await runCmd('npx', ['--yes', `hyperframes@${REEL.hyperframes}`, 'render', '--output', resolve(outFile)], { cwd: dir, env });
   console.log(`reel rendered in ${Math.round((Date.now() - t0) / 1000)}s: ${(log.match(/[\d.]+ MB[^\n]*/) || [''])[0]}`);
-  data.renderSeconds = Math.round((Date.now() - t0) / 1000);
   return readFile(outFile);
 }
 
@@ -148,15 +151,25 @@ async function main() {
   await writeFile(`${dir}/caption.txt`, p.caption);
   await writeFile(`${dir}/story.jpg`, await storyCard(tall[0], bgs[0]));
 
-  // Reel (market days): render in the background while the carousel goes out; it posts at 7:35.
-  const wantReel = !WEEKEND && p.reel && REEL.enabled && process.env.REELS !== 'off';
-  const reelJob = wantReel ? renderReel(p.reel, `${dir}/reel.json`, DRY ? `${dir}/reel.mp4` : join(process.env.RUNNER_TEMP || 'out', 'reel.mp4')).catch((e) => ({ error: e })) : null;
+  // Reel: render in the background while the carousel goes out; it posts at 7:35.
+  //   market days: the news Reel from today's data;  lesson days: the topic's living-diagram lesson (if it has a visual).
+  const reelOut = DRY ? `${dir}/reel.mp4` : join(process.env.RUNNER_TEMP || 'out', 'reel.mp4');
+  let reelSpec = null;
+  if (REEL.enabled && process.env.REELS !== 'off') {
+    if (!WEEKEND && p.reel) {
+      await writeFile(`${dir}/reel.json`, JSON.stringify({ ...p.reel, music: REEL.music }, null, 1));
+      reelSpec = { dir: REEL.dir, buildArgs: [`${dir}/reel.json`, '--ai'], outFile: reelOut };
+    } else if (WEEKEND && hasLessonVisual(p.topic)) {
+      reelSpec = { dir: REEL.lessonDir, buildArgs: [p.topic, `--music=${REEL.lessonMusic}`], outFile: reelOut };
+    }
+  }
+  const reelJob = reelSpec ? renderReel(reelSpec).catch((e) => ({ error: e })) : null;
   if (DRY) {
     const r = reelJob && await reelJob;
     if (r?.error) { console.error(r.error); process.exitCode = 1; }
     if (PREVIEW) {
       await mkdir('previews', { recursive: true });
-      const log = { at: new Date().toISOString(), reel: r?.error ? String(r.error.stack || r.error) : 'ok', slides: tall.length, reelData: p.reel };
+      const log = { at: new Date().toISOString(), reel: !reelJob ? 'none' : r?.error ? String(r.error.stack || r.error) : 'ok', slides: tall.length, topic: p.topic, reelData: p.reel };
       await writeFile(`previews/${p.key}.json`, JSON.stringify(log, null, 1));
       if (reelJob && !r?.error) await writeFile(`previews/${p.key}-reel.mp4`, r);
       commitPush(['previews'], `Preview ${p.key}`);
