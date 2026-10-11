@@ -57,6 +57,13 @@ async function waitPublic(urls) {
 }
 
 async function main() {
+  if (arg('check')) { // verify the Instagram token without posting
+    const { token, changed } = await currentToken();
+    const me = await instagramUserId(token);
+    console.log(`Instagram OK: @${me.username} (id ${me.userId})${changed ? ', token refreshed' : ''}`);
+    if (changed) commitPush(['state'], 'Refresh Instagram token');
+    return;
+  }
   const now = new Date();
   const day = sydney(now);
   const dir = DRY ? 'out' : `posts/${day.dateKey}`;

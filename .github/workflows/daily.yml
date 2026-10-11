@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'dry = render only, force = post right now'
+        description: 'dry = render only, check = test Instagram login, force = post right now'
         type: choice
-        options: [dry, force]
+        options: [dry, check, force]
         default: dry
 
 permissions:
