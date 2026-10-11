@@ -79,7 +79,7 @@ export function fakeWorld({ failSymbols = [], feeds = {}, canvaFail = false } = 
     }
     if (url.includes('feeds.finance.yahoo.com') && url.includes('region=US')) return text(feeds.us ?? RSS_US);
     if (url.includes('feeds.finance.yahoo.com') && url.includes('region=AU')) return text(feeds.au ?? RSS_AU);
-    if (url.includes('rssindex')) return text('<rss><channel></channel></rss>');
+    if (url.includes('rssindex') || url.includes('abc.net.au') || url.includes('cnbc.com')) return text('<rss><channel></channel></rss>');
     if (url.includes('rba.gov.au')) return text(feeds.rba ?? RDF_RBA);
     if (url.includes('federalreserve.gov')) return text('nope', 503);
     if (url === 'https://api.canva.com/rest/v1/oauth/token') {
