@@ -1,0 +1,546 @@
+// Builds index.html (the HyperFrames composition) for one day's Reel from a JSON file.
+//   node scripts/build.mjs [data.json]      (default: sample.json; run from reels/daily-news)
+// The composition is one continuous pastel "desk": five stations on one strip, a camera that whips/dollies
+// between them, and a pull-back outro. All copy and numbers come from the JSON; nothing is invented.
+import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const here = join(dirname(fileURLToPath(import.meta.url)), '..');
+const repo = join(here, '../..');
+const D = JSON.parse(readFileSync(process.argv[2] || join(here, 'sample.json'), 'utf8'));
+
+const COIN_POSES = ['bbq', 'cbd_strut', 'celebrating', 'coffee', 'coffee_alt', 'cricket', 'finger_gun', 'kangaroo', 'newspaper', 'padel', 'performative', 'quarter_zip', 'rocket', 'run_club', 'shocked', 'surfing', 'thinking', 'trading_desk', 'umbrella', 'wipeout', 'worried'];
+const pose = (p, dflt) => (COIN_POSES.includes(p) ? p : dflt);
+
+// ---- assets into ./assets (gitignored; rebuilt every run) ----
+mkdirSync(join(here, 'assets/coin'), { recursive: true });
+mkdirSync(join(here, 'assets/fonts'), { recursive: true });
+mkdirSync(join(here, 'assets/audio'), { recursive: true });
+const fontSrc = {
+  'bricolage.woff2': 'node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2',
+  'inter-tight.woff2': 'node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2',
+};
+for (const [to, from] of Object.entries(fontSrc)) copyFileSync(join(repo, from), join(here, 'assets/fonts', to));
+for (const a of ['theme.wav', 'whoosh.wav', 'ding.wav']) copyFileSync(join(repo, 'render/assets/audio', a), join(here, 'assets/audio', a));
+
+const stories = (D.stories || []).slice(0, 3);
+const poses = {
+  hook: pose(D.hook?.pose, 'coffee'),
+  phone: 'newspaper',
+  s: stories.map((s, i) => pose(s.pose, ['thinking', 'celebrating', 'finger_gun'][i])),
+  outro: pose(D.outroPose, 'cbd_strut'),
+};
+for (const p of new Set([poses.hook, poses.phone, ...poses.s, poses.outro, 'finger_gun'])) {
+  const src = join(repo, 'render/assets/coin', `${p}.png`);
+  if (existsSync(src)) copyFileSync(src, join(here, 'assets/coin', `${p}.png`));
+}
+
+// ---- helpers ----
+const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const C = { sky: '#C9DDF1', lav: '#DDD6F3', mint: '#CFE8D8', powder: '#C8DAF2', blush: '#F3D5CE', butter: '#F4E2A2', ink: '#17181C', sun: '#F7DF8E', upbg: '#BFE5CB', up: '#14592F', downbg: '#F5C8C6', down: '#8C2323', deepMint: '#2E6B4C', deepBlue: '#2D4E86', deepBlush: '#8A3F33' };
+const STORY_BG = [C.mint, C.powder, C.blush];
+const STORY_DEEP = [C.deepMint, C.deepBlue, C.deepBlush];
+const MINUS = '−';
+
+/** "+2.4%" with each digit as a rolling wheel column. */
+function wheelNumber(text) {
+  return [...text].map((ch, i) => {
+    if (!/\d/.test(ch)) return `<span class="wch">${esc(ch)}</span>`;
+    const target = Number(ch), stops = 20 + target; // two full turns then land
+    return `<span class="wcol"><span class="wstrip" data-stops="${stops}">${Array.from({ length: stops + 1 }, (_, k) => `<span>${k % 10}</span>`).join('')}</span></span>`;
+  }).join('');
+}
+
+/** Sparkline path for a card (0..w, 0..h). */
+function sparkPath(pts, w = 230, h = 52) {
+  if (!pts || pts.length < 2) pts = [0, 0];
+  const min = Math.min(...pts), max = Math.max(...pts);
+  return pts.map((v, i) => `${i ? 'L' : 'M'}${((i / (pts.length - 1)) * w).toFixed(1)},${(h - 3 - ((v - min) / (max - min || 1)) * (h - 6)).toFixed(1)}`).join(' ');
+}
+
+/** Split a headline into 1–3 beats of roughly equal length. */
+function beats(headline) {
+  const w = headline.split(/\s+/).filter(Boolean);
+  if (w.length <= 2) return [w.join(' ')];
+  const n = w.length <= 4 ? 2 : 3;
+  const base = Math.floor(w.length / n), extra = w.length % n;
+  const sizes = Array.from({ length: n }, (_, i) => base + (i >= n - extra ? 1 : 0)); // longer beats last
+  const out = []; let k = 0;
+  for (const sz of sizes) { out.push(w.slice(k, k + sz).join(' ')); k += sz; }
+  return out;
+}
+const isPct = (f) => /^[+\-−]?\d+(\.\d+)?%$/.test(String(f || '').trim());
+
+// ---- timing (112 BPM; every scene boundary lands on a beat) ----
+const BEAT = 60 / 112;
+const nS = stories.length;
+const beatsPer = [6, 10, ...stories.map(() => 10), 7];
+const T = [0];
+for (const b of beatsPer) T.push(+(T[T.length - 1] + b * BEAT).toFixed(3));
+const TOTAL = +(T[T.length - 1] + 0.35).toFixed(2);
+const stations = 2 + nS; // hook, board, stories
+const GAP = 160, P = 1080 + GAP;
+
+// ---- markup per station ----
+const chromeBars = Array.from({ length: beatsPer.length }, (_, i) => `<i><b id="pb${i}"></b></i>`).join('');
+const hook = D.hook || { name: 'Markets', pct: 0 };
+const hookUp = (hook.pct ?? 0) >= 0;
+const hookPctText = `${hookUp ? '+' : MINUS}${Math.abs(hook.pct ?? 0).toFixed(1)}%`;
+const slotNames = [...(hook.others || []).filter((n) => n !== hook.name).slice(0, 4), hook.name];
+
+const st0 = `
+<section class="st" id="st0" style="left:0; background:${C.sky}">
+  <div class="ghost" id="h-ghost" data-layout-ignore style="top:1250px">Overnight</div>
+  <div id="h-top">
+    <div id="h-over" class="lede">${[...'Overnight,'].map((c) => `<span>${esc(c)}</span>`).join('')}</div>
+    <div id="h-slot"><div id="h-slotstrip">${slotNames.map((n, i) => `<div class="d slotname${i === slotNames.length - 1 ? ' win' : ''}">${esc(n)}</div>`).join('')}</div></div>
+  </div>
+  <div id="h-pct" class="d" data-layout-ignore style="color:${hookUp ? C.up : C.down}">${wheelNumber(hookPctText)}</div>
+  <div id="h-sub" class="mask"><span>while you slept</span></div>
+  <div id="h-disc"></div>
+  <img id="h-coin" src="assets/coin/${poses.hook}.png" alt="">
+</section>`;
+
+const rows = (D.board?.rows || []).slice(0, 9);
+const heroIdx = Math.max(0, rows.findIndex((r) => r.label === D.board?.hero));
+const st1 = `
+<section class="st" id="st1" style="left:${P}px; background:${C.lav}">
+  <div id="b-head" class="d head fit" data-maxh="230">${esc(D.board?.headline || 'Overnight markets')}</div>
+  <div id="b-asof" class="sub">${esc(D.board?.asOf || '')}</div>
+  <div id="b-zoom"><div id="b-tilt"><div id="b-grid">
+    ${rows.map((r, i) => `<div class="card${i === heroIdx ? ' hero' : ''}" id="card${i}">
+      <div class="cl">${esc(r.label)}</div>
+      <div class="cv" data-from="${r.prevClose ?? r.price}" data-to="${r.price}" data-dec="${r.decimals ?? 2}" data-pre="${esc(r.prefix || '')}" data-suf="${esc(r.suffix || '')}">${esc(r.prefix || '')}${Number(r.price).toLocaleString('en-US', { minimumFractionDigits: r.decimals ?? 2, maximumFractionDigits: r.decimals ?? 2 })}${esc(r.suffix || '')}</div>
+      <svg class="spark" width="230" height="52" viewBox="0 0 230 52"><path d="${sparkPath(r.spark)}" pathLength="1"/></svg>
+      <span class="chip ${r.changePct >= 0 ? 'u' : 'dn'}">${r.changePct >= 0 ? '+' : MINUS}${Math.abs(r.changePct).toFixed(2)}%</span>
+    </div>`).join('')}
+  </div></div></div>
+</section>`;
+
+/** Shared story body: tag, headline, figure (count-up), label, optional bars, why. */
+function storyBody(s, i, { bars = false } = {}) {
+  const deep = STORY_DEEP[i];
+  const f = String(s.figure || '').trim();
+  const pct = isPct(f) ? parseFloat(f.replace(MINUS, '-')) : null;
+  return `
+    <div class="col" id="s${i}-col">
+      <span class="tag" id="s${i}-tag" style="color:${STORY_BG[i]}">${esc(s.tag)}</span>
+      <div class="d head fit" id="s${i}-head" data-maxh="330">${esc(s.headline)}</div>
+      ${f ? `<div class="d fig" id="s${i}-fig" style="color:${deep}" data-figure="${esc(f)}">${esc(f)}</div>
+      ${s.figureLabel ? `<div class="figlab" id="s${i}-figlab" style="color:${deep}">${esc(s.figureLabel)}</div>` : ''}` : ''}
+      ${bars && pct !== null ? `<div class="hbars" id="s${i}-bars">
+        <div class="hb"><span>Before</span><i style="--w:${(100 / Math.max(100, 100 + pct)) * 100}%; background:${deep}; opacity:.35"></i></div>
+        <div class="hb"><span>Now</span><i style="--w:${(Math.max(0, 100 + pct) / Math.max(100, 100 + pct)) * 100}%; background:${deep}"></i></div>
+      </div>` : ''}
+      <p class="why fit" id="s${i}-why" data-maxh="200">${esc(s.why)}</p>
+    </div>`;
+}
+
+function storyStation(s, i) {
+  const k = 2 + i, bg = STORY_BG[i], deep = STORY_DEEP[i];
+  if (i === 0) {
+    // Phone notification dive
+    return `
+<section class="st" id="st${k}" style="left:${k * P}px; background:${bg}">
+  <div class="ghost" data-layout-ignore style="top:1250px; color:rgba(255,255,255,.5)">${esc(s.tag)}</div>
+  <div id="p-out">
+    <div id="p-dive"><div class="phone" data-layout-allow-overlap><div class="scr">
+      <div class="lock">7:25</div>
+      <div class="lockdate">${esc(D.date || '')}</div>
+      <div class="notif" id="p-notif" data-layout-ignore><div class="nhead"><b class="app"></b><span>Byte Finance</span><span class="dim">now</span></div>
+        <div class="ntag">${esc(s.tag)}</div><div class="ntext">${esc(s.headline)}</div></div>
+    </div></div></div>
+    <img id="p-coin" class="coin" src="assets/coin/${poses.phone}.png" alt="" style="left:600px; top:1060px; width:440px">
+  </div>
+  <div class="inside" id="p-in" style="background:${bg}">
+    ${storyBody(s, i)}
+    <img class="coin" id="s${i}-coin" src="assets/coin/${poses.s[i]}.png" alt="" style="left:640px; top:1110px; width:400px">
+  </div>
+</section>`;
+  }
+  if (i === 1 && s.figure) {
+    return `
+<section class="st" id="st${k}" style="left:${k * P}px; background:${bg}">
+  ${storyBody(s, i, { bars: true })}
+  <img class="coin" id="s${i}-coin" src="assets/coin/${poses.s[i]}.png" alt="" style="left:640px; top:1110px; width:400px">
+</section>`;
+  }
+  // Kinetic headline beats
+  const f = String(s.figure || '').trim();
+  const bs = beats(s.headline);
+  const mark = (t) => (f && t.includes(f) ? esc(t).replace(esc(f), `<span class="figmark" style="--deep:${deep}">${esc(f)}</span>`) : esc(t));
+  const figInHead = f && s.headline.includes(f);
+  return `
+<section class="st" id="st${k}" style="left:${k * P}px; background:${bg}">
+  <div class="col" id="s${i}-col">
+    <span class="tag" id="s${i}-tag" style="color:${bg}">${esc(s.tag)}</span>
+    <div class="kbeats">${bs.map((b, j) => `<div class="kb kb${j} fitline" data-layout-allow-overflow id="s${i}-kb${j}"><div class="d kin${j === bs.length - 1 && bs.length > 1 ? ' outline" data-layout-ignore="' : ''}">${mark(b)}</div></div>`).join('')}</div>
+    ${f && !figInHead ? `<div class="figrow" id="s${i}-figrow"><span class="d" style="color:${deep}">${esc(f)}</span>${s.figureLabel ? ` <span class="figlab" style="color:${deep}">${esc(s.figureLabel)}</span>` : ''}</div>` : ''}
+    <p class="why fit" id="s${i}-why" data-maxh="200">${esc(s.why)}</p>
+  </div>
+  <img class="coin" id="s${i}-coin" src="assets/coin/${poses.s[i]}.png" alt="" style="left:640px; top:1110px; width:400px">
+</section>`;
+}
+
+const DISCLAIMER = 'General information only, not financial advice. It doesn’t consider your objectives, financial situation or needs.';
+
+const css = `
+@font-face { font-family: 'Bricolage'; src: url(assets/fonts/bricolage.woff2) format('woff2'); font-weight: 200 800; font-stretch: 75% 100%; }
+@font-face { font-family: 'InterT'; src: url(assets/fonts/inter-tight.woff2) format('woff2'); font-weight: 100 900; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: ${C.butter}; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: ${C.butter}; color: ${C.ink}; font-family: 'InterT', sans-serif; }
+.clip { position: absolute; inset: 0; }
+.d { font-family: 'Bricolage', sans-serif; font-weight: 700; font-stretch: 88%; letter-spacing: -.035em; }
+#cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 960px; }
+#world { position: absolute; left: 0; top: 0; width: ${stations * P - GAP}px; height: 1920px; }
+.st { position: absolute; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+.ghost { position: absolute; left: -20px; font-family: 'Bricolage', sans-serif; font-weight: 800; font-size: 300px; letter-spacing: -.04em; color: rgba(255,255,255,.45); white-space: nowrap; }
+.lede { font-size: 62px; font-weight: 650; color: rgba(23,24,28,.62); }
+.lede span { display: inline-block; white-space: pre; }
+.mask { overflow: hidden; } .mask > span { display: inline-block; }
+.head { font-size: 112px; line-height: .92; width: 900px; }
+.sub { font-size: 34px; font-weight: 600; color: rgba(23,24,28,.62); }
+.coin { position: absolute; }
+/* hook */
+#h-top { position: absolute; left: 80px; top: 400px; width: 940px; }
+#h-slot { height: 190px; overflow: hidden; margin-top: 10px; }
+.slotname:not(.win) { opacity: .35; }
+.slotname { width: max-content; height: 190px; font-size: 170px; line-height: 190px; white-space: nowrap; }
+#h-pct { position: absolute; left: 70px; top: 690px; font-size: 300px; line-height: 1; letter-spacing: -.05em; display: flex; height: 300px; }
+.wcol { display: inline-block; height: 1em; overflow: hidden; }
+.wstrip { display: flex; flex-direction: column; }
+.wstrip span, .wch { display: block; height: 1em; line-height: 1em; font-variant-numeric: tabular-nums; }
+#h-sub { position: absolute; left: 84px; top: 1010px; font-size: 46px; font-weight: 600; }
+#h-disc { position: absolute; left: 470px; top: 1060px; width: 560px; height: 560px; border-radius: 50%; background: ${C.sun}; }
+#h-coin { position: absolute; left: 480px; top: 1030px; width: 540px; }
+/* board */
+#b-head { position: absolute; left: 80px; top: 360px; }
+#b-asof { position: absolute; left: 84px; top: 600px; }
+#b-zoom { position: absolute; left: 70px; top: 700px; width: 940px; height: 740px; }
+#b-tilt { width: 100%; height: 100%; transform: perspective(1800px) rotateX(12deg) rotateZ(-4deg); }
+#b-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.card { background: #F6F3FD; border-radius: 26px; padding: 20px 22px 18px; height: 232px; position: relative; }
+.cl { font-size: 30px; font-weight: 700; }
+.cv { font-size: 30px; font-weight: 500; margin: 4px 0 8px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.spark { display: block; }
+.spark path { fill: none; stroke: ${C.ink}; stroke-opacity: .7; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.chip { position: absolute; left: 22px; bottom: 18px; font-size: 26px; font-weight: 700; padding: 6px 14px; border-radius: 999px; }
+.chip.u { background: ${C.upbg}; color: ${C.up}; } .chip.dn { background: ${C.downbg}; color: ${C.down}; }
+.ring { position: absolute; inset: -7px; border-radius: 32px; border: 6px solid ${C.ink}; opacity: 0; }
+/* stories */
+.col { position: absolute; left: 80px; top: 380px; width: 920px; display: flex; flex-direction: column; align-items: flex-start; }
+.tag { display: inline-block; font-size: 34px; font-weight: 650; padding: 14px 28px; border-radius: 999px; background: ${C.ink}; margin-bottom: 34px; }
+.col .head { font-size: 104px; }
+.fig { font-size: 230px; line-height: .9; margin-top: 40px; font-variant-numeric: tabular-nums; letter-spacing: -.05em; white-space: nowrap; }
+.figlab { font-size: 34px; font-weight: 650; margin-top: 10px; }
+.why { font-size: 38px; line-height: 1.32; width: 540px; margin-top: 44px; color: rgba(23,24,28,.74); font-weight: 500; }
+.hbars { width: 540px; margin-top: 34px; display: flex; flex-direction: column; gap: 14px; }
+.hb { display: flex; align-items: center; gap: 18px; } .hb span { width: 110px; font-size: 26px; font-weight: 650; }
+.hb i { display: block; height: 46px; border-radius: 0 14px 14px 0; width: calc(var(--w) * 0.75); transform-origin: 0 50%; }
+.phone { position: absolute; left: 110px; top: 400px; width: 560px; height: 1060px; border-radius: 76px; background: ${C.ink}; padding: 18px; transform: perspective(2000px) rotateY(14deg) rotateZ(-5deg); }
+.scr { width: 100%; height: 100%; border-radius: 60px; background: #F2F7F3; overflow: hidden; }
+.lock { font-family: 'Bricolage', sans-serif; font-weight: 700; font-size: 150px; text-align: center; margin-top: 90px; letter-spacing: -.03em; color: rgba(23,24,28,.85); }
+.lockdate { text-align: center; font-size: 28px; font-weight: 600; color: rgba(23,24,28,.55); }
+.notif { margin: 70px 22px 0; background: #fff; border-radius: 34px; padding: 26px 28px; font-size: 30px; box-shadow: 0 18px 40px rgba(23,24,28,.12); }
+.nhead { display: flex; gap: 14px; align-items: center; font-size: 24px; font-weight: 700; } .nhead .dim { margin-left: auto; color: rgba(23,24,28,.5); font-weight: 500; }
+.app { width: 40px; height: 40px; border-radius: 11px; background: #E9B21A; display: block; }
+.ntag { margin-top: 12px; font-weight: 700; } .ntext { line-height: 1.25; }
+#p-out, #p-dive { position: absolute; inset: 0; }
+.inside { position: absolute; inset: 0; opacity: 0; }
+.kbeats { display: flex; flex-direction: column; gap: 6px; width: 920px; }
+.kb { overflow: hidden; padding-bottom: 8px; }
+.kin { font-size: 190px; line-height: .9; white-space: nowrap; display: inline-block; transform-origin: 0 60%; }
+.kin.outline { color: transparent; -webkit-text-stroke: 4px ${C.ink}; }
+.figmark { color: var(--deep); }
+.figrow { margin-top: 30px; font-size: 40px; } .figrow .d { font-size: 120px; }
+/* overlays */
+#chrome { position: absolute; left: 80px; right: 80px; top: 230px; }
+.bars { display: flex; gap: 10px; } .bars i { flex: 1; height: 6px; border-radius: 3px; background: rgba(23,24,28,.14); overflow: hidden; display: block; }
+.bars b { display: block; height: 100%; background: ${C.ink}; transform-origin: 0 50%; }
+.brand { margin-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 30px; font-weight: 650; }
+.brand .bn { font-family: 'Bricolage', sans-serif; font-weight: 700; font-size: 36px; display: flex; gap: 12px; align-items: center; }
+.brand .dot { width: 24px; height: 24px; border-radius: 50%; background: #E9B21A; box-shadow: inset 0 0 0 4px #F6CD4C; display: block; }
+.brand .dt { color: rgba(23,24,28,.6); }
+#outro { position: absolute; inset: 0; pointer-events: none; }
+#o-head { position: absolute; left: 80px; top: 430px; width: 920px; font-size: 132px; line-height: .9; }
+#o-head .ln { overflow: hidden; padding-bottom: 6px; } #o-head .ln > span { display: inline-block; }
+#o-follow { position: absolute; left: 80px; top: 720px; }
+#o-follow span { display: inline-block; font-size: 42px; font-weight: 650; padding: 20px 38px; border-radius: 999px; background: ${C.ink}; color: ${C.butter}; }
+#o-disc { position: absolute; left: 84px; top: 1290px; width: 540px; font-size: 22px; line-height: 1.4; color: rgba(23,24,28,.66); }
+#o-coin { position: absolute; left: 0; top: 1230px; width: 360px; }
+`;
+
+const runtime = `
+const B = ${BEAT};
+const T = ${JSON.stringify(T)};
+const P = ${P}, GAP = ${GAP}, NST = ${stations}, NS = ${nS};
+const HERO = ${heroIdx};
+const MINUS = '${MINUS}';
+
+function fitText(el) {
+  const maxh = +el.dataset.maxh || 9999;
+  let fs = parseFloat(getComputedStyle(el).fontSize);
+  for (let i = 0; i < 40 && (el.scrollHeight > maxh + 2 || el.scrollWidth > el.clientWidth + 2); i++) { fs *= 0.95; el.style.fontSize = fs + 'px'; }
+}
+function fitLine(el, width) {
+  let fs = parseFloat(getComputedStyle(el).fontSize);
+  for (let i = 0; i < 40 && el.scrollWidth > width; i++) { fs *= 0.95; el.style.fontSize = fs + 'px'; }
+}
+/** Wrap each rendered line in a mask so it can rise into place. */
+function splitLines(el) {
+  const html = el.innerHTML;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  const words = [];
+  const walk = (node, wrapClass) => {
+    node.childNodes.forEach((n) => {
+      if (n.nodeType === 3) n.textContent.split(/(\\s+)/).forEach((t) => { if (t.trim()) words.push({ t, cls: wrapClass }); });
+      else walk(n, n.className || wrapClass);
+    });
+  };
+  walk(tmp, '');
+  el.innerHTML = words.map((w, i) => '<span class="w' + (w.cls ? ' ' + w.cls : '') + '" style="display:inline-block">' + w.t + '</span>').join(' ');
+  const spans = [...el.querySelectorAll('.w')];
+  const lines = [];
+  spans.forEach((s) => { const top = s.offsetTop; let l = lines.find((x) => Math.abs(x.top - top) < 4); if (!l) lines.push(l = { top, s: [] }); l.s.push(s); });
+  el.innerHTML = lines.map((l) => '<div class="ln" style="overflow:hidden; padding-bottom:.06em; margin-bottom:-.06em"><span style="display:inline-block">' + l.s.map((s) => s.outerHTML).join(' ') + '</span></div>').join('');
+  return [...el.querySelectorAll('.ln > span')];
+}
+function parseFig(str) {
+  const m = String(str).match(/^(.*?)(\\d[\\d,]*(?:\\.\\d+)?)(.*)$/);
+  if (!m) return null;
+  return { pre: m[1], num: parseFloat(m[2].replace(/,/g, '')), dec: (m[2].split('.')[1] || '').length, comma: m[2].includes(','), post: m[3] };
+}
+const fmt = (v, dec, comma) => comma || v >= 10000 ? v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) : v.toFixed(dec);
+function countUp(tl, el, at, dur) {
+  const f = parseFig(el.dataset.figure || el.textContent);
+  if (!f) return;
+  const o = { v: 0 };
+  const w = el.getBoundingClientRect().width;
+  el.style.minWidth = w + 'px';
+  tl.fromTo(o, { v: 0 }, { v: f.num, duration: dur, ease: 'power3.out', onUpdate: () => { el.textContent = f.pre + fmt(o.v, f.dec, f.comma) + f.post; } }, at);
+}
+
+function build() {
+  document.querySelectorAll('.fit').forEach(fitText);
+  document.querySelectorAll('.slotname').forEach((el) => fitLine(el, 920));
+  document.querySelectorAll('.fitline .kin').forEach((el) => fitLine(el, 920));
+
+  const tl = gsap.timeline({ paused: true });
+  const cam = document.getElementById('cam');
+  const world = document.getElementById('world');
+  const blur = document.getElementById('blurx');
+
+  // ---------- chrome: progress segments fill per scene ----------
+  for (let i = 0; i < T.length - 1; i++) tl.fromTo('#pb' + i, { scaleX: 0 }, { scaleX: 1, duration: T[i + 1] - T[i], ease: 'none' }, T[i]);
+  tl.fromTo('#chrome', { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.05);
+
+  // ---------- camera helpers ----------
+  tl.set(world, { x: 0 }, 0);
+  tl.set(cam, { scale: 1, x: 0, y: 0 }, 0);
+  const whip = (k, at) => {
+    // one strip, power3.inOut, directional blur capped at 22px peaking mid-whip
+    const b = { v: 0 };
+    tl.set(world, { filter: 'url(#whipblur)' }, at);
+    tl.to(world, { x: -k * P, duration: 0.56, ease: 'power3.inOut' }, at);
+    tl.fromTo(b, { v: 0 }, { v: 22, duration: 0.28, ease: 'power3.in', onUpdate: () => blur.setAttribute('stdDeviation', b.v.toFixed(2) + ' 0') }, at);
+    tl.to(b, { v: 0, duration: 0.28, ease: 'power3.out', onUpdate: () => blur.setAttribute('stdDeviation', b.v.toFixed(2) + ' 0') }, at + 0.28);
+    tl.set(world, { filter: 'none' }, at + 0.57);
+  };
+  const dolly = (k, at) => {
+    tl.to(world, { x: -k * P, duration: 1.0, ease: 'power3.inOut' }, at);
+    tl.to(cam, { scale: 0.74, duration: 0.5, ease: 'power2.out' }, at);
+    tl.to(cam, { scale: 1, duration: 0.5, ease: 'power2.in' }, at + 0.5);
+  };
+
+  // ================= S0 HOOK =================
+  {
+    const t0 = 0;
+    tl.fromTo('#h-ghost', { x: 60 }, { x: -140, duration: T[1] + 0.6, ease: 'none' }, 0);
+    tl.fromTo('#h-over span', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.18, stagger: 0.035, ease: 'power2.out' }, t0 + 0.12);
+    const names = document.querySelectorAll('.slotname');
+    tl.fromTo('#h-slot', { opacity: 0 }, { opacity: 1, duration: 0.15 }, t0 + 0.35);
+    tl.fromTo('#h-slotstrip', { y: 0 }, { y: -(names.length - 1) * 190, duration: 1.05, ease: 'power3.inOut' }, t0 + 0.38);
+    // number crash + shove
+    const land = t0 + 1.45;
+    tl.fromTo('#h-pct', { y: 220, opacity: 0, scale: 1.18, transformOrigin: '0% 100%' }, { y: 0, opacity: 1, scale: 1, duration: 0.42, ease: 'expo.out' }, land);
+    document.querySelectorAll('#h-pct .wstrip').forEach((s, i) => {
+      tl.fromTo(s, { y: 0 }, { y: -(+s.dataset.stops) * 300, duration: 0.75 + i * 0.08, ease: 'power4.out' }, land);
+    });
+    tl.to('#h-top', { y: -34, duration: 0.4, ease: 'power3.out' }, land + 0.02);
+    tl.fromTo('#h-sub > span', { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: 'power3.out' }, land + 0.3);
+    tl.fromTo('#h-disc', { scale: 0 }, { scale: 1, duration: 0.6, ease: 'expo.out' }, t0 + 1.05);
+    tl.fromTo('#h-coin', { x: 520, rotation: 14 }, { x: 0, rotation: 0, duration: 0.7, ease: 'power3.out' }, t0 + 1.15);
+    tl.to('#h-coin', { y: -14, duration: B, ease: 'sine.inOut', yoyo: true, repeat: 3 }, t0 + 1.85);
+  }
+  whip(1, T[1] - 0.28);
+
+  // ================= S1 BOARD =================
+  {
+    const t0 = T[1];
+    const lines = splitLines(document.getElementById('b-head'));
+    tl.fromTo(lines, { yPercent: 110 }, { yPercent: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out' }, t0 + 0.05);
+    tl.fromTo('#b-asof', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, t0 + 0.4);
+    const cards = [...document.querySelectorAll('.card')];
+    cards.forEach((c, i) => {
+      const r = Math.floor(i / 3), col = i % 3, d = (r + col) * 0.07;
+      tl.fromTo(c, { y: 300, opacity: 0, rotationX: -55, transformPerspective: 900 }, { y: 0, opacity: 1, rotationX: 0, duration: 0.7, ease: 'expo.out' }, t0 + 0.15 + d);
+      const cv = c.querySelector('.cv');
+      const from = +cv.dataset.from, to = +cv.dataset.to, dec = +cv.dataset.dec, pre = cv.dataset.pre, suf = cv.dataset.suf;
+      const o = { v: from };
+      tl.fromTo(o, { v: from }, { v: to, duration: 1.1, ease: 'power2.out', onUpdate: () => { cv.textContent = pre + o.v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf; } }, t0 + 0.45 + d);
+      tl.to(c.querySelector('.spark path'), { strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut' }, t0 + 0.5 + d);
+      tl.fromTo(c.querySelector('.chip'), { scale: 0.4, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.35, ease: 'expo.out' }, t0 + 1.25 + d);
+    });
+    // camera: slow pull-back, then push onto the biggest mover
+    tl.fromTo('#b-zoom', { scale: 1.06, transformOrigin: '50% 40%' }, { scale: 0.94, duration: 2.4, ease: 'sine.inOut' }, t0);
+    const hero = cards[HERO];
+    if (hero) {
+      const r = Math.floor(HERO / 3), col = HERO % 3;
+      const cx = (col + 0.5) / 3 * 100, cy = (r + 0.5) / 3 * 100;
+      const ring = document.createElement('div'); ring.className = 'ring'; hero.appendChild(ring);
+      const push = t0 + 2.75;
+      tl.to('#b-zoom', { scale: 1.32, x: (50 - cx) * 4.2, y: (50 - cy) * 3.4, transformOrigin: cx + '% ' + cy + '%', duration: 0.95, ease: 'power3.inOut' }, push);
+      cards.forEach((c, i) => { if (i !== HERO) tl.to(c, { opacity: 0.4, duration: 0.5, ease: 'power2.out' }, push + 0.2); });
+      tl.to('#b-asof', { opacity: 0, duration: 0.3 }, push);
+      tl.to(ring, { opacity: 1, duration: 0.25, ease: 'power2.out' }, push + 0.6);
+      tl.fromTo(hero, { scale: 1 }, { scale: 1.06, duration: 0.5, ease: 'power3.out' }, push + 0.55);
+    }
+  }
+  if (NS > 0) whip(2, T[2] - 0.28);
+
+  // ================= STORIES =================
+  const storyIn = (i, t0, opts = {}) => {
+    const head = document.getElementById('s' + i + '-head');
+    const tag = document.getElementById('s' + i + '-tag');
+    const fig = document.getElementById('s' + i + '-fig');
+    const figlab = document.getElementById('s' + i + '-figlab');
+    const why = document.getElementById('s' + i + '-why');
+    const bars = document.getElementById('s' + i + '-bars');
+    const coin = document.getElementById('s' + i + '-coin');
+    tl.fromTo(tag, { scale: 0.5, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.4, ease: 'expo.out' }, t0);
+    if (head) tl.fromTo(splitLines(head), { yPercent: 110 }, { yPercent: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out' }, t0 + 0.1);
+    if (fig) {
+      tl.fromTo(fig, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, t0 + 0.5);
+      countUp(tl, fig, t0 + 0.5, 1.2);
+    }
+    if (figlab) tl.fromTo(figlab, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, t0 + 0.8);
+    if (bars) {
+      tl.fromTo(bars.querySelectorAll('.hb'), { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.12 }, t0 + 0.75);
+      tl.fromTo(bars.querySelectorAll('i'), { scaleX: 0 }, { scaleX: 1, duration: 1.0, stagger: 0.12, ease: 'power3.out' }, t0 + 0.8);
+    }
+    if (why) tl.fromTo(splitLines(why), { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, t0 + (bars ? 1.4 : 1.2));
+    if (coin && !opts.noCoin) tl.fromTo(coin, { y: 600, rotation: -8 }, { y: 0, rotation: 0, duration: 0.7, ease: 'power3.out' }, t0 + 0.9);
+  };
+
+  for (let i = 0; i < NS; i++) {
+    const t0 = T[2 + i];
+    if (i === 0) {
+      // phone: notification drops, then the camera dives through the screen into the story
+      tl.fromTo('#p-coin', { x: 500 }, { x: 0, duration: 0.6, ease: 'power3.out' }, t0 + 0.05);
+      tl.fromTo('#p-notif', { y: -260, opacity: 0, scale: 0.92 }, { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'expo.out' }, t0 + 0.55);
+      const dive = t0 + 1.75;
+      tl.to('#p-dive', { scale: 3.6, x: 120, y: 260, transformOrigin: '42% 38%', duration: 0.75, ease: 'power3.in' }, dive);
+      tl.to('#p-coin', { x: 520, duration: 0.6, ease: 'power3.in' }, dive);
+      tl.to('#p-out', { opacity: 0, duration: 0.2, ease: 'none' }, dive + 0.58);
+      tl.fromTo('#p-in', { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power3.out' }, dive + 0.55);
+      storyIn(0, dive + 0.65);
+    } else if (document.getElementById('s' + i + '-head')) {
+      storyIn(i, t0 + 0.1);
+    } else {
+      // kinetic beats
+      const kbs = [...document.querySelectorAll('#st' + (2 + i) + ' .kin')];
+      tl.fromTo('#s' + i + '-tag', { scale: 0.5, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.4, ease: 'expo.out' }, t0 + 0.05);
+      const moves = [
+        (el, at) => tl.fromTo(el, { x: 1000 }, { x: 0, duration: 0.6, ease: 'expo.out' }, at),
+        (el, at) => tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.55, ease: 'power4.out' }, at),
+        (el, at) => tl.fromTo(el, { scale: 1.45, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, ease: 'expo.out' }, at),
+      ];
+      kbs.forEach((el, j) => {
+        const at = t0 + 0.2 + j * 2 * B;
+        moves[j % 3](el, at);
+        if (j > 0) tl.to(kbs[j - 1], { opacity: 0.38, duration: 0.35, ease: 'power2.out' }, at + 0.05);
+      });
+      const end = t0 + 0.2 + kbs.length * 2 * B;
+      if (kbs.length > 1) tl.to(kbs[kbs.length - 2], { opacity: 1, duration: 0.4 }, end + 0.1);
+      tl.fromTo('#st' + (2 + i) + ' .figmark', { color: '#17181C' }, { color: 'var(--deep)', duration: 0.3 }, end);
+      tl.fromTo('#st' + (2 + i) + ' .figmark', { scale: 1 }, { scale: 1.08, duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out', transformOrigin: '50% 60%' }, end);
+      const figrow = document.getElementById('s' + i + '-figrow');
+      if (figrow) tl.fromTo(figrow, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'expo.out' }, end);
+      const why = document.getElementById('s' + i + '-why');
+      if (why) tl.fromTo(splitLines(why), { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, end + 0.25);
+      tl.fromTo('#s' + i + '-coin', { x: 560, rotation: 10 }, { x: 0, rotation: 0, duration: 0.6, ease: 'power3.out' }, end - 0.1);
+    }
+    if (i + 1 < NS) {
+      if (i === 0) dolly(3 + i, T[3 + i] - 0.5); else whip(3 + i, T[3 + i] - 0.28);
+    }
+  }
+
+  // ================= OUTRO: pull back over the whole desk =================
+  {
+    const t0 = T[T.length - 2];
+    const W = NST * P - GAP;
+    const s = 1000 / W;
+    const Yc = 1060;
+    tl.to(world, { x: 0, duration: 1.1, ease: 'power3.inOut' }, t0 - 0.35);
+    tl.to(cam, { scale: s, x: -s * (W / 2 - 540), y: Yc - 960, duration: 1.1, ease: 'power3.inOut' }, t0 - 0.35);
+    tl.to('.st', { borderRadius: 150, duration: 0.6, ease: 'power2.out' }, t0 - 0.2);
+    tl.fromTo('#outro', { opacity: 0 }, { opacity: 1, duration: 0.01 }, t0 + 0.45);
+    const lines = splitLines(document.getElementById('o-head'));
+    tl.fromTo(lines, { yPercent: 110 }, { yPercent: 0, duration: 0.6, stagger: 0.09, ease: 'power3.out' }, t0 + 0.5);
+    tl.fromTo('#o-follow span', { scale: 0.6, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.45, ease: 'expo.out' }, t0 + 0.95);
+    tl.fromTo('#o-disc', { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 1.7);
+    tl.fromTo('#o-coin', { x: -420 }, { x: 680, duration: 2.0, ease: 'power1.out' }, t0 + 0.4);
+    tl.fromTo('#o-coin', { y: 0 }, { y: -16, duration: B / 2, yoyo: true, repeat: 7, ease: 'sine.inOut' }, t0 + 0.4);
+  }
+
+  window.__timelines['main'] = tl;
+  if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+}
+document.fonts.ready.then(build);
+`;
+
+const whooshes = [];
+for (let k = 1; k < stations; k++) whooshes.push(+(k === 3 ? T[k] - 0.5 : T[k] - 0.34).toFixed(3));
+whooshes.push(+(T[T.length - 2] - 0.4).toFixed(3));
+const dingAt = nS ? +(T[2] + 0.55).toFixed(3) : null;
+
+const html = `<!doctype html>
+<html lang="en" data-resolution="portrait">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="vendor/gsap.min.js"></script>
+<style>${css}</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="${TOTAL}" data-width="1080" data-height="1920">
+  <svg width="0" height="0" style="position:absolute"><filter id="whipblur" x="-5%" y="0" width="110%" height="100%"><feGaussianBlur id="blurx" stdDeviation="0 0"/></filter></svg>
+  <div id="scene" class="clip" data-start="0" data-duration="${TOTAL}" data-track-index="0">
+    <div id="cam"><div id="world" data-layout-allow-overlap>
+      ${st0}
+      ${st1}
+      ${stories.map(storyStation).join('\n')}
+    </div></div>
+    <div id="chrome"><div class="bars">${chromeBars}</div>
+      <div class="brand"><span class="bn"><b class="dot"></b>Byte Finance</span><span class="dt">${esc(D.date || '')}</span></div></div>
+    <div id="outro" data-layout-allow-overlap>
+      <div id="o-head" class="d">See you tomorrow, 7:30am</div>
+      <div id="o-follow"><span>Follow @byte.finance.au</span></div>
+      <img id="o-coin" src="assets/coin/${poses.outro}.png" alt="">
+      <p id="o-disc">${DISCLAIMER}</p>
+    </div>
+  </div>
+  <audio id="music" src="assets/audio/theme.wav" data-start="0" data-duration="${TOTAL}" data-track-index="10" data-volume="0.85"
+    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.85},{"t":${(TOTAL - 1.2).toFixed(2)},"v":0.85},{"t":${TOTAL},"v":0}]}]}'></audio>
+  ${whooshes.map((t, i) => `<audio id="whoosh${i}" src="assets/audio/whoosh.wav" data-start="${t}" data-duration="0.7" data-track-index="${11 + i}" data-volume="0.35"></audio>`).join('\n  ')}
+  ${dingAt !== null ? `<audio id="ding" src="assets/audio/ding.wav" data-start="${dingAt}" data-duration="1.4" data-track-index="18" data-volume="0.45"></audio>` : ''}
+</div>
+<script>${runtime}</script>
+</body>
+</html>`;
+
+writeFileSync(join(here, 'index.html'), html);
+console.log(`index.html: ${stations} stations, ${nS} stories, ${TOTAL}s; scene starts ${T.join(', ')}`);

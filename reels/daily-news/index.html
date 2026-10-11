@@ -1,55 +1,464 @@
 <!doctype html>
 <html lang="en" data-resolution="portrait">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1080, height=1920" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        margin: 0;
-        width: 1080px;
-        height: 1920px;
-        overflow: hidden;
-        background: #0a0a0a;
-      }
-      #root {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      }
-      #title {
-        color: #f4f4f5;
-        font-size: 72px;
-        font-weight: 600;
-        letter-spacing: -0.03em;
-      }
-    </style>
-  </head>
-  <body>
-    <div
-      id="root"
-      data-composition-id="main"
-      data-start="0"
-      data-duration="10"
-      data-width="1080"
-      data-height="1920"
-    >
-      <h1 id="title" class="clip" data-start="0" data-duration="10" data-track-index="0">Title</h1>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face { font-family: 'Bricolage'; src: url(assets/fonts/bricolage.woff2) format('woff2'); font-weight: 200 800; font-stretch: 75% 100%; }
+@font-face { font-family: 'InterT'; src: url(assets/fonts/inter-tight.woff2) format('woff2'); font-weight: 100 900; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4E2A2; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #F4E2A2; color: #17181C; font-family: 'InterT', sans-serif; }
+.clip { position: absolute; inset: 0; }
+.d { font-family: 'Bricolage', sans-serif; font-weight: 700; font-stretch: 88%; letter-spacing: -.035em; }
+#cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 960px; }
+#world { position: absolute; left: 0; top: 0; width: 6040px; height: 1920px; }
+.st { position: absolute; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+.ghost { position: absolute; left: -20px; font-family: 'Bricolage', sans-serif; font-weight: 800; font-size: 300px; letter-spacing: -.04em; color: rgba(255,255,255,.45); white-space: nowrap; }
+.lede { font-size: 62px; font-weight: 650; color: rgba(23,24,28,.62); }
+.lede span { display: inline-block; white-space: pre; }
+.mask { overflow: hidden; } .mask > span { display: inline-block; }
+.head { font-size: 112px; line-height: .92; width: 900px; }
+.sub { font-size: 34px; font-weight: 600; color: rgba(23,24,28,.62); }
+.coin { position: absolute; }
+/* hook */
+#h-top { position: absolute; left: 80px; top: 400px; width: 940px; }
+#h-slot { height: 190px; overflow: hidden; margin-top: 10px; }
+.slotname:not(.win) { opacity: .35; }
+.slotname { width: max-content; height: 190px; font-size: 170px; line-height: 190px; white-space: nowrap; }
+#h-pct { position: absolute; left: 70px; top: 690px; font-size: 300px; line-height: 1; letter-spacing: -.05em; display: flex; height: 300px; }
+.wcol { display: inline-block; height: 1em; overflow: hidden; }
+.wstrip { display: flex; flex-direction: column; }
+.wstrip span, .wch { display: block; height: 1em; line-height: 1em; font-variant-numeric: tabular-nums; }
+#h-sub { position: absolute; left: 84px; top: 1010px; font-size: 46px; font-weight: 600; }
+#h-disc { position: absolute; left: 470px; top: 1060px; width: 560px; height: 560px; border-radius: 50%; background: #F7DF8E; }
+#h-coin { position: absolute; left: 480px; top: 1030px; width: 540px; }
+/* board */
+#b-head { position: absolute; left: 80px; top: 360px; }
+#b-asof { position: absolute; left: 84px; top: 600px; }
+#b-zoom { position: absolute; left: 70px; top: 700px; width: 940px; height: 740px; }
+#b-tilt { width: 100%; height: 100%; transform: perspective(1800px) rotateX(12deg) rotateZ(-4deg); }
+#b-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.card { background: #F6F3FD; border-radius: 26px; padding: 20px 22px 18px; height: 232px; position: relative; }
+.cl { font-size: 30px; font-weight: 700; }
+.cv { font-size: 30px; font-weight: 500; margin: 4px 0 8px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.spark { display: block; }
+.spark path { fill: none; stroke: #17181C; stroke-opacity: .7; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.chip { position: absolute; left: 22px; bottom: 18px; font-size: 26px; font-weight: 700; padding: 6px 14px; border-radius: 999px; }
+.chip.u { background: #BFE5CB; color: #14592F; } .chip.dn { background: #F5C8C6; color: #8C2323; }
+.ring { position: absolute; inset: -7px; border-radius: 32px; border: 6px solid #17181C; opacity: 0; }
+/* stories */
+.col { position: absolute; left: 80px; top: 380px; width: 920px; display: flex; flex-direction: column; align-items: flex-start; }
+.tag { display: inline-block; font-size: 34px; font-weight: 650; padding: 14px 28px; border-radius: 999px; background: #17181C; margin-bottom: 34px; }
+.col .head { font-size: 104px; }
+.fig { font-size: 230px; line-height: .9; margin-top: 40px; font-variant-numeric: tabular-nums; letter-spacing: -.05em; white-space: nowrap; }
+.figlab { font-size: 34px; font-weight: 650; margin-top: 10px; }
+.why { font-size: 38px; line-height: 1.32; width: 540px; margin-top: 44px; color: rgba(23,24,28,.74); font-weight: 500; }
+.hbars { width: 540px; margin-top: 34px; display: flex; flex-direction: column; gap: 14px; }
+.hb { display: flex; align-items: center; gap: 18px; } .hb span { width: 110px; font-size: 26px; font-weight: 650; }
+.hb i { display: block; height: 46px; border-radius: 0 14px 14px 0; width: calc(var(--w) * 0.75); transform-origin: 0 50%; }
+.phone { position: absolute; left: 110px; top: 400px; width: 560px; height: 1060px; border-radius: 76px; background: #17181C; padding: 18px; transform: perspective(2000px) rotateY(14deg) rotateZ(-5deg); }
+.scr { width: 100%; height: 100%; border-radius: 60px; background: #F2F7F3; overflow: hidden; }
+.lock { font-family: 'Bricolage', sans-serif; font-weight: 700; font-size: 150px; text-align: center; margin-top: 90px; letter-spacing: -.03em; color: rgba(23,24,28,.85); }
+.lockdate { text-align: center; font-size: 28px; font-weight: 600; color: rgba(23,24,28,.55); }
+.notif { margin: 70px 22px 0; background: #fff; border-radius: 34px; padding: 26px 28px; font-size: 30px; box-shadow: 0 18px 40px rgba(23,24,28,.12); }
+.nhead { display: flex; gap: 14px; align-items: center; font-size: 24px; font-weight: 700; } .nhead .dim { margin-left: auto; color: rgba(23,24,28,.5); font-weight: 500; }
+.app { width: 40px; height: 40px; border-radius: 11px; background: #E9B21A; display: block; }
+.ntag { margin-top: 12px; font-weight: 700; } .ntext { line-height: 1.25; }
+#p-out, #p-dive { position: absolute; inset: 0; }
+.inside { position: absolute; inset: 0; opacity: 0; }
+.kbeats { display: flex; flex-direction: column; gap: 6px; width: 920px; }
+.kb { overflow: hidden; padding-bottom: 8px; }
+.kin { font-size: 190px; line-height: .9; white-space: nowrap; display: inline-block; transform-origin: 0 60%; }
+.kin.outline { color: transparent; -webkit-text-stroke: 4px #17181C; }
+.figmark { color: var(--deep); }
+.figrow { margin-top: 30px; font-size: 40px; } .figrow .d { font-size: 120px; }
+/* overlays */
+#chrome { position: absolute; left: 80px; right: 80px; top: 230px; }
+.bars { display: flex; gap: 10px; } .bars i { flex: 1; height: 6px; border-radius: 3px; background: rgba(23,24,28,.14); overflow: hidden; display: block; }
+.bars b { display: block; height: 100%; background: #17181C; transform-origin: 0 50%; }
+.brand { margin-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 30px; font-weight: 650; }
+.brand .bn { font-family: 'Bricolage', sans-serif; font-weight: 700; font-size: 36px; display: flex; gap: 12px; align-items: center; }
+.brand .dot { width: 24px; height: 24px; border-radius: 50%; background: #E9B21A; box-shadow: inset 0 0 0 4px #F6CD4C; display: block; }
+.brand .dt { color: rgba(23,24,28,.6); }
+#outro { position: absolute; inset: 0; pointer-events: none; }
+#o-head { position: absolute; left: 80px; top: 430px; width: 920px; font-size: 132px; line-height: .9; }
+#o-head .ln { overflow: hidden; padding-bottom: 6px; } #o-head .ln > span { display: inline-block; }
+#o-follow { position: absolute; left: 80px; top: 720px; }
+#o-follow span { display: inline-block; font-size: 42px; font-weight: 650; padding: 20px 38px; border-radius: 999px; background: #17181C; color: #F4E2A2; }
+#o-disc { position: absolute; left: 84px; top: 1290px; width: 540px; font-size: 22px; line-height: 1.4; color: rgba(23,24,28,.66); }
+#o-coin { position: absolute; left: 0; top: 1230px; width: 360px; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="28.74" data-width="1080" data-height="1920">
+  <svg width="0" height="0" style="position:absolute"><filter id="whipblur" x="-5%" y="0" width="110%" height="100%"><feGaussianBlur id="blurx" stdDeviation="0 0"/></filter></svg>
+  <div id="scene" class="clip" data-start="0" data-duration="28.74" data-track-index="0">
+    <div id="cam"><div id="world" data-layout-allow-overlap>
+      
+<section class="st" id="st0" style="left:0; background:#C9DDF1">
+  <div class="ghost" id="h-ghost" data-layout-ignore style="top:1250px">Overnight</div>
+  <div id="h-top">
+    <div id="h-over" class="lede"><span>O</span><span>v</span><span>e</span><span>r</span><span>n</span><span>i</span><span>g</span><span>h</span><span>t</span><span>,</span></div>
+    <div id="h-slot"><div id="h-slotstrip"><div class="d slotname">S&amp;P 500</div><div class="d slotname">Nasdaq</div><div class="d slotname">ASX 200</div><div class="d slotname">Gold</div><div class="d slotname win">Bitcoin</div></div></div>
+  </div>
+  <div id="h-pct" class="d" data-layout-ignore style="color:#14592F"><span class="wch">+</span><span class="wcol"><span class="wstrip" data-stops="22"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span></span></span><span class="wch">.</span><span class="wcol"><span class="wstrip" data-stops="24"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></span></span><span class="wch">%</span></div>
+  <div id="h-sub" class="mask"><span>while you slept</span></div>
+  <div id="h-disc"></div>
+  <img id="h-coin" src="assets/coin/coffee.png" alt="">
+</section>
+      
+<section class="st" id="st1" style="left:1240px; background:#DDD6F3">
+  <div id="b-head" class="d head fit" data-maxh="230">Wall Street closes higher</div>
+  <div id="b-asof" class="sub">Prices at 7:25am AEDT</div>
+  <div id="b-zoom"><div id="b-tilt"><div id="b-grid">
+    <div class="card" id="card0">
+      <div class="cl">S&amp;P 500</div>
+      <div class="cv" data-from="6512.4" data-to="6567.11" data-dec="2" data-pre="" data-suf="">6,567.11</div>
+      <svg class="spark" width="230" height="52" viewBox="0 0 230 52"><path d="M0.0,49.0 L28.8,40.6 L57.5,44.8 L86.3,32.3 L115.0,36.5 L143.8,23.9 L172.5,15.5 L201.3,19.7 L230.0,3.0" pathLength="1"/></svg>
+      <span class="chip u">+0.84%</span>
+    </div><div class="card" id="card1">
+      <div class="cl">Nasdaq</div>
+      <div class="cv" data-from="21829.7" data-to="22074.2" data-dec="2" data-pre="" data-suf="">22,074.20</div>
+      <svg class="spark" width="230" height="52" viewBox="0 0 230 52"><path d="M0.0,49.0 L28.8,45.2 L57.5,37.5 L86.3,41.3 L115.0,29.8 L143.8,22.2 L172.5,26.0 L201.3,14.5 L230.0,3.0" pathLength="1"/></svg>
+      <span class="chip u">+1.12%</span>
+    </div><div class="card" id="card2">
+      <div class="cl">Dow Jones</div>
+      <div class="cv" data-from="45210.9" data-to="45373.6" data-dec="2" data-pre="" data-suf="">45,373.60</div>
+      <svg class="spark" width="230" height="52" viewBox="0 0 230 52"><path d="M0.0,38.8 L28.8,49.0 L57.5,28.6 L86.3,18.3 L115.0,28.6 L143.8,18.3 L172.5,8.1 L201.3,13.2 L230.0,3.0" pathLength="1"/></svg>
+      <span class="chip u">+0.36%</span>
+    </div><div class="card" id="card3">
+      <div class="cl">ASX 200</div>
+      <div class="cv" data-from="8915" data-to="8897.2" data-dec="1" data-pre="" data-suf="">8,897.2</div>
+      <svg class="spark" width="230" height="52" viewBox="0 0 230 52"><path d="M0.0,3.0 L28.8,14.5 L57.5,3.0 L86.3,26.0 L115.0,20.2 L143.8,37.5 L172.5,31.8 L201.3,49.0 L230.0,46.7" pathLength="1"/></svg>
+      <span class="chip dn">−0.20%</span>
+    </div><div class="card hero" id="card4">
+      <div class="cl">Bitcoin</div>
+      <div class="cv" data-from="84920" data-to="86958" data-dec="0" data-pre="US$" data-suf="">US$86,958</div>
+      <svg class="spark" width="230" height="52" viewBox="0 0 230 52"><path d="M0.0,49.0 L28.8,39.8 L57.5,42.9 L86.3,30.6 L115.0,33.7 L143.8,21.4 L172.5,15.3 L201.3,18.3 L230.0,3.0" pathLength="1"/></svg>
+      <span class="chip u">+2.40%</span>
+    </div><div class="card" id="card5">
+      <div class="cl">Ethereum</div>
+      <div class="cv" data-from="3210.2" data-to="3268" data-dec="0" data-pre="US$" data-suf="">US$3,268</div>
+      <svg class="spark" width="230" height="52" viewBox="0 0 230 52"><path d="M0.0,49.0 L28.8,43.2 L57.5,49.0 L86.3,31.7 L115.0,26.0 L143.8,28.9 L172.5,14.5 L201.3,8.8 L230.0,3.0" pathLength="1"/></svg>
+      <span class="chip u">+1.80%</span>
+    </div><div class="card" id="card6">
+      <div class="cl">AUD/USD</div>
+      <div class="cv" data-from="66.12" data-to="66.22" data-dec="2" data-pre="" data-suf="¢">66.22¢</div>
+      <svg class="spark" width="230" height="52" viewBox="0 0 230 52"><path d="M0.0,49.0 L28.8,34.6 L57.5,49.0 L86.3,20.2 L115.0,26.0 L143.8,14.5 L172.5,20.2 L201.3,5.9 L230.0,3.0" pathLength="1"/></svg>
+      <span class="chip u">+0.15%</span>
+    </div><div class="card" id="card7">
+      <div class="cl">Gold</div>
+      <div class="cv" data-from="3402.3" data-to="3387" data-dec="0" data-pre="US$" data-suf="">US$3,387</div>
+      <svg class="spark" width="230" height="52" viewBox="0 0 230 52"><path d="M0.0,13.2 L28.8,3.0 L57.5,23.4 L86.3,18.3 L115.0,33.7 L143.8,28.6 L172.5,43.9 L201.3,38.8 L230.0,49.0" pathLength="1"/></svg>
+      <span class="chip dn">−0.45%</span>
+    </div><div class="card" id="card8">
+      <div class="cl">Oil (Brent)</div>
+      <div class="cv" data-from="71.3" data-to="70.52" data-dec="2" data-pre="US$" data-suf="">US$70.52</div>
+      <svg class="spark" width="230" height="52" viewBox="0 0 230 52"><path d="M0.0,3.0 L28.8,8.8 L57.5,5.9 L86.3,20.3 L115.0,26.0 L143.8,23.1 L172.5,37.5 L201.3,43.2 L230.0,49.0" pathLength="1"/></svg>
+      <span class="chip dn">−1.09%</span>
     </div>
-    <script>
-      const tl = gsap.timeline({ paused: true });
-      // Example: tl.fromTo("#title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6 }, 0);
-      window.__timelines["main"] = tl;
-      tl.seek(0);
-    </script>
-  </body>
+  </div></div></div>
+</section>
+      
+<section class="st" id="st2" style="left:2480px; background:#CFE8D8">
+  <div class="ghost" data-layout-ignore style="top:1250px; color:rgba(255,255,255,.5)">Interest rates</div>
+  <div id="p-out">
+    <div id="p-dive"><div class="phone" data-layout-allow-overlap><div class="scr">
+      <div class="lock">7:25</div>
+      <div class="lockdate">Tue 13 October</div>
+      <div class="notif" id="p-notif" data-layout-ignore><div class="nhead"><b class="app"></b><span>Byte Finance</span><span class="dim">now</span></div>
+        <div class="ntag">Interest rates</div><div class="ntext">RBA Leaves Rates On Hold</div></div>
+    </div></div></div>
+    <img id="p-coin" class="coin" src="assets/coin/newspaper.png" alt="" style="left:600px; top:1060px; width:440px">
+  </div>
+  <div class="inside" id="p-in" style="background:#CFE8D8">
+    
+    <div class="col" id="s0-col">
+      <span class="tag" id="s0-tag" style="color:#CFE8D8">Interest rates</span>
+      <div class="d head fit" id="s0-head" data-maxh="330">RBA Leaves Rates On Hold</div>
+      <div class="d fig" id="s0-fig" style="color:#2E6B4C" data-figure="3.60%">3.60%</div>
+      <div class="figlab" id="s0-figlab" style="color:#2E6B4C">Cash rate, unchanged</div>
+      
+      <p class="why fit" id="s0-why" data-maxh="200">Mortgage repayments stay where they are for now.</p>
+    </div>
+    <img class="coin" id="s0-coin" src="assets/coin/thinking.png" alt="" style="left:640px; top:1110px; width:400px">
+  </div>
+</section>
+
+<section class="st" id="st3" style="left:3720px; background:#C8DAF2">
+  
+    <div class="col" id="s1-col">
+      <span class="tag" id="s1-tag" style="color:#C8DAF2">Tech</span>
+      <div class="d head fit" id="s1-head" data-maxh="330">Nvidia Sales Surge On AI Boom</div>
+      <div class="d fig" id="s1-fig" style="color:#2D4E86" data-figure="+62%">+62%</div>
+      <div class="figlab" id="s1-figlab" style="color:#2D4E86">Revenue vs a year ago</div>
+      <div class="hbars" id="s1-bars">
+        <div class="hb"><span>Before</span><i style="--w:61.72839506172839%; background:#2D4E86; opacity:.35"></i></div>
+        <div class="hb"><span>Now</span><i style="--w:100%; background:#2D4E86"></i></div>
+      </div>
+      <p class="why fit" id="s1-why" data-maxh="200">Chip makers now drive much of the US share market.</p>
+    </div>
+  <img class="coin" id="s1-coin" src="assets/coin/celebrating.png" alt="" style="left:640px; top:1110px; width:400px">
+</section>
+
+<section class="st" id="st4" style="left:4960px; background:#F3D5CE">
+  <div class="col" id="s2-col">
+    <span class="tag" id="s2-tag" style="color:#F3D5CE">Mining</span>
+    <div class="kbeats"><div class="kb kb0 fitline" data-layout-allow-overflow id="s2-kb0"><div class="d kin">BHP</div></div><div class="kb kb1 fitline" data-layout-allow-overflow id="s2-kb1"><div class="d kin">Makes <span class="figmark" style="--deep:#8A3F33">$4.1b</span></div></div><div class="kb kb2 fitline" data-layout-allow-overflow id="s2-kb2"><div class="d kin outline" data-layout-ignore="">Copper Bet</div></div></div>
+    
+    <p class="why fit" id="s2-why" data-maxh="200">The miner is buying into a Chilean copper mine project.</p>
+  </div>
+  <img class="coin" id="s2-coin" src="assets/coin/finger_gun.png" alt="" style="left:640px; top:1110px; width:400px">
+</section>
+    </div></div>
+    <div id="chrome"><div class="bars"><i><b id="pb0"></b></i><i><b id="pb1"></b></i><i><b id="pb2"></b></i><i><b id="pb3"></b></i><i><b id="pb4"></b></i><i><b id="pb5"></b></i></div>
+      <div class="brand"><span class="bn"><b class="dot"></b>Byte Finance</span><span class="dt">Tue 13 October</span></div></div>
+    <div id="outro" data-layout-allow-overlap>
+      <div id="o-head" class="d">See you tomorrow, 7:30am</div>
+      <div id="o-follow"><span>Follow @byte.finance.au</span></div>
+      <img id="o-coin" src="assets/coin/cbd_strut.png" alt="">
+      <p id="o-disc">General information only, not financial advice. It doesn’t consider your objectives, financial situation or needs.</p>
+    </div>
+  </div>
+  <audio id="music" src="assets/audio/theme.wav" data-start="0" data-duration="28.74" data-track-index="10" data-volume="0.85"
+    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.85},{"t":27.54,"v":0.85},{"t":28.74,"v":0}]}]}'></audio>
+  <audio id="whoosh0" src="assets/audio/whoosh.wav" data-start="2.874" data-duration="0.7" data-track-index="11" data-volume="0.35"></audio>
+  <audio id="whoosh1" src="assets/audio/whoosh.wav" data-start="8.231" data-duration="0.7" data-track-index="12" data-volume="0.35"></audio>
+  <audio id="whoosh2" src="assets/audio/whoosh.wav" data-start="13.428" data-duration="0.7" data-track-index="13" data-volume="0.35"></audio>
+  <audio id="whoosh3" src="assets/audio/whoosh.wav" data-start="18.945" data-duration="0.7" data-track-index="14" data-volume="0.35"></audio>
+  <audio id="whoosh4" src="assets/audio/whoosh.wav" data-start="24.242" data-duration="0.7" data-track-index="15" data-volume="0.35"></audio>
+  <audio id="ding" src="assets/audio/ding.wav" data-start="9.121" data-duration="1.4" data-track-index="18" data-volume="0.45"></audio>
+</div>
+<script>
+const B = 0.5357142857142857;
+const T = [0,3.214,8.571,13.928,19.285,24.642,28.392];
+const P = 1240, GAP = 160, NST = 5, NS = 3;
+const HERO = 4;
+const MINUS = '−';
+
+function fitText(el) {
+  const maxh = +el.dataset.maxh || 9999;
+  let fs = parseFloat(getComputedStyle(el).fontSize);
+  for (let i = 0; i < 40 && (el.scrollHeight > maxh + 2 || el.scrollWidth > el.clientWidth + 2); i++) { fs *= 0.95; el.style.fontSize = fs + 'px'; }
+}
+function fitLine(el, width) {
+  let fs = parseFloat(getComputedStyle(el).fontSize);
+  for (let i = 0; i < 40 && el.scrollWidth > width; i++) { fs *= 0.95; el.style.fontSize = fs + 'px'; }
+}
+/** Wrap each rendered line in a mask so it can rise into place. */
+function splitLines(el) {
+  const html = el.innerHTML;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  const words = [];
+  const walk = (node, wrapClass) => {
+    node.childNodes.forEach((n) => {
+      if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach((t) => { if (t.trim()) words.push({ t, cls: wrapClass }); });
+      else walk(n, n.className || wrapClass);
+    });
+  };
+  walk(tmp, '');
+  el.innerHTML = words.map((w, i) => '<span class="w' + (w.cls ? ' ' + w.cls : '') + '" style="display:inline-block">' + w.t + '</span>').join(' ');
+  const spans = [...el.querySelectorAll('.w')];
+  const lines = [];
+  spans.forEach((s) => { const top = s.offsetTop; let l = lines.find((x) => Math.abs(x.top - top) < 4); if (!l) lines.push(l = { top, s: [] }); l.s.push(s); });
+  el.innerHTML = lines.map((l) => '<div class="ln" style="overflow:hidden; padding-bottom:.06em; margin-bottom:-.06em"><span style="display:inline-block">' + l.s.map((s) => s.outerHTML).join(' ') + '</span></div>').join('');
+  return [...el.querySelectorAll('.ln > span')];
+}
+function parseFig(str) {
+  const m = String(str).match(/^(.*?)(\d[\d,]*(?:\.\d+)?)(.*)$/);
+  if (!m) return null;
+  return { pre: m[1], num: parseFloat(m[2].replace(/,/g, '')), dec: (m[2].split('.')[1] || '').length, comma: m[2].includes(','), post: m[3] };
+}
+const fmt = (v, dec, comma) => comma || v >= 10000 ? v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) : v.toFixed(dec);
+function countUp(tl, el, at, dur) {
+  const f = parseFig(el.dataset.figure || el.textContent);
+  if (!f) return;
+  const o = { v: 0 };
+  const w = el.getBoundingClientRect().width;
+  el.style.minWidth = w + 'px';
+  tl.fromTo(o, { v: 0 }, { v: f.num, duration: dur, ease: 'power3.out', onUpdate: () => { el.textContent = f.pre + fmt(o.v, f.dec, f.comma) + f.post; } }, at);
+}
+
+function build() {
+  document.querySelectorAll('.fit').forEach(fitText);
+  document.querySelectorAll('.slotname').forEach((el) => fitLine(el, 920));
+  document.querySelectorAll('.fitline .kin').forEach((el) => fitLine(el, 920));
+
+  const tl = gsap.timeline({ paused: true });
+  const cam = document.getElementById('cam');
+  const world = document.getElementById('world');
+  const blur = document.getElementById('blurx');
+
+  // ---------- chrome: progress segments fill per scene ----------
+  for (let i = 0; i < T.length - 1; i++) tl.fromTo('#pb' + i, { scaleX: 0 }, { scaleX: 1, duration: T[i + 1] - T[i], ease: 'none' }, T[i]);
+  tl.fromTo('#chrome', { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.05);
+
+  // ---------- camera helpers ----------
+  tl.set(world, { x: 0 }, 0);
+  tl.set(cam, { scale: 1, x: 0, y: 0 }, 0);
+  const whip = (k, at) => {
+    // one strip, power3.inOut, directional blur capped at 22px peaking mid-whip
+    const b = { v: 0 };
+    tl.set(world, { filter: 'url(#whipblur)' }, at);
+    tl.to(world, { x: -k * P, duration: 0.56, ease: 'power3.inOut' }, at);
+    tl.fromTo(b, { v: 0 }, { v: 22, duration: 0.28, ease: 'power3.in', onUpdate: () => blur.setAttribute('stdDeviation', b.v.toFixed(2) + ' 0') }, at);
+    tl.to(b, { v: 0, duration: 0.28, ease: 'power3.out', onUpdate: () => blur.setAttribute('stdDeviation', b.v.toFixed(2) + ' 0') }, at + 0.28);
+    tl.set(world, { filter: 'none' }, at + 0.57);
+  };
+  const dolly = (k, at) => {
+    tl.to(world, { x: -k * P, duration: 1.0, ease: 'power3.inOut' }, at);
+    tl.to(cam, { scale: 0.74, duration: 0.5, ease: 'power2.out' }, at);
+    tl.to(cam, { scale: 1, duration: 0.5, ease: 'power2.in' }, at + 0.5);
+  };
+
+  // ================= S0 HOOK =================
+  {
+    const t0 = 0;
+    tl.fromTo('#h-ghost', { x: 60 }, { x: -140, duration: T[1] + 0.6, ease: 'none' }, 0);
+    tl.fromTo('#h-over span', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.18, stagger: 0.035, ease: 'power2.out' }, t0 + 0.12);
+    const names = document.querySelectorAll('.slotname');
+    tl.fromTo('#h-slot', { opacity: 0 }, { opacity: 1, duration: 0.15 }, t0 + 0.35);
+    tl.fromTo('#h-slotstrip', { y: 0 }, { y: -(names.length - 1) * 190, duration: 1.05, ease: 'power3.inOut' }, t0 + 0.38);
+    // number crash + shove
+    const land = t0 + 1.45;
+    tl.fromTo('#h-pct', { y: 220, opacity: 0, scale: 1.18, transformOrigin: '0% 100%' }, { y: 0, opacity: 1, scale: 1, duration: 0.42, ease: 'expo.out' }, land);
+    document.querySelectorAll('#h-pct .wstrip').forEach((s, i) => {
+      tl.fromTo(s, { y: 0 }, { y: -(+s.dataset.stops) * 300, duration: 0.75 + i * 0.08, ease: 'power4.out' }, land);
+    });
+    tl.to('#h-top', { y: -34, duration: 0.4, ease: 'power3.out' }, land + 0.02);
+    tl.fromTo('#h-sub > span', { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: 'power3.out' }, land + 0.3);
+    tl.fromTo('#h-disc', { scale: 0 }, { scale: 1, duration: 0.6, ease: 'expo.out' }, t0 + 1.05);
+    tl.fromTo('#h-coin', { x: 520, rotation: 14 }, { x: 0, rotation: 0, duration: 0.7, ease: 'power3.out' }, t0 + 1.15);
+    tl.to('#h-coin', { y: -14, duration: B, ease: 'sine.inOut', yoyo: true, repeat: 3 }, t0 + 1.85);
+  }
+  whip(1, T[1] - 0.28);
+
+  // ================= S1 BOARD =================
+  {
+    const t0 = T[1];
+    const lines = splitLines(document.getElementById('b-head'));
+    tl.fromTo(lines, { yPercent: 110 }, { yPercent: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out' }, t0 + 0.05);
+    tl.fromTo('#b-asof', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, t0 + 0.4);
+    const cards = [...document.querySelectorAll('.card')];
+    cards.forEach((c, i) => {
+      const r = Math.floor(i / 3), col = i % 3, d = (r + col) * 0.07;
+      tl.fromTo(c, { y: 300, opacity: 0, rotationX: -55, transformPerspective: 900 }, { y: 0, opacity: 1, rotationX: 0, duration: 0.7, ease: 'expo.out' }, t0 + 0.15 + d);
+      const cv = c.querySelector('.cv');
+      const from = +cv.dataset.from, to = +cv.dataset.to, dec = +cv.dataset.dec, pre = cv.dataset.pre, suf = cv.dataset.suf;
+      const o = { v: from };
+      tl.fromTo(o, { v: from }, { v: to, duration: 1.1, ease: 'power2.out', onUpdate: () => { cv.textContent = pre + o.v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf; } }, t0 + 0.45 + d);
+      tl.to(c.querySelector('.spark path'), { strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut' }, t0 + 0.5 + d);
+      tl.fromTo(c.querySelector('.chip'), { scale: 0.4, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.35, ease: 'expo.out' }, t0 + 1.25 + d);
+    });
+    // camera: slow pull-back, then push onto the biggest mover
+    tl.fromTo('#b-zoom', { scale: 1.06, transformOrigin: '50% 40%' }, { scale: 0.94, duration: 2.4, ease: 'sine.inOut' }, t0);
+    const hero = cards[HERO];
+    if (hero) {
+      const r = Math.floor(HERO / 3), col = HERO % 3;
+      const cx = (col + 0.5) / 3 * 100, cy = (r + 0.5) / 3 * 100;
+      const ring = document.createElement('div'); ring.className = 'ring'; hero.appendChild(ring);
+      const push = t0 + 2.75;
+      tl.to('#b-zoom', { scale: 1.32, x: (50 - cx) * 4.2, y: (50 - cy) * 3.4, transformOrigin: cx + '% ' + cy + '%', duration: 0.95, ease: 'power3.inOut' }, push);
+      cards.forEach((c, i) => { if (i !== HERO) tl.to(c, { opacity: 0.4, duration: 0.5, ease: 'power2.out' }, push + 0.2); });
+      tl.to('#b-asof', { opacity: 0, duration: 0.3 }, push);
+      tl.to(ring, { opacity: 1, duration: 0.25, ease: 'power2.out' }, push + 0.6);
+      tl.fromTo(hero, { scale: 1 }, { scale: 1.06, duration: 0.5, ease: 'power3.out' }, push + 0.55);
+    }
+  }
+  if (NS > 0) whip(2, T[2] - 0.28);
+
+  // ================= STORIES =================
+  const storyIn = (i, t0, opts = {}) => {
+    const head = document.getElementById('s' + i + '-head');
+    const tag = document.getElementById('s' + i + '-tag');
+    const fig = document.getElementById('s' + i + '-fig');
+    const figlab = document.getElementById('s' + i + '-figlab');
+    const why = document.getElementById('s' + i + '-why');
+    const bars = document.getElementById('s' + i + '-bars');
+    const coin = document.getElementById('s' + i + '-coin');
+    tl.fromTo(tag, { scale: 0.5, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.4, ease: 'expo.out' }, t0);
+    if (head) tl.fromTo(splitLines(head), { yPercent: 110 }, { yPercent: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out' }, t0 + 0.1);
+    if (fig) {
+      tl.fromTo(fig, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, t0 + 0.5);
+      countUp(tl, fig, t0 + 0.5, 1.2);
+    }
+    if (figlab) tl.fromTo(figlab, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, t0 + 0.8);
+    if (bars) {
+      tl.fromTo(bars.querySelectorAll('.hb'), { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.12 }, t0 + 0.75);
+      tl.fromTo(bars.querySelectorAll('i'), { scaleX: 0 }, { scaleX: 1, duration: 1.0, stagger: 0.12, ease: 'power3.out' }, t0 + 0.8);
+    }
+    if (why) tl.fromTo(splitLines(why), { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, t0 + (bars ? 1.4 : 1.2));
+    if (coin && !opts.noCoin) tl.fromTo(coin, { y: 600, rotation: -8 }, { y: 0, rotation: 0, duration: 0.7, ease: 'power3.out' }, t0 + 0.9);
+  };
+
+  for (let i = 0; i < NS; i++) {
+    const t0 = T[2 + i];
+    if (i === 0) {
+      // phone: notification drops, then the camera dives through the screen into the story
+      tl.fromTo('#p-coin', { x: 500 }, { x: 0, duration: 0.6, ease: 'power3.out' }, t0 + 0.05);
+      tl.fromTo('#p-notif', { y: -260, opacity: 0, scale: 0.92 }, { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'expo.out' }, t0 + 0.55);
+      const dive = t0 + 1.75;
+      tl.to('#p-dive', { scale: 3.6, x: 120, y: 260, transformOrigin: '42% 38%', duration: 0.75, ease: 'power3.in' }, dive);
+      tl.to('#p-coin', { x: 520, duration: 0.6, ease: 'power3.in' }, dive);
+      tl.to('#p-out', { opacity: 0, duration: 0.2, ease: 'none' }, dive + 0.58);
+      tl.fromTo('#p-in', { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power3.out' }, dive + 0.55);
+      storyIn(0, dive + 0.65);
+    } else if (document.getElementById('s' + i + '-head')) {
+      storyIn(i, t0 + 0.1);
+    } else {
+      // kinetic beats
+      const kbs = [...document.querySelectorAll('#st' + (2 + i) + ' .kin')];
+      tl.fromTo('#s' + i + '-tag', { scale: 0.5, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.4, ease: 'expo.out' }, t0 + 0.05);
+      const moves = [
+        (el, at) => tl.fromTo(el, { x: 1000 }, { x: 0, duration: 0.6, ease: 'expo.out' }, at),
+        (el, at) => tl.fromTo(el, { yPercent: 105 }, { yPercent: 0, duration: 0.55, ease: 'power4.out' }, at),
+        (el, at) => tl.fromTo(el, { scale: 1.45, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, ease: 'expo.out' }, at),
+      ];
+      kbs.forEach((el, j) => {
+        const at = t0 + 0.2 + j * 2 * B;
+        moves[j % 3](el, at);
+        if (j > 0) tl.to(kbs[j - 1], { opacity: 0.38, duration: 0.35, ease: 'power2.out' }, at + 0.05);
+      });
+      const end = t0 + 0.2 + kbs.length * 2 * B;
+      if (kbs.length > 1) tl.to(kbs[kbs.length - 2], { opacity: 1, duration: 0.4 }, end + 0.1);
+      tl.fromTo('#st' + (2 + i) + ' .figmark', { color: '#17181C' }, { color: 'var(--deep)', duration: 0.3 }, end);
+      tl.fromTo('#st' + (2 + i) + ' .figmark', { scale: 1 }, { scale: 1.08, duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out', transformOrigin: '50% 60%' }, end);
+      const figrow = document.getElementById('s' + i + '-figrow');
+      if (figrow) tl.fromTo(figrow, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'expo.out' }, end);
+      const why = document.getElementById('s' + i + '-why');
+      if (why) tl.fromTo(splitLines(why), { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, end + 0.25);
+      tl.fromTo('#s' + i + '-coin', { x: 560, rotation: 10 }, { x: 0, rotation: 0, duration: 0.6, ease: 'power3.out' }, end - 0.1);
+    }
+    if (i + 1 < NS) {
+      if (i === 0) dolly(3 + i, T[3 + i] - 0.5); else whip(3 + i, T[3 + i] - 0.28);
+    }
+  }
+
+  // ================= OUTRO: pull back over the whole desk =================
+  {
+    const t0 = T[T.length - 2];
+    const W = NST * P - GAP;
+    const s = 1000 / W;
+    const Yc = 1060;
+    tl.to(world, { x: 0, duration: 1.1, ease: 'power3.inOut' }, t0 - 0.35);
+    tl.to(cam, { scale: s, x: -s * (W / 2 - 540), y: Yc - 960, duration: 1.1, ease: 'power3.inOut' }, t0 - 0.35);
+    tl.to('.st', { borderRadius: 150, duration: 0.6, ease: 'power2.out' }, t0 - 0.2);
+    tl.fromTo('#outro', { opacity: 0 }, { opacity: 1, duration: 0.01 }, t0 + 0.45);
+    const lines = splitLines(document.getElementById('o-head'));
+    tl.fromTo(lines, { yPercent: 110 }, { yPercent: 0, duration: 0.6, stagger: 0.09, ease: 'power3.out' }, t0 + 0.5);
+    tl.fromTo('#o-follow span', { scale: 0.6, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.45, ease: 'expo.out' }, t0 + 0.95);
+    tl.fromTo('#o-disc', { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 1.7);
+    tl.fromTo('#o-coin', { x: -420 }, { x: 680, duration: 2.0, ease: 'power1.out' }, t0 + 0.4);
+    tl.fromTo('#o-coin', { y: 0 }, { y: -16, duration: B / 2, yoyo: true, repeat: 7, ease: 'sine.inOut' }, t0 + 0.4);
+  }
+
+  window.__timelines['main'] = tl;
+  if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+}
+document.fonts.ready.then(build);
+</script>
+</body>
 </html>
