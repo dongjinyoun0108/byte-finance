@@ -54,7 +54,7 @@ function actor(id, list, { left, top, width }) {
 const SPRITES = {};
 if (AI) {
   mkdirSync(join(here, 'assets/sprites'), { recursive: true });
-  for (const [pose, name] of [['coffee', 'coffee'], ['cbd_strut', 'strut']]) {
+  for (const [pose, name] of [['coffee', 'coffee']]) {
     const meta = join(repo, 'reels/coin-motion/sprites', `${name}.json`);
     if (!existsSync(meta)) continue;
     SPRITES[pose] = { name, ...JSON.parse(readFileSync(meta, 'utf8')) };
@@ -450,6 +450,15 @@ function build() {
     let m = Math.floor((to - from) / (2 * B)); if (m % 2) m--;
     if (m >= 2) tl.fromTo(a.breath, { rotation: -1.6 }, { rotation: 1.6, duration: 2 * B, yoyo: true, repeat: m - 1, ease: 'sine.inOut' }, from);
   };
+  // Calm entrance: one soft rise or slide into place, no squash, then quiet breathing.
+  const settleIn = (a, at, { fromX = 0, fromY = 90, dur = 0.7 } = {}) => {
+    tl.fromTo(a.el, { x: fromX, y: fromY, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: dur, ease: 'power3.out' }, at);
+    tl.fromTo(a.shadow, { opacity: 0 }, { opacity: 1, duration: dur }, at);
+  };
+  const breathe = (a, from, to) => {
+    let n = Math.floor((to - from) / (2 * B)); if (n % 2) n--;
+    if (n >= 2) tl.fromTo(a.breath, { scaleY: 1 }, { scaleY: 1.018, duration: 2 * B, yoyo: true, repeat: n - 1, ease: 'sine.inOut' }, from);
+  };
   // Anticipation, then a stretched dash off screen.
   const dash = (a, at, dir = 1) => {
     tl.to(a.body, { rotation: -8 * dir, scaleX: 0.9, scaleY: 1.06, duration: 0.14, ease: 'power2.out' }, at);
@@ -552,9 +561,8 @@ function build() {
     if (why) tl.fromTo(splitLines(why), { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, t0 + (bars ? 1.4 : 1.2));
     const ac = coin && A(coin.id);
     if (ac) {
-      hopIn(ac, t0 + 0.85, { fromX: 0, fromY: 700, peak: -150, dur: 0.6 });
-      if (bars) { react(ac, t0 + 2.0, null, { height: 140 }); react(ac, t0 + 2.75, null, { height: 90 }); idle(ac, t0 + 3.5, opts.until); }
-      else idle(ac, t0 + 1.7, opts.until);
+      settleIn(ac, t0 + 0.9);
+      breathe(ac, t0 + 1.6, opts.until);
     }
   };
 
@@ -563,12 +571,12 @@ function build() {
     if (i === 0) {
       // phone: notification drops, then the camera dives through the screen into the story
       const pc = A('p-coin');
-      hopIn(pc, t0 + 0.2, { fromX: 520, peak: -170, dur: 0.6 });
-      react(pc, t0 + 1.0, '${poses.s[0]}', { height: 110 });
+      settleIn(pc, t0 + 0.25, { fromX: 360, fromY: 0 });
+      breathe(pc, t0 + 1.0, t0 + 1.6);
       tl.fromTo('#p-notif', { y: -260, opacity: 0, scale: 0.92 }, { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'expo.out' }, t0 + 0.55);
       const dive = t0 + 1.75;
       tl.to('#p-dive', { scale: 3.6, x: 120, y: 260, transformOrigin: '42% 38%', duration: 0.75, ease: 'power3.in' }, dive);
-      dash(pc, dive - 0.1, 1);
+      tl.to(pc.el, { x: 520, opacity: 0, duration: 0.5, ease: 'power3.in' }, dive);
       tl.to('#p-out', { opacity: 0, duration: 0.2, ease: 'none' }, dive + 0.58);
       tl.fromTo('#p-in', { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power3.out' }, dive + 0.55);
       storyIn(0, dive + 0.65, { until: T[3] });
@@ -597,14 +605,8 @@ function build() {
       const why = document.getElementById('s' + i + '-why');
       if (why) tl.fromTo(splitLines(why), { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, end + 0.25);
       const kc = A('s' + i + '-coin');
-      // slides in, skids to a stop leaning back, then fires the finger-gun as the figure lands
-      tl.fromTo(kc.el, { x: 620 }, { x: 0, duration: 0.5, ease: 'power3.out' }, end - 0.55);
-      tl.fromTo(kc.body, { rotation: -10, scaleX: 1.08, scaleY: 0.94 }, { rotation: 9, scaleX: 1, scaleY: 1, duration: 0.5, ease: 'power2.out' }, end - 0.55);
-      tl.to(kc.body, { rotation: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' }, end - 0.05);
-      tl.fromTo(kc.shadow, { opacity: 0 }, { opacity: 1, duration: 0.3 }, end - 0.55);
-      tl.to(kc.body, { rotation: -9, x: 18, duration: 0.07, ease: 'power2.out' }, end + 0.35);
-      tl.to(kc.body, { rotation: 0, x: 0, duration: 0.5, ease: 'elastic.out(1, 0.45)' }, end + 0.42);
-      idle(kc, end + 1.0, T[3 + i]);
+      settleIn(kc, end - 0.3, { fromX: 360, fromY: 0 });
+      breathe(kc, end + 0.5, T[3 + i]);
     }
     if (i + 1 < NS) {
       if (i === 0) dolly(3 + i, T[3 + i] - 0.5); else whip(3 + i, T[3 + i] - 0.28);
@@ -626,15 +628,8 @@ function build() {
     tl.fromTo('#o-follow span', { scale: 0.6, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.45, ease: 'expo.out' }, t0 + 0.95);
     tl.fromTo('#o-disc', { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 1.2);
     const oc = A('o-coin');
-    // The strut faces screen-left, so it walks in from the right edge. Travel speed is matched to the
-    // clip's planted foot (~5.5 source px per frame at 24fps, scaled to the sprite's display size).
-    const wStart = t0 + 0.3, wEnd = ${TOTAL};
-    if (isSprite(oc)) {
-      const cyc = oc.el.dataset.sprite.split(',').map(Number), clipDur = cyc[0] / cyc[2];
-      const speed = 5.5 * 24 * (320 / ${SPRITES[poses.outro]?.fw || 379});
-      tl.fromTo(oc.el, { x: 560 + speed * (wEnd - wStart) }, { x: 560, duration: wEnd - wStart, ease: 'none' }, wStart);
-      for (let t = wStart; t < wEnd; t += clipDur) play(oc, t, Math.min(clipDur, wEnd - t), { to: Math.round(Math.min(1, (wEnd - t) / clipDur) * (cyc[0] - 1)) });
-    } else walk(oc, wStart, 980, 560, Math.floor((wEnd - wStart) / (B / 2)));
+    settleIn(oc, t0 + 0.8);
+    breathe(oc, t0 + 1.6, ${TOTAL});
 
   }
 
@@ -671,7 +666,7 @@ const html = `<!doctype html>
     <div id="outro" data-layout-allow-overlap>
       <div id="o-head" class="d">See you tomorrow, 7:30am</div>
       <div id="o-follow"><span>Follow @byte.finance.au</span></div>
-      ${SPRITES[poses.outro] ? spriteActor('o-coin', SPRITES[poses.outro], { left: 0, top: 1200, width: 380, dw: 320 }) : actor('o-coin', [poses.outro], { left: 0, top: 1230, width: 360 })}
+      ${SPRITES[poses.outro] ? spriteActor('o-coin', SPRITES[poses.outro], { left: 600, top: 1200, width: 380, dw: 320 }) : actor('o-coin', [poses.outro], { left: 600, top: 1200, width: 380 })}
       <p id="o-disc">${DISCLAIMER}</p>
     </div>
   </div>
