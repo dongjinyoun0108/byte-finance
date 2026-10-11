@@ -59,7 +59,8 @@ export const BOARD = [
 export const FEEDS = [
   { name: 'Yahoo Finance', region: 'us', url: 'https://feeds.finance.yahoo.com/rss/2.0/headline?s=%5EGSPC,%5EIXIC,%5EDJI,NVDA,AAPL,MSFT&region=US&lang=en-US' },
   { name: 'Yahoo Finance', region: 'aus', url: 'https://feeds.finance.yahoo.com/rss/2.0/headline?s=%5EAXJO,BHP.AX,CBA.AX,CSL.AX,WES.AX&region=AU&lang=en-AU' },
-  { name: 'Yahoo Finance', region: 'any', url: 'https://finance.yahoo.com/news/rssindex' },
+  { name: 'ABC News', region: 'aus', url: 'https://www.abc.net.au/news/feed/51892/rss.xml' },
+  { name: 'CNBC', region: 'us', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147' },
   { name: 'RBA', region: 'aus', url: 'https://www.rba.gov.au/rss/rss-cb-media-releases.xml' },
   { name: 'Federal Reserve', region: 'us', url: 'https://www.federalreserve.gov/feeds/press_all.xml' },
 ];

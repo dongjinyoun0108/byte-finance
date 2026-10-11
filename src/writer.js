@@ -43,11 +43,13 @@ export async function callGithubModels(messages, { token = process.env.GITHUB_TO
   if (!token) throw new Error('GITHUB_TOKEN missing');
   const res = await fetchImpl('https://models.github.ai/inference/chat/completions', {
     method: 'POST',
-    headers: { authorization: `Bearer ${token}`, accept: 'application/vnd.github+json', 'content-type': 'application/json' },
+    headers: { Authorization: `Bearer ${token}`, Accept: 'application/json', 'Content-Type': 'application/json', 'X-GitHub-Api-Version': '2022-11-28' },
     body: JSON.stringify({ model, temperature: 0.4, max_tokens: 1500, messages: [{ role: 'system', content: SYSTEM }, ...messages] }),
   });
-  if (!res.ok) throw new Error(`GitHub Models ${res.status}: ${(await res.text()).slice(0, 300)}`);
-  const data = await res.json();
+  const raw = await res.text();
+  if (!res.ok) throw new Error(`GitHub Models ${res.status}: ${raw.slice(0, 300)}`);
+  let data;
+  try { data = JSON.parse(raw); } catch { throw new Error(`GitHub Models returned non-JSON (${res.status} ${res.headers.get('content-type')}): ${raw.slice(0, 200)}`); }
   return data.choices?.[0]?.message?.content || '';
 }
 
