@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "id": "a1",
+      "source": "ABC News",
+      "title": "Businesses grapple with the cost of customers 'wanting to pay by card'",
+      "summary": "Customers still prefer to pay with cards, but a week after a ban on payment surcharges, small businesses are looking at how they will wear the cost of merchant fees.",
+      "link": "https://www.abc.net.au/news/2026-10-11/nsw-small-businesses-look-at-how-to-cover-merchant-fees/107248710"
+    },
+    {
+      "id": "u1",
+      "source": "ABC News",
+      "title": "Captains offered $US100,000 a month in the Strait of Hormuz",
+      "summary": "Oil tanker captains in the Persian Gulf are being paid up to $US100,000 a month to navigate the Strait of Hormuz, industry insiders and maritime unions say.",
+      "link": "https://www.abc.net.au/news/2026-10-11/sailors-offered-bonuses-to-cross-strait-of-hormuz-in-iran-war/107248044"
+    }
+  ],
+  "aus": {
+    "item_id": "a1",
+    "tag": "Economy",
+    "headline": "Card Fees Hit Small Shops",
+    "body": "A week into the surcharge ban, small firms are weighing how to absorb card fees.",
+    "why": "Card fees can no longer be added on top as a surcharge at the till.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "thinking"
+  },
+  "us": {
+    "item_id": "u1",
+    "tag": "Commodities",
+    "headline": "Hormuz Pay Hits $US100,000",
+    "body": "Gulf oil tanker captains are earning up to $US100,000 monthly to sail through Hormuz.",
+    "why": "Getting oil tankers through the Gulf now comes with a steep wage bill.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "shocked"
+  },
+  "biz": null
+}
