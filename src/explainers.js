@@ -1,3 +1,5 @@
+import { readFileSync, existsSync } from 'node:fs';
+
 // Weekend "Money explained" carousels: evergreen Aussie finance basics, one topic per weekend day.
 // Written and fact-checked once (Oct 2026), so weekend posts never depend on the news or an AI writer.
 // General information only. Every line passes the same advice/prediction word checks as the weekday stories.
@@ -115,6 +117,11 @@ export const TOPICS = [
   },
 ];
 
+// Extra topics, appended monthly by the scheduled writer (content/explainers.json, same shape as above).
+const EXTRA_FILE = new URL('../content/explainers.json', import.meta.url);
+export const EXTRA_TOPICS = existsSync(EXTRA_FILE) ? JSON.parse(readFileSync(EXTRA_FILE, 'utf8')) : [];
+export const ALL_TOPICS = [...TOPICS, ...EXTRA_TOPICS];
+
 /** Weekend days since Sat 17 Oct 2026 (Sat, Sun, Sat, ...): consecutive weekend posts get consecutive topics. */
 export function weekendIndex(dateKey) {
   const d = Math.round((Date.parse(`${dateKey}T00:00:00Z`) - Date.parse('2026-10-17T00:00:00Z')) / 86400e3);
@@ -122,4 +129,8 @@ export function weekendIndex(dateKey) {
   return w * 2 + Math.min(((d % 7) + 7) % 7, 1);
 }
 
-export const pickTopic = (dateKey) => TOPICS[((weekendIndex(dateKey) % TOPICS.length) + TOPICS.length) % TOPICS.length];
+/** Topics are used in order; new ones are appended, so past and upcoming picks never shift. Wraps only if the bank runs out. */
+export const pickTopic = (dateKey, topics = ALL_TOPICS) => topics[((weekendIndex(dateKey) % topics.length) + topics.length) % topics.length];
+
+/** How many weekend posts the bank still covers from a given date (used by the monthly writer). */
+export const topicsLeft = (dateKey, topics = ALL_TOPICS) => Math.max(0, topics.length - weekendIndex(dateKey));

@@ -1,11 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { TOPICS, weekendIndex, pickTopic } from '../src/explainers.js';
+import { TOPICS, ALL_TOPICS, weekendIndex, pickTopic } from '../src/explainers.js';
 import { bannedHits } from '../src/guardrails.js';
 import { prepareWeekend } from '../src/weekend.js';
 
-test('weekend topics: no advice/prediction wording, 4 steps, 2 tags each', () => {
-  for (const t of TOPICS) {
+test('weekend topics: no advice/prediction wording, 4 steps, 2 tags each, unique ids', () => {
+  assert.equal(new Set(ALL_TOPICS.map((t) => t.id)).size, ALL_TOPICS.length, 'duplicate topic id');
+  for (const t of ALL_TOPICS) {
+    assert.ok(t.id && t.title && t.pose, `${t.id} missing id/title/pose`);
+    assert.ok(t.title.split('\n').every((l) => l.length <= 24), `${t.id} title line over 24 characters`);
+    for (const s of t.steps) assert.ok(s.head.length <= 26 && s.body.length <= 130, `${t.id} step too long: ${s.head}`);
+    for (const g of t.tags) assert.match(g, /^#[A-Za-z0-9]+$/, `${t.id} bad hashtag`);
     assert.equal(t.steps.length, 4, t.id);
     assert.equal(t.tags.length, 2, t.id);
     const text = [t.title, ...t.steps.flatMap((s) => [s.head, s.body, s.figure || '', s.figureLabel || ''])].join('\n');
@@ -21,7 +26,7 @@ test('weekend rotation: Sat and Sun get consecutive topics, no repeats for 6 wee
   const seen = new Set();
   for (let w = 0; w < 6; w++) for (const d of [0, 1]) {
     const key = new Date(Date.parse('2026-10-17T00:00:00Z') + (w * 7 + d) * 86400e3).toISOString().slice(0, 10);
-    seen.add(pickTopic(key).id);
+    seen.add(pickTopic(key, TOPICS).id);
   }
   assert.equal(seen.size, 12);
 });
