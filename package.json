@@ -1,0 +1,24 @@
+{
+  "name": "morning-coin",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Byte Finance (@byte.finance.au): daily Instagram carousel, rendered in code and posted by GitHub Actions.",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "dry-run": "node --env-file=.env scripts/run-once.js --dry-run",
+    "preview": "node --env-file=.env scripts/run-once.js --dry-run --canva",
+    "canva-auth": "node --env-file=.env scripts/canva-auth.js",
+    "daily": "node scripts/daily.js",
+    "daily:dry": "node scripts/daily.js --dry"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/inter-tight": "^5.3.0",
+    "@supabase/supabase-js": "^2.117.2",
+    "playwright": "^1.56.0"
+  }
+}

@@ -1,0 +1,51 @@
+name: Daily carousel
+
+on:
+  schedule:
+    # 6:50am Sydney on weekdays. Two UTC times cover daylight saving (AEDT/AEST);
+    # the script ignores the run that lands outside 6-11am and posts only once per day.
+    - cron: '50 19 * * 0-4'
+    - cron: '50 20 * * 0-4'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'dry = render only, force = post right now'
+        type: choice
+        options: [dry, force]
+        default: dry
+
+permissions:
+  contents: write
+  models: read
+
+concurrency:
+  group: daily-carousel
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Run
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAUSED: ${{ vars.PAUSED }}
+        run: |
+          if [ "$PAUSED" = "true" ]; then echo "Paused"; exit 0; fi
+          node scripts/daily.js ${{ github.event_name == 'workflow_dispatch' && format('--{0}', inputs.mode) || '' }}
+      - name: Keep dry-run slides
+        if: github.event_name == 'workflow_dispatch' && inputs.mode == 'dry'
+        uses: actions/upload-artifact@v4
+        with:
+          name: slides
+          path: out/
