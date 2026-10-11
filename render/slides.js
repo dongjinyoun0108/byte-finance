@@ -306,3 +306,4 @@ export function explainerCover({ title, steps, pose, date }) {
   <div class="list">${steps.slice(0, 4).map((s, i) => `<p><b>${i + 1}</b>${esc(s.head)}</p>`).join('')}</div>`;
   return page({ title: 'Money explained', body, extraCss: css, duration: SLIDE_SECONDS, bg: F.bg, zoom: false });
 }
+export { fonts, esc };
