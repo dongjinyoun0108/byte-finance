@@ -34,6 +34,12 @@ export function instagram({
   }
 
   return {
+    /** A Story (9:16 image). Returns the media id. */
+    async publishStory({ imageUrl }) {
+      const { id } = await call(`${userId}/media`, { image_url: imageUrl, media_type: 'STORIES' });
+      await waitReady(id);
+      return (await call(`${userId}/media_publish`, { creation_id: id })).id;
+    },
     async publishCarousel({ imageUrls, caption, altTexts = [] }) {
       if (imageUrls.length < 2 || imageUrls.length > 10) throw new Error('A carousel needs 2-10 images');
       const children = [];

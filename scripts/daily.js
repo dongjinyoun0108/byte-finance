@@ -33,6 +33,20 @@ async function waitUntil(hhmm) {
   while (sydney(new Date()).hhmm < hhmm) await sleep(15000);
 }
 
+/** 9:16 Story card: today's cover on its own background with a nudge to the post. */
+async function storyCard(coverJpg, bg) {
+  const browser = await chromium.launch();
+  const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
+  await page.setContent(`<body style="margin:0;width:1080px;height:1920px;background:${bg};font-family:Helvetica,Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px;color:#17181C">
+    <div style="font-size:54px;font-weight:800;letter-spacing:-1px">Today's brief is up ☕</div>
+    <img style="width:900px;border-radius:36px;box-shadow:0 30px 60px rgba(23,24,28,.18)" src="data:image/jpeg;base64,${coverJpg.toString('base64')}">
+    <div style="font-size:40px;font-weight:700;background:#17181C;color:${bg};padding:22px 40px;border-radius:999px">Tap the profile to read it</div></body>`);
+  await page.evaluate(() => document.images[0].decode());
+  const jpg = await page.screenshot({ type: 'jpeg', quality: 92 });
+  await browser.close();
+  return jpg;
+}
+
 /** 4:5 copy of a 3:4 slide (centre it on the slide's own flat background) in case Instagram rejects 3:4. */
 async function pad45(jpgs, bgs) {
   const browser = await chromium.launch();
@@ -92,6 +106,7 @@ async function main() {
   for (const [i, jpg] of tall.entries()) await writeFile(`${dir}/${i + 1}.jpg`, jpg);
   for (const [i, jpg] of short.entries()) await writeFile(`${dir}/45/${i + 1}.jpg`, jpg);
   await writeFile(`${dir}/caption.txt`, p.caption);
+  await writeFile(`${dir}/story.jpg`, await storyCard(tall[0], bgs[0]));
   if (DRY) return console.log(`dry run: ${tall.length} slides in ./out\n\n${p.caption}`);
 
   const { token, changed } = await currentToken();
@@ -99,7 +114,7 @@ async function main() {
   const raw = (f) => `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${dir}/${f}`;
   const urls34 = tall.map((_, i) => raw(`${i + 1}.jpg`));
   const urls45 = short.map((_, i) => raw(`45/${i + 1}.jpg`));
-  await waitPublic([...urls34, ...urls45]);
+  await waitPublic([...urls34, ...urls45, raw('story.jpg')]);
   if (!FORCE) await waitUntil('07:30');
 
   const { userId, username } = await instagramUserId(token);
@@ -113,7 +128,9 @@ async function main() {
     format = '4:5';
     mediaId = await ig.publishCarousel({ imageUrls: urls45, caption: p.caption, altTexts: p.alts });
   }
-  await writeFile(`${dir}/posted.json`, JSON.stringify({ mediaId, username, format, postedAt: new Date().toISOString(), stories: p.stories }, null, 1));
+  let storyId = null; // nudge followers via Stories; never fails the run
+  try { storyId = await ig.publishStory({ imageUrl: raw('story.jpg') }); } catch (e) { console.warn(`story skipped: ${e.message}`); }
+  await writeFile(`${dir}/posted.json`, JSON.stringify({ mediaId, storyId, username, format, postedAt: new Date().toISOString(), stories: p.stories }, null, 1));
   commitPush([dir], `Posted ${p.key}`);
   console.log(`posted ${mediaId} to @${username} (${format})`);
 }
