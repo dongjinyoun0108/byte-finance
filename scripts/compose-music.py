@@ -4,6 +4,7 @@ so the Reel's beat-locked cuts land on any of them.
     python3 scripts/compose-music.py   ->  render/assets/audio/music/{ticker,market-open,sunday-paper}.wav
 
   ticker        nu-disco / future-funk: octave disco bass, filtered saw stabs, bright pluck hook, riser into bar 9
+  golden-hour   tropical house: marimba + flute hooks, offbeat plucks, snaps, warm bass
   sunday-paper  half-time lo-fi hip-hop: dusty Rhodes 7ths, swung hats, round bass, vinyl crackle
 """
 import os
@@ -309,6 +310,71 @@ def sunday_paper():
     return master(mix, 1.2, 0.13)
 
 
+# ================================================================== GOLDEN HOUR (tropical house)
+def golden_hour():
+    rng = np.random.default_rng(47)
+    # G major, sunny: G - D/F# - Em7 - Cmaj9
+    prog = [(43, [59, 62, 67, 71]), (42, [57, 62, 66, 69]), (40, [59, 62, 64, 67]), (36, [59, 62, 64, 67, 71])]
+    drums, bassb, plucks, flute, mar, fx = (np.zeros(N) for _ in range(6))
+    K = kick(rng, punch=60, tail=0.3, base=46)
+    def snap():
+        n = int(0.2 * SR); t = np.arange(n) / SR
+        return filt(rng.standard_normal(n), 'bandpass', [1800, 5000]) * np.exp(-t / 0.035) * 0.45
+    SNP = snap()
+    def shaker():
+        n = int(0.09 * SR); t = np.arange(n) / SR
+        return filt(rng.standard_normal(n), 'bandpass', [5000, 11000]) * np.sin(np.pi * t / t[-1]) ** 2 * 0.12
+    SH = shaker()
+    for bar in range(BARS):
+        t0 = bar * BAR
+        root, chord = prog[bar % 4]
+        for b in range(4):
+            place(drums, K, t0 + b * BEAT, 0.9)
+            if b in (1, 3):
+                place(drums, SNP, t0 + b * BEAT)
+        for s in range(16):
+            place(drums, SH, t0 + s * S16 + (S16 * 0.12 if s % 2 else 0), 1.0 if s % 2 else 0.55)
+        if bar % 4 == 3:  # little fill: extra snaps leading into the next phrase
+            for st in (13, 14, 15):
+                place(drums, SNP, t0 + st * S16, 0.6)
+        # warm sine bass: syncopated, glides between root and fifth
+        for off, m, ln in ((0, root, BEAT * 0.8), (BEAT * 1.0, root, BEAT * 0.4), (BEAT * 1.75, root + 7, BEAT * 0.5), (BEAT * 2.5, root, BEAT * 0.9), (BEAT * 3.5, root + 12, BEAT * 0.4)):
+            n = int(ln * SR); t = np.arange(n) / SR
+            tone = np.sin(2 * np.pi * hz(m - 12) * t) + 0.2 * np.sin(2 * np.pi * hz(m) * t)
+            place(bassb, np.tanh(1.4 * tone) * adsr(n, 0.008, 0.2, 0.75, 0.04) * 0.6, t0 + off)
+        # plucked chords on the offbeats (the tropical "pluck")
+        for hit in (BEAT * 0.5, BEAT * 1.5, BEAT * 2.5, BEAT * 3.0, BEAT * 3.5):
+            n = int(0.35 * SR); t = np.arange(n) / SR
+            c = np.zeros(n)
+            for m in chord:
+                c += (np.sin(2 * np.pi * hz(m) * t) + 0.5 * np.sin(2 * np.pi * hz(m) * 2 * t) * np.exp(-t / 0.05)) * np.exp(-t / 0.14)
+            place(plucks, c / len(chord) * 0.7, t0 + hit)
+        # marimba counter-line every bar from bar 2
+        if bar >= 2:
+            line = [(0, 74), (3, 79), (6, 78), (8, 74), (11, 71), (14, 74)] if bar % 2 == 0 else [(0, 76), (3, 74), (6, 71), (10, 74), (12, 79)]
+            for step, m in line:
+                n = int(0.45 * SR); t = np.arange(n) / SR
+                mm = np.sin(2 * np.pi * hz(m) * t) * np.exp(-t / 0.22) + 0.3 * np.sin(2 * np.pi * hz(m) * 4 * t) * np.exp(-t / 0.04)
+                place(mar, mm * 0.32, t0 + step * S16)
+        # breathy flute hook over bars 5-8 and 13-16 (call and answer)
+        if bar % 8 >= 4:
+            phrase = [(0, 83, 3), (4, 81, 2), (6, 79, 2), (8, 78, 4), (12, 79, 4)] if bar % 2 == 0 else [(0, 78, 2), (2, 79, 2), (4, 81, 4), (8, 86, 6), (14, 83, 2)]
+            for step, m, ln in phrase:
+                n = int(ln * S16 * SR + 0.15 * SR); t = np.arange(n) / SR
+                vib = 1 + 0.006 * np.sin(2 * np.pi * 5.2 * t) * np.clip(t / 0.25, 0, 1)
+                ph = 2 * np.pi * np.cumsum(hz(m) * vib) / SR
+                tone = np.sin(ph) + 0.12 * np.sin(2 * ph) + filt(rng.standard_normal(n), 'bandpass', [hz(m) * 0.9, hz(m) * 3]) * 0.25
+                place(flute, tone * adsr(n, 0.04, 0.1, 0.8, 0.12) * 0.3, t0 + step * S16)
+    place(fx, riser(rng, BAR * 2) * 0.7, BAR * 7)
+    place(fx, crash(rng) * 0.8, BAR * 9)
+    pm = pump(0.55, 0.13)
+    mix = (np.stack([drums, drums], 1) * 0.8 + np.stack([filt(bassb, 'lowpass', 700) * pm] * 2, 1) * 0.85
+           + reverb(plucks * pm, 1.3, 0.25, 8) * 0.6 + reverb(mar * (0.7 + 0.3 * pm), 1.6, 0.3, 9) * 0.55
+           + reverb(flute, 2.0, 0.35, 10) * 0.6 + np.stack([fx, fx], 1) * 0.5)
+    return master(mix, 1.3)
+
+
 if __name__ == '__main__':
     write('ticker', ticker())
     write('sunday-paper', sunday_paper())
+    write('golden-hour', golden_hour())

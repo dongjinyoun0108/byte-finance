@@ -17,7 +17,8 @@ import { sydney } from '../src/time.js';
 import { REEL } from '../src/config.js';
 
 const arg = (n) => process.argv.includes(`--${n}`);
-const DRY = arg('dry'), FORCE = arg('force');
+const PREVIEW = arg('preview'); // like --dry, but commits today's reel.mp4 to previews/ so it can be checked
+const DRY = arg('dry') || PREVIEW, FORCE = arg('force');
 const REPO = process.env.GITHUB_REPOSITORY || 'dongjinyoun0108/byte-finance';
 const BRANCH = process.env.GITHUB_REF_NAME || 'main';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -94,6 +95,7 @@ async function renderReel(data, dataFile, outFile) {
   if (hs) env.HYPERFRAMES_BROWSER_PATH = hs;
   const log = await runCmd('npx', ['--yes', `hyperframes@${REEL.hyperframes}`, 'render', '--output', resolve(outFile)], { cwd: REEL.dir, env });
   console.log(`reel rendered in ${Math.round((Date.now() - t0) / 1000)}s: ${(log.match(/[\d.]+ MB[^\n]*/) || [''])[0]}`);
+  data.renderSeconds = Math.round((Date.now() - t0) / 1000);
   return readFile(outFile);
 }
 
@@ -152,6 +154,13 @@ async function main() {
   if (DRY) {
     const r = reelJob && await reelJob;
     if (r?.error) { console.error(r.error); process.exitCode = 1; }
+    if (PREVIEW) {
+      await mkdir('previews', { recursive: true });
+      const log = { at: new Date().toISOString(), reel: r?.error ? String(r.error.stack || r.error) : 'ok', slides: tall.length, reelData: p.reel };
+      await writeFile(`previews/${p.key}.json`, JSON.stringify(log, null, 1));
+      if (reelJob && !r?.error) await writeFile(`previews/${p.key}-reel.mp4`, r);
+      commitPush(['previews'], `Preview ${p.key}`);
+    }
     return console.log(`dry run: ${tall.length} slides${reelJob && !r?.error ? ' + reel.mp4' : ''} in ./out\n\n${p.caption}`);
   }
 
