@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=1080, height=1920">
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face { font-family: 'Bricolage'; src: url(assets/fonts/bricolage.woff2) format('woff2'); font-weight: 200 800; font-stretch: 75% 100%; }
+@font-face { font-family: 'InterT'; src: url(assets/fonts/inter-tight.woff2) format('woff2'); font-weight: 100 900; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #C8DAF2; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #C8DAF2; color: #17181C; font-family: 'InterT', sans-serif; }
+.clip { position: absolute; inset: 0; }
+.d { font-family: 'Bricolage', sans-serif; font-weight: 700; font-stretch: 88%; letter-spacing: -.035em; }
+#grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.55) 2px, transparent 2px), linear-gradient(90deg, rgba(255,255,255,.55) 2px, transparent 2px); background-size: 60px 60px; }
+#chrome { position: absolute; left: 80px; right: 80px; top: 230px; display: flex; justify-content: space-between; align-items: center; }
+.chip { display: inline-block; font-size: 30px; font-weight: 650; padding: 12px 24px; border-radius: 999px; background: #17181C; color: #C8DAF2; }
+.dots { display: flex; gap: 10px; } .dots i { width: 14px; height: 14px; border-radius: 50%; background: rgba(23,24,28,.18); display: block; }
+.dots b { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #17181C; display: block; }
+#title { position: absolute; left: 80px; top: 640px; width: 920px; font-size: 150px; line-height: .9; }
+#title .ln { overflow: hidden; padding-bottom: 10px; } #title .ln > span { display: inline-block; }
+.txt { position: absolute; left: 80px; top: 330px; width: 920px; }
+.txt .head { font-size: 84px; line-height: .95; }
+.txt .body { font-size: 36px; line-height: 1.32; margin-top: 18px; width: 860px; color: rgba(23,24,28,.88); font-weight: 500; }
+.ln { overflow: hidden; } .ln > span { display: inline-block; }
+#vp { position: absolute; left: 60px; top: 700px; width: 960px; height: 800px; }
+#world { position: absolute; left: 0; top: 0; width: 1500px; height: 900px; transform-origin: 0 0; }
+#baseline { position: absolute; left: 0; top: 760px; height: 4px; width: 1450px; background: #17181C; border-radius: 2px; transform-origin: 0 50%; }
+.col { position: absolute; bottom: 140px; display: flex; flex-direction: column; justify-content: flex-end; transform-origin: 50% 100%; }
+.seg { display: block; width: 100%; }
+.seg.prin { background: #2D4E86; border-radius: 0 0 2px 2px; }
+.seg.int { background: #E9B21A; }
+.seg.comp { background: #B9780C; border-radius: 6px 6px 0 0; }
+.yl { position: absolute; top: 776px; transform: translateX(-50%); font-size: 22px; font-weight: 650; white-space: nowrap; color: rgba(23,24,28,.8); }
+.blk { position: absolute; width: 50px; border-radius: 6px; }
+.tag { position: absolute; white-space: nowrap; font-size: 15px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: #fff; box-shadow: 0 4px 12px rgba(23,24,28,.12); }
+#curve { position: absolute; left: 0; top: 0; overflow: visible; }
+#curve path { fill: none; stroke: #17181C; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+#ring { position: absolute; overflow: visible; }
+#ring path { fill: none; stroke: #17181C; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+#legend { position: absolute; left: 80px; top: 1530px; display: flex; gap: 22px; font-size: 24px; font-weight: 650; }
+#legend span { display: flex; align-items: center; gap: 10px; } #legend i { width: 22px; height: 22px; border-radius: 6px; display: block; }
+#counter { position: absolute; left: 80px; top: 720px; }
+#counter .num { font-size: 110px; line-height: 1; font-variant-numeric: tabular-nums; color: #2D4E86; white-space: nowrap; }
+#counter .lab { font-size: 30px; font-weight: 650; margin-top: 8px; color: rgba(23,24,28,.8); }
+.coin { position: absolute; left: 720px; top: 1380px; width: 320px; height: 320px; }
+.coin img { position: absolute; inset: 0; width: 100%; height: 100%; }
+#outro { position: absolute; inset: 0; }
+#o-head { position: absolute; left: 80px; top: 560px; width: 920px; font-size: 128px; line-height: .9; }
+#o-sub { position: absolute; left: 84px; top: 820px; font-size: 40px; font-weight: 600; color: rgba(23,24,28,.72); }
+#o-follow { position: absolute; left: 80px; top: 920px; }
+#o-follow span { display: inline-block; font-size: 42px; font-weight: 650; padding: 20px 38px; border-radius: 999px; background: #17181C; color: #C8DAF2; }
+#o-disc { position: absolute; left: 84px; top: 1300px; width: 560px; font-size: 22px; line-height: 1.4; color: rgba(23,24,28,.66); }
+</style></head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="31.96" data-width="1080" data-height="1920">
+ <div id="scene" class="clip" data-start="0" data-duration="31.96" data-track-index="0">
+  <div id="grid" data-layout-ignore></div>
+  <div id="chrome"><span class="chip">Money explained</span><div class="dots"><i id="dot0"></i><i id="dot1"></i><i id="dot2"></i><i id="dot3"></i></div></div>
+  <div id="title" class="d"><div class="ln"><span>Compound interest,</span></div><div class="ln"><span>explained</span></div></div>
+  <div class="txt" id="t0"><div class="d head fit" data-maxh="170">Interest on interest</div><div class="body fit" data-maxh="150">You earn interest on your savings, then interest on that interest. Growth speeds up the longer it runs.</div></div>
+<div class="txt" id="t1"><div class="d head fit" data-maxh="170">After 10 years</div><div class="body fit" data-maxh="150">Compounded yearly at 5%, $10,000 grows to about $16,289 in a decade.</div></div>
+<div class="txt" id="t2"><div class="d head fit" data-maxh="170">Time does the work</div><div class="body fit" data-maxh="150">Double the time and the result is far more than double the first decade’s gain.</div></div>
+<div class="txt" id="t3"><div class="d head fit" data-maxh="170">It cuts both ways</div><div class="body fit" data-maxh="150">Credit card debt compounds the same way, which is why unpaid balances can snowball.</div></div>
+  <div id="vp" data-layout-allow-overflow data-layout-allow-overlap><div id="world">
+    <div id="baseline"></div>
+    <div class="col" id="col0" style="left:40px; width:50px"><i class="seg comp" style="height:0.00px"></i><i class="seg int" style="height:0.00px"></i><i class="seg prin" style="height:241.21px"></i></div><span class="yl" style="left:65px">Now</span><div class="col" id="col1" style="left:106px; width:50px"><i class="seg comp" style="height:0.00px"></i><i class="seg int" style="height:12.06px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col2" style="left:172px; width:50px"><i class="seg comp" style="height:0.60px"></i><i class="seg int" style="height:24.12px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col3" style="left:238px; width:50px"><i class="seg comp" style="height:1.84px"></i><i class="seg int" style="height:36.18px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col4" style="left:304px; width:50px"><i class="seg comp" style="height:3.74px"></i><i class="seg int" style="height:48.24px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col5" style="left:370px; width:50px"><i class="seg comp" style="height:6.34px"></i><i class="seg int" style="height:60.30px"></i><i class="seg prin" style="height:241.21px"></i></div><span class="yl" style="left:395px">Yr 5</span><div class="col" id="col6" style="left:436px; width:50px"><i class="seg comp" style="height:9.67px"></i><i class="seg int" style="height:72.36px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col7" style="left:502px; width:50px"><i class="seg comp" style="height:13.77px"></i><i class="seg int" style="height:84.42px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col8" style="left:568px; width:50px"><i class="seg comp" style="height:18.68px"></i><i class="seg int" style="height:96.48px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col9" style="left:634px; width:50px"><i class="seg comp" style="height:24.44px"></i><i class="seg int" style="height:108.54px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col10" style="left:700px; width:50px"><i class="seg comp" style="height:31.09px"></i><i class="seg int" style="height:120.60px"></i><i class="seg prin" style="height:241.21px"></i></div><span class="yl" style="left:725px">Yr 10</span><div class="col" id="col11" style="left:766px; width:50px"><i class="seg comp" style="height:38.68px"></i><i class="seg int" style="height:132.67px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col12" style="left:832px; width:50px"><i class="seg comp" style="height:47.24px"></i><i class="seg int" style="height:144.73px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col13" style="left:898px; width:50px"><i class="seg comp" style="height:56.84px"></i><i class="seg int" style="height:156.79px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col14" style="left:964px; width:50px"><i class="seg comp" style="height:67.52px"></i><i class="seg int" style="height:168.85px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col15" style="left:1030px; width:50px"><i class="seg comp" style="height:79.34px"></i><i class="seg int" style="height:180.91px"></i><i class="seg prin" style="height:241.21px"></i></div><span class="yl" style="left:1055px">Yr 15</span><div class="col" id="col16" style="left:1096px; width:50px"><i class="seg comp" style="height:92.35px"></i><i class="seg int" style="height:192.97px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col17" style="left:1162px; width:50px"><i class="seg comp" style="height:106.62px"></i><i class="seg int" style="height:205.03px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col18" style="left:1228px; width:50px"><i class="seg comp" style="height:122.20px"></i><i class="seg int" style="height:217.09px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col19" style="left:1294px; width:50px"><i class="seg comp" style="height:139.17px"></i><i class="seg int" style="height:229.15px"></i><i class="seg prin" style="height:241.21px"></i></div><div class="col" id="col20" style="left:1360px; width:50px"><i class="seg comp" style="height:157.58px"></i><i class="seg int" style="height:241.21px"></i><i class="seg prin" style="height:241.21px"></i></div><span class="yl" style="left:1385px">Yr 20</span>
+    <div class="blk" id="drop1" style="background:#E9B21A"></div>
+    <div class="blk" id="drop2" style="background:#B9780C"></div>
+    <span class="tag" id="tag0">$10,000</span>
+    <span class="tag" id="tag1">+$500 interest</span>
+    <span class="tag" id="tag2">+$25 interest on interest</span>
+    <svg id="ring" width="10" height="10"><path pathLength="1" d=""/></svg>
+    <svg id="curve" width="1500" height="900"><path pathLength="1" d="M65.0,518.8 L131.0,506.7 L197.0,494.1 L263.0,480.8 L329.0,466.8 L395.0,452.1 L461.0,436.8 L527.0,420.6 L593.0,403.6 L659.0,385.8 L725.0,367.1 L791.0,347.5 L857.0,326.8 L923.0,305.2 L989.0,282.4 L1055.0,258.5 L1121.0,233.5 L1187.0,207.1 L1253.0,179.5 L1319.0,150.5 L1385.0,120.0"/></svg>
+  </div></div>
+  <div id="counter"><div class="d num" data-from="11576">$10,000</div><div class="lab">after <span id="cyrs">3</span> years at 5%</div></div>
+  <div id="legend"><span><i style="background:#2D4E86"></i>Your $10,000</span><span><i style="background:#E9B21A"></i>Interest</span><span><i style="background:#B9780C"></i>Interest on interest</span></div>
+  <div class="coin" id="coin"><img src="assets/coin/rocket.png" alt="" id="pose0"><img src="assets/coin/worried.png" alt="" id="pose1" style="opacity:0"></div>
+  <div id="outro" data-layout-allow-overlap>
+    <div id="o-head" class="d">See you next weekend</div>
+    <div id="o-sub">Money explained, every Sunday and Monday</div>
+    <div id="o-follow"><span>Follow @byte.finance.au</span></div>
+    <p id="o-disc">General information only, not financial advice. It doesn’t consider your objectives, financial situation or needs.</p>
+  </div>
+ </div>
+ <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="31.96" data-track-index="10" data-volume="1"
+   data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":1},{"t":30.76,"v":1},{"t":31.96,"v":0}]}]}'></audio>
+</div>
+<script>
+const B = 0.5357142857142857, T = [0,3.214,9.643,15,21.429,27.858,31.608], BASE = 760, K = 0.024120926903872027, STEP = 66, COLW = 50, X0 = 40, YRS = 20;
+const VALS = [10000,10500,11025,11576,12155,12763,13401,14071,14775,15513,16289,17103,17959,18856,19799,20789,21829,22920,24066,25270,26533];
+const START = 10000, RATE = 0.05;
+const colX = (i) => X0 + i * STEP;
+
+function fitText(el) {
+  const maxh = +el.dataset.maxh || 9999;
+  let fs = parseFloat(getComputedStyle(el).fontSize);
+  for (let i = 0; i < 40 && (el.scrollHeight > maxh + 2 || el.scrollWidth > el.clientWidth + 2); i++) { fs *= 0.95; el.style.fontSize = fs + 'px'; }
+}
+function lines(el) {
+  const words = el.textContent.trim().split(/\s+/);
+  el.innerHTML = words.map((w) => '<span class="w" style="display:inline-block">' + w + '</span>').join(' ');
+  const rows = [];
+  el.querySelectorAll('.w').forEach((s) => { let r = rows.find((x) => Math.abs(x.top - s.offsetTop) < 4); if (!r) rows.push(r = { top: s.offsetTop, w: [] }); r.w.push(s.textContent); });
+  el.innerHTML = rows.map((r) => '<div class="ln" style="padding-bottom:.08em; margin-bottom:-.08em"><span>' + r.w.join(' ') + '</span></div>').join('');
+  return [...el.querySelectorAll('.ln > span')];
+}
+
+function build() {
+  document.querySelectorAll('.fit').forEach(fitText);
+  const tl = gsap.timeline({ paused: true });
+  const world = document.getElementById('world');
+
+  // camera: show a range of years [a, b], with the baseline at viewport y = by
+  const cam = (a, b, by = 660) => {
+    const s = Math.min(2.4, 900 / (colX(b) + COLW - colX(a) + 40));
+    return { scale: s, x: 30 - s * (colX(a) - 20), y: by - s * BASE };
+  };
+  tl.set(world, { ...cam(0, 3), transformOrigin: '0 0' }, 0);
+
+  // ===== OPEN: title words rise in, then lift away =====
+  const tlines = [...document.querySelectorAll('#title .ln > span')];
+  tl.fromTo('#chrome', { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.05);
+  tl.fromTo(tlines, { yPercent: 110 }, { yPercent: 0, duration: 0.7, stagger: 0.12, ease: 'power4.out' }, 0.15);
+  tl.fromTo('#coin', { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.6);
+  tl.to(tlines, { yPercent: -110, duration: 0.5, stagger: 0.06, ease: 'power3.in' }, T[1] - 0.55);
+  tl.set('#title', { opacity: 0 }, T[1] + 0.05);
+
+  // step text: head lines rise, body lines follow; the previous step's text lifts out
+  const txt = [...document.querySelectorAll('.txt')].map((el) => ({ el, head: lines(el.querySelector('.head')), body: lines(el.querySelector('.body')) }));
+  txt.forEach((t, i) => {
+    const t0 = T[1 + i];
+    tl.set(t.el, { opacity: 0 }, 0); tl.set(t.el, { opacity: 1 }, t0);
+    if (i < txt.length - 1) tl.set(t.el, { opacity: 0 }, T[2 + i] + 0.05);
+    tl.fromTo(t.head, { yPercent: 110 }, { yPercent: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out' }, t0 + 0.05);
+    tl.fromTo(t.body, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.55, stagger: 0.06, ease: 'power3.out' }, t0 + 0.35);
+    if (i < txt.length - 1) tl.to([...t.head, ...t.body], { yPercent: -110, opacity: 0, duration: 0.4, stagger: 0.02, ease: 'power2.in' }, T[2 + i] - 0.42);
+    else tl.to(t.el, { opacity: 0, duration: 0.4, immediateRender: false }, T[5] - 0.3);
+    const dot = document.getElementById('dot' + i);
+    tl.fromTo(dot, { backgroundColor: 'rgba(23,24,28,.18)', scale: 1 }, { backgroundColor: '#17181C', scale: 1.25, duration: 0.3, ease: 'power2.out' }, t0);
+    tl.to(dot, { scale: 1, duration: 0.3 }, t0 + 0.3);
+  });
+
+  // ===== STEP 1: interest on interest (years 0-3, close up) =====
+  const s1 = T[1];
+  const col = (i) => document.getElementById('col' + i);
+  const segs = (i) => col(i).querySelectorAll('.seg');
+  const HIDE = 'inset(100% 0% 0% 0%)', SHOW = 'inset(0% 0% 0% 0%)';
+  const upTo = (i, v) => 'inset(' + ((1 - v / VALS[i]) * 100).toFixed(2) + '% 0% 0% 0%)';
+  for (let i = 0; i <= YRS; i++) tl.set(col(i), { clipPath: HIDE, scaleY: 1 }, 0);
+  const rise = (i, at, dur = 0.5) => tl.fromTo(col(i), { clipPath: HIDE }, { clipPath: SHOW, duration: dur, ease: 'power3.out', immediateRender: false }, at);
+  tl.fromTo('#baseline', { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: 'power3.inOut' }, s1 - 0.2);
+  tl.fromTo('.yl', { opacity: 0 }, { opacity: 1, duration: 0.4, stagger: 0.1 }, s1 + 0.3);
+  tl.fromTo('#legend', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, s1 + 0.6);
+  // year 0: your money rises
+  rise(0, s1 + 0.3, 0.7);
+  const top = (i) => BASE - VALS[i] * K;
+  const tag = (id, x, y, at) => { tl.fromTo('#' + id, { x, y: y + 16, opacity: 0, scale: 0.8 }, { x, y, opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(2)' }, at); };
+  tag('tag0', colX(0) - 6, top(0) - 40, s1 + 0.8);
+  // year 1: same money carried over, then +5% drops on top and lands with a little squash
+  const drop = (id, i, h, yTop, at) => {
+    tl.set('#' + id, { x: colX(i), height: h, opacity: 0 }, 0);
+    tl.fromTo('#' + id, { y: yTop - 180, opacity: 0 }, { y: yTop, opacity: 1, duration: 0.38, ease: 'power2.in' }, at);
+    tl.fromTo('#' + id, { scaleY: 1, transformOrigin: '50% 100%' }, { scaleY: 0.7, duration: 0.07, yoyo: true, repeat: 1, ease: 'power1.out' }, at + 0.38);
+  };
+  const y1 = s1 + 1.6;
+  tl.fromTo(col(1), { clipPath: HIDE }, { clipPath: upTo(1, 10000), duration: 0.45, ease: 'power3.out', immediateRender: false }, y1);
+  drop('drop1', 1, 500 * K, top(1), y1 + 0.4);
+  tl.to('#tag0', { opacity: 0, y: '-=10', duration: 0.25 }, y1 + 0.7);
+  tag('tag1', colX(1) - 30, top(1) - 40, y1 + 0.85);
+  tl.set(col(1), { clipPath: SHOW }, y1 + 0.8); tl.set('#drop1', { opacity: 0 }, y1 + 0.8);
+  // year 2: the interest itself earns interest - a tiny extra block, circled
+  const y2 = s1 + 3.0;
+  tl.fromTo(col(2), { clipPath: HIDE }, { clipPath: upTo(2, 10000 + 2 * 500), duration: 0.45, ease: 'power3.out', immediateRender: false }, y2);
+  drop('drop2', 2, Math.max(4, 25 * K), top(2), y2 + 0.4);
+  tl.set(col(2), { clipPath: SHOW }, y2 + 0.8); tl.set('#drop2', { opacity: 0 }, y2 + 0.8);
+  const rcx = colX(2) + COLW / 2, rcy = top(2) + 2, rr = 34;
+  const ring = document.querySelector('#ring path');
+  ring.setAttribute('d', 'M' + (rcx + rr) + ',' + rcy + ' a' + rr + ',' + (rr * 0.8) + ' 0 1,0 ' + (-2 * rr) + ',0 a' + rr + ',' + (rr * 0.8) + ' 0 1,0 ' + (2 * rr + 6) + ',-4');
+  tl.to(ring, { strokeDashoffset: 0, duration: 0.6, ease: 'power2.inOut' }, y2 + 0.85);
+  tag('tag2', colX(2) + 44, top(2) - 58, y2 + 1.1);
+  // year 3
+  rise(3, s1 + 4.6);
+
+  // ===== STEP 2: ten years; camera pulls back, counter rolls =====
+  const s2 = T[2];
+  tl.to(world, { ...cam(0, 10), duration: 1.1, ease: 'power3.inOut' }, s2 - 0.1);
+  tl.to(['#tag0', '#tag1', '#tag2', '#ring'], { opacity: 0, duration: 0.3 }, s2);
+  for (let i = 4; i <= 10; i++) rise(i, s2 + 0.5 + (i - 4) * 0.2);
+  const num = document.querySelector('#counter .num'), yrsEl = document.getElementById('cyrs');
+  const cnt = { v: VALS[3], y: 3 };
+  const writeCount = () => { num.textContent = '$' + Math.round(cnt.v).toLocaleString('en-US'); yrsEl.textContent = Math.round(cnt.y); };
+  tl.fromTo('#counter', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, s2 + 0.3);
+  tl.fromTo(cnt, { v: VALS[3], y: 3 }, { v: VALS[10], y: 10, duration: 0.5 + 6 * 0.2 + 0.4, ease: 'power1.inOut', onUpdate: writeCount }, s2 + 0.5);
+  tl.fromTo(col(10), { filter: 'brightness(1)' }, { filter: 'brightness(1.12)', duration: 0.25, yoyo: true, repeat: 1 }, s2 + 2.3);
+
+  // ===== STEP 3: twenty years; full pull-back, the curve draws over the tops =====
+  const s3 = T[3];
+  tl.to(world, { ...cam(0, YRS), duration: 1.2, ease: 'power3.inOut' }, s3 - 0.1);
+  for (let i = 11; i <= YRS; i++) rise(i, s3 + 0.6 + (i - 11) * 0.15, 0.45);
+  tl.to('#curve path', { strokeDashoffset: 0, duration: 2.4, ease: 'power2.inOut' }, s3 + 0.6);
+  tl.to(cnt, { v: VALS[YRS], y: YRS, duration: 0.45 + 9 * 0.15 + 0.4, ease: 'power1.inOut', onUpdate: writeCount }, s3 + 0.6);
+  tl.to(num, { scale: 1.06, transformOrigin: '0% 100%', duration: 0.2, yoyo: true, repeat: 1, ease: 'power2.out' }, s3 + 2.8);
+
+  // ===== STEP 4: it cuts both ways - the chart flips into debt =====
+  const s4 = T[4];
+  tl.to('#counter', { opacity: 0, y: -20, duration: 0.35, ease: 'power2.in' }, s4 - 0.1);
+  tl.to('#curve', { opacity: 0, duration: 0.3 }, s4);
+  tl.to(world, { ...cam(0, YRS, 160), duration: 0.9, ease: 'power3.inOut' }, s4 + 0.1);
+  for (let i = 0; i <= YRS; i++) tl.to(col(i), { scaleY: -1, duration: 0.8, ease: 'power3.inOut' }, s4 + 0.5 + i * 0.025);
+  tl.to('.seg.prin', { backgroundColor: '#8C2323', duration: 0.6 }, s4 + 0.7);
+  tl.to(['.seg.int', '.seg.comp'], { backgroundColor: '#C5453A', duration: 0.6 }, s4 + 0.7);
+  tl.to('.yl', { opacity: 0, duration: 0.3 }, s4 + 0.4);
+  tl.to('#legend', { opacity: 0, duration: 0.3 }, s4 + 0.3);
+  tl.to('#pose0', { opacity: 0, duration: 0.35 }, s4 + 1.0);
+  tl.fromTo('#pose1', { opacity: 0 }, { opacity: 1, duration: 0.35 }, s4 + 1.0);
+  tl.fromTo('#coin', { y: 0 }, { y: -12, duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }, s4 + 1.0);
+
+  // ===== OUTRO =====
+  const s5 = T[5];
+  tl.to('#vp', { opacity: 0, y: 40, duration: 0.5, ease: 'power2.in' }, s5 - 0.3);
+  tl.fromTo('#outro', { opacity: 0 }, { opacity: 1, duration: 0.01 }, s5 + 0.1);
+  tl.fromTo(lines(document.getElementById('o-head')), { yPercent: 110 }, { yPercent: 0, duration: 0.6, stagger: 0.09, ease: 'power3.out' }, s5 + 0.15);
+  tl.fromTo('#o-sub', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, s5 + 0.5);
+  tl.fromTo('#o-follow span', { scale: 0.6, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.45, ease: 'expo.out' }, s5 + 0.75);
+  tl.fromTo('#o-disc', { opacity: 0 }, { opacity: 1, duration: 0.5 }, s5 + 1.0);
+  tl.to('#pose1', { opacity: 0, duration: 0.3 }, s5);
+  tl.to('#pose0', { opacity: 1, duration: 0.3 }, s5);
+
+  // gentle breathing on the coin throughout (finite repeats, seek-safe)
+  let n = Math.floor((TOTAL_ - 2) / (2 * B)); if (n % 2) n--;
+  tl.fromTo('#coin img', { scaleY: 1, transformOrigin: '50% 90%' }, { scaleY: 1.018, duration: 2 * B, yoyo: true, repeat: n - 1, ease: 'sine.inOut' }, 1.5);
+
+  window.__timelines['main'] = tl;
+  if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+}
+const TOTAL_ = 31.96;
+document.fonts.ready.then(build);
+</script>
+</body></html>

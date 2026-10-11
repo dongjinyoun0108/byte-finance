@@ -1,0 +1,3 @@
+{
+  "compound-interest": { "type": "growth", "start": 10000, "rate": 0.05, "years": 20, "marks": [null, 10, 20, null], "field": "#C8DAF2", "endPose": "worried" }
+}
