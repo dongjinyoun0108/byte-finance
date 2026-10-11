@@ -304,7 +304,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: ${C.bu
 #o-head .ln { overflow: hidden; padding-bottom: 6px; } #o-head .ln > span { display: inline-block; }
 #o-follow { position: absolute; left: 80px; top: 720px; }
 #o-follow span { display: inline-block; font-size: 42px; font-weight: 650; padding: 20px 38px; border-radius: 999px; background: ${C.ink}; color: ${C.butter}; }
-#o-disc { position: absolute; left: 84px; top: 1290px; width: 540px; font-size: 22px; line-height: 1.4; color: rgba(23,24,28,.66); }
+#o-disc { position: absolute; left: 84px; top: 1290px; width: 450px; font-size: 22px; line-height: 1.4; color: rgba(23,24,28,.66); }
 
 `;
 
@@ -624,14 +624,18 @@ function build() {
     const lines = splitLines(document.getElementById('o-head'));
     tl.fromTo(lines, { yPercent: 110 }, { yPercent: 0, duration: 0.6, stagger: 0.09, ease: 'power3.out' }, t0 + 0.5);
     tl.fromTo('#o-follow span', { scale: 0.6, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.45, ease: 'expo.out' }, t0 + 0.95);
-    tl.fromTo('#o-disc', { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 1.7);
+    tl.fromTo('#o-disc', { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 1.2);
     const oc = A('o-coin');
+    // The strut faces screen-left, so it walks in from the right edge. Travel speed is matched to the
+    // clip's planted foot (~5.5 source px per frame at 24fps, scaled to the sprite's display size).
+    const wStart = t0 + 0.3, wEnd = ${TOTAL};
     if (isSprite(oc)) {
-      tl.fromTo(oc.el, { x: -420 }, { x: 700, duration: 9 * B / 2, ease: 'none' }, t0 + 0.4);
-      play(oc, t0 + 0.4, 9 * B / 2);
-      land(oc, t0 + 0.4 + 9 * B / 2, 0);
-    } else walk(oc, t0 + 0.4, -420, 680, 9);
-    tl.to(oc.breath, { rotation: -6, duration: 0.18, yoyo: true, repeat: 1, ease: 'sine.inOut' }, t0 + 0.4 + 9 * B / 2 + 0.25);
+      const cyc = oc.el.dataset.sprite.split(',').map(Number), clipDur = cyc[0] / cyc[2];
+      const speed = 5.5 * 24 * (320 / ${SPRITES[poses.outro]?.fw || 379});
+      tl.fromTo(oc.el, { x: 560 + speed * (wEnd - wStart) }, { x: 560, duration: wEnd - wStart, ease: 'none' }, wStart);
+      for (let t = wStart; t < wEnd; t += clipDur) play(oc, t, Math.min(clipDur, wEnd - t), { to: Math.round(Math.min(1, (wEnd - t) / clipDur) * (cyc[0] - 1)) });
+    } else walk(oc, wStart, 980, 560, Math.floor((wEnd - wStart) / (B / 2)));
+
   }
 
   window.__timelines['main'] = tl;
@@ -667,7 +671,7 @@ const html = `<!doctype html>
     <div id="outro" data-layout-allow-overlap>
       <div id="o-head" class="d">See you tomorrow, 7:30am</div>
       <div id="o-follow"><span>Follow @byte.finance.au</span></div>
-      ${SPRITES[poses.outro] ? spriteActor('o-coin', SPRITES[poses.outro], { left: 0, top: 1230, width: 360, dw: 250 }) : actor('o-coin', [poses.outro], { left: 0, top: 1230, width: 360 })}
+      ${SPRITES[poses.outro] ? spriteActor('o-coin', SPRITES[poses.outro], { left: 0, top: 1200, width: 380, dw: 320 }) : actor('o-coin', [poses.outro], { left: 0, top: 1230, width: 360 })}
       <p id="o-disc">${DISCLAIMER}</p>
     </div>
   </div>

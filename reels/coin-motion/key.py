@@ -23,7 +23,7 @@ x0, x1, y0, y1 = max(xs.min() - pad, 0), min(xs.max() + pad, W), max(ys.min() - 
 cw, ch = x1 - x0, y1 - y0
 scale = min(1, 420 / cw)
 fw, fh = int(cw * scale), int(ch * scale)
-cols = 8
+cols = 10
 rows = -(-len(out) // cols)
 sheet = Image.new('RGBA', (cols * fw, rows * fh), (0, 0, 0, 0))
 for i, o in enumerate(out):
