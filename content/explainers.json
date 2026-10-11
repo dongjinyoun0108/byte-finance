@@ -1,1 +1,240 @@
-[]
+[
+  {
+    "id": "medicare-levy",
+    "title": "What is the\nMedicare levy?",
+    "pose": "thinking",
+    "tags": [
+      "#Tax",
+      "#Medicare"
+    ],
+    "steps": [
+      {
+        "head": "A levy on top of tax",
+        "body": "The Medicare levy is charged on top of income tax. It helps fund part of the cost of Australia's public health system."
+      },
+      {
+        "head": "The basic rate",
+        "figure": "2%",
+        "figureLabel": "of taxable income",
+        "body": "For most people the levy is 2% of taxable income. Some people get a reduction or exemption based on income."
+      },
+      {
+        "head": "How it is collected",
+        "body": "Employers usually include it in the tax withheld from pay. The ATO works out the final amount at tax time."
+      },
+      {
+        "head": "The surcharge is separate",
+        "figure": "1–1.5%",
+        "figureLabel": "surcharge rate above the base tier",
+        "body": "The Medicare levy surcharge can apply to people without private hospital cover whose income is over a threshold."
+      }
+    ]
+  },
+  {
+    "id": "lmi",
+    "title": "Lenders mortgage\ninsurance, explained",
+    "pose": "worried",
+    "tags": [
+      "#HomeLoans",
+      "#LMI"
+    ],
+    "steps": [
+      {
+        "head": "Insurance for the lender",
+        "body": "Lenders mortgage insurance (LMI) protects the lender if a borrower can't repay their home loan."
+      },
+      {
+        "head": "When it applies",
+        "figure": "80%",
+        "figureLabel": "loan-to-value level it kicks in",
+        "body": "LMI usually applies when the amount borrowed is more than 80% of the property's value."
+      },
+      {
+        "head": "Who pays for it",
+        "body": "The borrower usually pays LMI as a one-off cost, even though the cover is for the lender."
+      },
+      {
+        "head": "No cover for the borrower",
+        "body": "LMI does not benefit the borrower at all. Its job is to reduce the lender's risk when the deposit is smaller."
+      }
+    ]
+  },
+  {
+    "id": "fixed-vs-variable",
+    "title": "Fixed vs variable\nhome loan rates",
+    "pose": "coffee",
+    "tags": [
+      "#HomeLoans",
+      "#InterestRates"
+    ],
+    "steps": [
+      {
+        "head": "Fixed: locked in",
+        "figure": "1–5 yrs",
+        "figureLabel": "typical fixed-rate period",
+        "body": "A fixed rate stays the same for a set period, usually between one and five years."
+      },
+      {
+        "head": "Variable: can move",
+        "body": "A variable rate can go up or down over time. The lender decides when to change it and by how much."
+      },
+      {
+        "head": "Repayments differ",
+        "body": "Fixed repayments stay steady for the fixed period. Variable repayments shift whenever the rate changes."
+      },
+      {
+        "head": "The split option",
+        "body": "A split loan fixes the rate on part of the balance and leaves the rest variable, mixing both features."
+      }
+    ]
+  },
+  {
+    "id": "bnpl-rules",
+    "title": "BNPL is now\nregulated credit",
+    "pose": "shocked",
+    "tags": [
+      "#BNPL",
+      "#Credit"
+    ],
+    "steps": [
+      {
+        "head": "Pay in instalments",
+        "body": "BNPL services split a purchase into smaller repayments over a set period."
+      },
+      {
+        "head": "Now under credit law",
+        "figure": "2025",
+        "figureLabel": "year BNPL came under credit law",
+        "body": "Since 10 June 2025, BNPL contracts have been covered by the National Credit Code."
+      },
+      {
+        "head": "A licence is required",
+        "body": "Providers need an Australian credit licence and membership of AFCA, the financial complaints authority."
+      },
+      {
+        "head": "Modified lending checks",
+        "body": "Low-cost credit like BNPL can follow modified responsible lending rules rather than the full set for loans."
+      }
+    ]
+  },
+  {
+    "id": "dividends",
+    "title": "How dividends\nwork",
+    "pose": "celebrating",
+    "tags": [
+      "#Dividends",
+      "#ShareMarket"
+    ],
+    "steps": [
+      {
+        "head": "A share of profits",
+        "body": "A dividend is a payment a company makes to its shareholders, usually out of its profits."
+      },
+      {
+        "head": "Often twice a year",
+        "figure": "2",
+        "figureLabel": "common payments a year",
+        "body": "Many ASX companies pay an interim and a final dividend each year. Some also pay a one-off special dividend."
+      },
+      {
+        "head": "The key dates",
+        "body": "The record date sets who gets paid. Shares acquired from the ex-dividend date on don't come with that dividend."
+      },
+      {
+        "head": "Price can adjust",
+        "body": "A share price may move up as the ex-dividend date nears, then fall once the shares trade ex-dividend."
+      }
+    ]
+  },
+  {
+    "id": "gdp",
+    "title": "What GDP\nactually measures",
+    "pose": "newspaper",
+    "tags": [
+      "#GDP",
+      "#AustralianEconomy"
+    ],
+    "steps": [
+      {
+        "head": "The size of the economy",
+        "body": "Gross domestic product (GDP) is the total value of goods and services produced in Australia over a period."
+      },
+      {
+        "head": "Measured every quarter",
+        "figure": "4",
+        "figureLabel": "ABS GDP releases a year",
+        "body": "The ABS publishes GDP each quarter, so growth can be tracked through the year."
+      },
+      {
+        "head": "Real vs nominal",
+        "body": "Nominal GDP counts the dollar value. Real GDP strips out price changes to show the change in volume produced."
+      },
+      {
+        "head": "Three ways to count it",
+        "figure": "3",
+        "figureLabel": "ways the ABS measures GDP",
+        "body": "GDP can be measured by production, income or spending. The ABS generally uses the average of the three."
+      }
+    ]
+  },
+  {
+    "id": "help-indexation",
+    "title": "How HECS-HELP\nindexation works",
+    "pose": "quarter_zip",
+    "tags": [
+      "#HECS",
+      "#StudentLoans"
+    ],
+    "steps": [
+      {
+        "head": "Debt tied to living costs",
+        "body": "Each year a HELP debt is adjusted by indexation, so it keeps pace with changes in the cost of living."
+      },
+      {
+        "head": "When it happens",
+        "figure": "1 June",
+        "figureLabel": "indexation date each year",
+        "body": "Indexation is applied on 1 June. It only applies to HELP debt that is more than 11 months old."
+      },
+      {
+        "head": "How the rate is set",
+        "body": "The rate is the lower of the Consumer Price Index (CPI) and the Wage Price Index (WPI), backdated to 2023."
+      },
+      {
+        "head": "The 2026 rate",
+        "figure": "2.8%",
+        "figureLabel": "applied on 1 June 2026",
+        "body": "The indexation rate applied to HELP debts on 1 June 2026 was 2.8%, down from 3.2% in 2025."
+      }
+    ]
+  },
+  {
+    "id": "unemployment-rate",
+    "title": "How the jobless\nrate is measured",
+    "pose": "run_club",
+    "tags": [
+      "#Jobs",
+      "#AustralianEconomy"
+    ],
+    "steps": [
+      {
+        "head": "A monthly survey",
+        "figure": "50,000",
+        "figureLabel": "people in the monthly survey",
+        "body": "The ABS Labour Force Survey covers about 24,000 homes, or roughly 50,000 people, every month."
+      },
+      {
+        "head": "One hour counts as a job",
+        "body": "Anyone who did at least one hour of paid work in the survey week is counted as employed."
+      },
+      {
+        "head": "Who counts as unemployed",
+        "body": "People without work who looked for a job in the past four weeks and were available to start."
+      },
+      {
+        "head": "The rate itself",
+        "body": "Unemployed people as a share of the labour force, which is everyone employed plus everyone unemployed."
+      }
+    ]
+  }
+]
