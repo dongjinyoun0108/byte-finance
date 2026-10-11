@@ -6,6 +6,9 @@ on:
     # the script ignores the run that lands outside 6-11am and posts only once per day.
     - cron: '50 19 * * 0-4'
     - cron: '50 20 * * 0-4'
+    # Weekends: "Money explained" lesson at 9:00am Sydney (Sat + Sun)
+    - cron: '50 21 * * 5,6'
+    - cron: '50 22 * * 5,6'
   workflow_dispatch:
     inputs:
       mode:
@@ -13,6 +16,11 @@ on:
         type: choice
         options: [dry, check, force]
         default: dry
+      format:
+        description: 'which post to make (auto = weekday news on weekdays, lesson on weekends)'
+        type: choice
+        options: [auto, weekday, weekend]
+        default: auto
 
 permissions:
   contents: write
@@ -40,7 +48,7 @@ jobs:
           PAUSED: ${{ vars.PAUSED }}
         run: |
           if [ "$PAUSED" = "true" ]; then echo "Paused"; exit 0; fi
-          node scripts/daily.js ${{ github.event_name == 'workflow_dispatch' && format('--{0}', inputs.mode) || '' }}
+          node scripts/daily.js ${{ github.event_name == 'workflow_dispatch' && format('--{0}', inputs.mode) || '' }} ${{ github.event_name == 'workflow_dispatch' && inputs.format != 'auto' && format('--{0}', inputs.format) || '' }}
       - name: Keep dry-run slides
         if: github.event_name == 'workflow_dispatch' && inputs.mode == 'dry'
         uses: actions/upload-artifact@v4

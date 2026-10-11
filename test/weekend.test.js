@@ -1,0 +1,36 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { TOPICS, weekendIndex, pickTopic } from '../src/explainers.js';
+import { bannedHits } from '../src/guardrails.js';
+import { prepareWeekend } from '../src/weekend.js';
+
+test('weekend topics: no advice/prediction wording, 4 steps, 2 tags each', () => {
+  for (const t of TOPICS) {
+    assert.equal(t.steps.length, 4, t.id);
+    assert.equal(t.tags.length, 2, t.id);
+    const text = [t.title, ...t.steps.flatMap((s) => [s.head, s.body, s.figure || '', s.figureLabel || ''])].join('\n');
+    assert.deepEqual(bannedHits(text), [], t.id);
+    for (const s of t.steps) assert.ok(!s.figure || s.figure.length <= 8, `${t.id} figure too long`);
+  }
+});
+
+test('weekend rotation: Sat and Sun get consecutive topics, no repeats for 6 weeks', () => {
+  assert.equal(weekendIndex('2026-10-17'), 0);
+  assert.equal(weekendIndex('2026-10-18'), 1);
+  assert.equal(weekendIndex('2026-10-24'), 2);
+  const seen = new Set();
+  for (let w = 0; w < 6; w++) for (const d of [0, 1]) {
+    const key = new Date(Date.parse('2026-10-17T00:00:00Z') + (w * 7 + d) * 86400e3).toISOString().slice(0, 10);
+    seen.add(pickTopic(key).id);
+  }
+  assert.equal(seen.size, 12);
+});
+
+test('weekend post: 6 slides, caption with disclaimer and max 5 hashtags', () => {
+  const p = prepareWeekend({ now: new Date('2026-10-16T22:00:00Z') }); // Sat 17 Oct, 9am Sydney
+  assert.equal(p.slides.length, 6);
+  assert.match(p.caption, /General information only/);
+  const tags = p.caption.trim().split('\n').pop().split(' ');
+  assert.ok(tags.length <= 5 && tags.every((t) => t.startsWith('#')));
+  assert.equal(p.alts.length, 6);
+});

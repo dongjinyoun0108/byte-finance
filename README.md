@@ -1,6 +1,8 @@
 # Byte Finance (@byte.finance.au)
 
-A daily Instagram carousel for Australian finance news. It posts at **7:30am Sydney time, Monday to Friday**, and nobody needs to approve it.
+A daily Instagram carousel for Australian finance news. It posts at **7:30am Sydney time, Monday to Friday**, plus a **"Money explained" lesson at 9:00am on Saturday and Sunday**. Nobody needs to approve it.
+
+Weekend lessons come from a fact-checked bank of 12 topics in `src/explainers.js` (cash rate, compound interest, super, ETFs, franking, offset vs redraw, inflation, ASX 200, CGT discount, bond yields, the Aussie dollar, credit scores). They rotate Sat/Sun, so the bank lasts 6 weekends before repeating. Add topics there to extend it.
 
 ## How a day runs (`.github/workflows/daily.yml`)
 

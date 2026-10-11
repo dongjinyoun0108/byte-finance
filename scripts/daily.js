@@ -2,10 +2,12 @@
 //   node scripts/daily.js            normal scheduled run (waits for 7:25/7:30 Sydney, posts once per day)
 //   node scripts/daily.js --dry      render to ./out only, post nothing, ignore time and day
 //   node scripts/daily.js --force    post now, even outside the window or if today already posted
+//   add --weekend / --weekday to force which format is made (default: by the Sydney day)
 import { mkdir, writeFile, access } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { chromium } from 'playwright';
 import { prepare } from '../src/daily.js';
+import { prepareWeekend } from '../src/weekend.js';
 import { renderSlides } from '../render/render.js';
 import { instagram } from '../src/instagram.js';
 import { currentToken, instagramUserId } from '../src/igtoken.js';
@@ -80,23 +82,26 @@ async function main() {
   }
   const now = new Date();
   const day = sydney(now);
+  const WEEKEND = arg('weekend') || (day.weekday > 5 && !arg('weekday'));
   const dir = DRY ? 'out' : `posts/${day.dateKey}`;
   if (!DRY && !FORCE) {
-    if (day.weekday > 5) return console.log('weekend, nothing to do');
-    if (day.hh < 6 || day.hh >= 11) return console.log(`outside the morning window (${day.hhmm} Sydney)`);
+    if (WEEKEND) {
+      if (day.hh < 8 || day.hh >= 13) return console.log(`outside the weekend window (${day.hhmm} Sydney)`);
+    } else if (day.hh < 6 || day.hh >= 11) return console.log(`outside the morning window (${day.hhmm} Sydney)`);
     if (await exists(`${dir}/posted.json`)) return console.log('already posted today');
-    await waitUntil('07:25');
+    await waitUntil(WEEKEND ? '08:58' : '07:25');
   }
-  if (!DRY) {
+  if (!DRY && !WEEKEND) {
     // pick up stories.json committed by the scheduled Claude writer since checkout
     const pull = () => { try { git('pull', '--rebase', 'origin', BRANCH); } catch { /* keep going with what we have */ } };
     pull();
     if (!FORCE && !(await exists(`${dir}/stories.json`))) { await waitUntil('07:28'); pull(); }
   }
 
-  const p = await prepare({ now: new Date() });
-  console.log(JSON.stringify({ key: p.key, slides: p.slides.map((s) => s.name), log: p.log, stories: p.stories }, null, 1));
-  if (!p.boardOk && p.storyCount === 0) throw new Error('no board and no stories passed the checks; nothing posted');
+  // Weekdays: market news. Weekends: a "Money explained" lesson from the topic bank.
+  const p = WEEKEND ? prepareWeekend({ now: new Date() }) : await prepare({ now: new Date() });
+  console.log(JSON.stringify({ key: p.key, topic: p.topic, slides: p.slides.map((s) => s.name), log: p.log, stories: p.stories }, null, 1));
+  if (!WEEKEND && !p.boardOk && p.storyCount === 0) throw new Error('no board and no stories passed the checks; nothing posted');
 
   const rendered = await renderSlides(p.slides);
   const bgs = p.slides.map((s) => (s.html.match(/body \{ background: (#[0-9A-Fa-f]{6})/) || [])[1] || p.bg);
@@ -115,7 +120,7 @@ async function main() {
   const urls34 = tall.map((_, i) => raw(`${i + 1}.jpg`));
   const urls45 = short.map((_, i) => raw(`45/${i + 1}.jpg`));
   await waitPublic([...urls34, ...urls45, raw('story.jpg')]);
-  if (!FORCE) await waitUntil('07:30');
+  if (!FORCE) await waitUntil(WEEKEND ? '09:00' : '07:30');
 
   const { userId, username } = await instagramUserId(token);
   const ig = instagram({ userId, token });

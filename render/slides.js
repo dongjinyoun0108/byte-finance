@@ -227,12 +227,14 @@ export function storySlide({ slot, n, of, tag, headline, body, why, pose, source
   const F = FIELDS[slot];
   const css = `
   .tag { position: absolute; left: 72px; top: 184px; z-index: 6; background: var(--ink); color: ${F.bg}; font-weight: 650; font-size: 30px; padding: 12px 24px 13px; border-radius: 999px; }
-  h1 { position: absolute; left: 72px; top: 266px; width: 936px; z-index: 6; font-size: 140px; line-height: .93; }
-  .fig { position: absolute; left: 72px; top: 680px; z-index: 6; color: ${F.deep}; }
+  .col { position: absolute; left: 72px; top: 266px; width: 936px; z-index: 6; display: flex; flex-direction: column; align-items: flex-start; }
+  h1 { font-size: 140px; line-height: .93; width: 936px; }
+  .fig { margin-top: 44px; color: ${F.deep}; }
   .fig b { display: block; font-family: Bricolage, sans-serif; font-weight: 700; font-stretch: 80%; font-size: 176px; line-height: .86; letter-spacing: -0.04em; }
   .fig > span { display: block; margin-top: 12px; font-size: 28px; font-weight: 650; }
-  .copy { position: absolute; left: 72px; top: ${figure ? 980 : 800}px; width: 480px; z-index: 6; }
-  .copy p { font-size: 33px; line-height: 1.34; font-weight: 500; }
+  .copy { margin-top: ${figure ? 48 : 64}px; width: ${why ? 480 : 500}px; }
+  .copy p { font-size: ${why ? 33 : 40}px; line-height: 1.34; font-weight: 500; }
+  .copy p:empty { display: none; }
   .copy p + p { margin-top: 22px; color: var(--ink2); }
   .copy p.src { margin-top: 26px; font-size: 25px; color: var(--ink2); font-weight: 600; }
   `;
@@ -250,9 +252,11 @@ export function storySlide({ slot, n, of, tag, headline, body, why, pose, source
   ${brand()}
   <div class="meta">${n} of ${of}</div>
   <div class="tag" data-in="pop" data-at="0.05" data-dur="0.5" data-rot="-6">${esc(tag)}</div>
+  <div class="col">
   <h1 class="display" data-fit="${figure ? 400 : 520}">${headlineFx(headline, text, 0.12)}</h1>
   ${figure ? `<div class="fig" data-in="slam" data-at="0.2" data-dur="0.8"><b class="num">${figHtml}</b>${figureLabel ? `<span>${esc(figureLabel)}</span>` : ''}</div>` : ''}
-  <div class="copy" data-in="glide" data-at="0.45" data-dur="0.7"><p>${esc(body)}</p><p>${esc(why)}</p>${source ? `<p class="src">${esc(source)}</p>` : ''}</div>
+  <div class="copy" data-in="glide" data-at="0.45" data-dur="0.7"><p>${esc(body)}</p><p>${esc(why || '')}</p>${source ? `<p class="src">${esc(source)}</p>` : ''}</div>
+  </div>
   ${plinthCoin(pose, F, { cx: 810, topY: 1290, w: 540, pw: 400, sideH: 220, at: 0.15 })}
   ${sparkles([[590, 860, 50, '#17181C'], [990, 820, 40, '#FFFFFF'], [1000, 1080, 30, '#17181C']], 0.9)}
   `;
@@ -260,7 +264,7 @@ export function storySlide({ slot, n, of, tag, headline, body, why, pose, source
 }
 
 // ---------------------------------------------------------------- outro
-export function outroSlide({ pose, handle, disclaimer, text = 'wave' }) {
+export function outroSlide({ pose, handle, disclaimer, text = 'wave', headline = 'See you\ntomorrow\nat 7:30', ribbon = 'See you tomorrow at 7:30  ✦  Byte Finance  ✦', cta }) {
   const F = FIELDS.outro;
   const css = `
   h1 { position: absolute; left: 72px; top: 190px; width: 900px; z-index: 6; font-size: 164px; line-height: .9; }
@@ -268,12 +272,37 @@ export function outroSlide({ pose, handle, disclaimer, text = 'wave' }) {
   .disc { position: absolute; left: 72px; bottom: 66px; z-index: 6; font-size: 22px; line-height: 1.4; color: var(--ink2); max-width: 430px; }
   `;
   const body = `
-  ${marquee({ text: 'See you tomorrow at 7:30  ✦  Byte Finance  ✦', top: 900, height: 100, size: 44, color: F.bg, bg: '#17181C', rot: 6, speed: 90, at: 0, rest: 30, z: 2 })}
+  ${marquee({ text: ribbon, top: 900, height: 100, size: 44, color: F.bg, bg: '#17181C', rot: 6, speed: 90, at: 0, rest: 30, z: 2 })}
   ${brand()}
-  <h1 class="display">${headlineFx('See you\ntomorrow\nat 7:30', text, 0.05)}</h1>
-  <div class="follow" data-in="pop" data-at="0.45" data-dur="0.5" data-rot="-4">Follow ${esc(handle)}</div>
+  <h1 class="display" data-fit="500">${headlineFx(headline, text, 0.05)}</h1>
+  <div class="follow" data-in="pop" data-at="0.45" data-dur="0.5" data-rot="-4">${esc(cta || `Follow ${handle}`)}</div>
   ${plinthCoin(pose, F, { cx: 790, topY: 1250, w: 560, pw: 420, sideH: 260, at: 0.15 })}
   ${sparkles([[560, 760, 52, '#17181C'], [1000, 700, 40, '#FFFFFF']], 0.8)}
   <p class="disc" data-in="fade" data-at="0.6">${esc(disclaimer)}</p>`;
   return page({ title: 'Outro', body, extraCss: css, duration: SLIDE_SECONDS, bg: F.bg });
+}
+
+// ---------------------------------------------------------------- weekend explainer cover
+export function explainerCover({ title, steps, pose, date }) {
+  const F = FIELDS.cover;
+  const css = `
+  .kick { position: absolute; left: 72px; top: 184px; z-index: 6; background: var(--ink); color: ${F.bg}; font-weight: 650; font-size: 30px; padding: 12px 24px 13px; border-radius: 999px; }
+  h1 { position: absolute; left: 72px; top: 262px; width: 936px; z-index: 6; font-size: 132px; line-height: .92; }
+  .sun { position: absolute; left: 470px; top: 640px; width: 520px; height: 520px; border-radius: 50%; background: ${F.sun}; z-index: 1; }
+  .list { position: absolute; left: 72px; top: 690px; width: 420px; z-index: 6; }
+  .list p { font-size: 32px; font-weight: 600; line-height: 1.3; padding: 14px 0; border-bottom: 2px solid var(--rule); }
+  .list p b { font-family: Bricolage, sans-serif; font-weight: 700; color: ${F.deep}; margin-right: 12px; }
+  .swipe { position: absolute; right: 72px; top: 64px; z-index: 20; font-size: 26px; font-weight: 650; background: var(--ink); color: ${F.bg}; padding: 12px 22px 13px; border-radius: 999px; }
+  `;
+  const body = `
+  <div class="sun"></div>
+  ${marquee({ text: `Money explained  ✦  ${date}  ✦  Save it for later  ✦`, top: 1010, height: 100, size: 44, color: F.bg, bg: '#17181C', rot: -6, speed: 70, rest: 60, z: 2, at: -1 })}
+  ${plinthCoin(pose, F, { cx: 770, topY: 1250, w: 540, pw: 420, sideH: 260, live: true, at: 0.2 })}
+  ${sparkles([[520, 700, 60, '#17181C'], [990, 640, 46, '#FFFFFF'], [1000, 980, 36, '#17181C']], 1.2)}
+  ${brand()}
+  <div class="swipe">Swipe to learn</div>
+  <div class="kick">Money explained</div>
+  <h1 class="display" data-fit="400">${esc(title).replace(/\n/g, '<br>')}</h1>
+  <div class="list">${steps.slice(0, 4).map((s, i) => `<p><b>${i + 1}</b>${esc(s.head)}</p>`).join('')}</div>`;
+  return page({ title: 'Money explained', body, extraCss: css, duration: SLIDE_SECONDS, bg: F.bg, zoom: false });
 }
