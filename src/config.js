@@ -108,3 +108,13 @@ export const DISCLAIMER =
 // Posting window (Sydney time). The trigger fires at 7:25am AEDT and 7:25am AEST (two UTC times);
 // only the one that lands inside this window does anything, so daylight saving is handled.
 export const MORNING_WINDOW = { from: '07:10', to: '07:50', weekdays: [1, 2, 3, 4, 5] };
+
+// Daily Reel (Tue-Sat): rendered from the same data as the carousel, posted a few minutes after it.
+export const REEL = {
+  enabled: true,
+  at: '07:35',                 // Sydney time
+  music: process.env.REEL_MUSIC || 'morning-desk', // render/assets/audio/music/<name>.wav
+  shareToFeed: false,          // Reels tab only; keeps the profile grid to carousels
+  dir: 'reels/daily-news',
+  hyperframes: '0.8.147',
+};

@@ -3,8 +3,10 @@
 //   node scripts/daily.js --dry      render to ./out only, post nothing, ignore time and day
 //   node scripts/daily.js --force    post now, even outside the window or if today already posted
 //   add --weekend / --weekday to force which format is made (default: lesson on Sun/Mon, market news Tue-Sat)
-import { mkdir, writeFile, access } from 'node:fs/promises';
-import { execFileSync } from 'node:child_process';
+import { mkdir, writeFile, readFile, readdir, access } from 'node:fs/promises';
+import { execFileSync, spawn } from 'node:child_process';
+import { resolve, join } from 'node:path';
+import { homedir } from 'node:os';
 import { chromium } from 'playwright';
 import { prepare } from '../src/daily.js';
 import { prepareWeekend } from '../src/weekend.js';
@@ -12,6 +14,7 @@ import { renderSlides } from '../render/render.js';
 import { instagram } from '../src/instagram.js';
 import { currentToken, instagramUserId } from '../src/igtoken.js';
 import { sydney } from '../src/time.js';
+import { REEL } from '../src/config.js';
 
 const arg = (n) => process.argv.includes(`--${n}`);
 const DRY = arg('dry'), FORCE = arg('force');
@@ -26,7 +29,7 @@ function commitPush(paths, message) {
   try { execFileSync('git', ['diff', '--cached', '--quiet']); return; } catch { /* has changes */ }
   git('-c', 'user.name=byte-finance-bot', '-c', 'user.email=bot@users.noreply.github.com', 'commit', '-m', message);
   for (let i = 0; i < 3; i++) {
-    try { git('pull', '--rebase', 'origin', BRANCH); git('push', 'origin', `HEAD:${BRANCH}`); return; } catch (e) { if (i === 2) throw e; }
+    try { git('pull', '--rebase', '--autostash', 'origin', BRANCH); git('push', 'origin', `HEAD:${BRANCH}`); return; } catch (e) { if (i === 2) throw e; }
   }
 }
 
@@ -63,6 +66,37 @@ async function pad45(jpgs, bgs) {
   return out;
 }
 
+/** Chrome headless shell from the Playwright install, so HyperFrames doesn't download its own. */
+async function headlessShell() {
+  const root = join(homedir(), '.cache/ms-playwright');
+  for (const d of (await readdir(root).catch(() => [])).filter((x) => x.startsWith('chromium_headless_shell')).sort().reverse()) {
+    for (const p of ['chrome-linux/headless_shell', 'chrome-headless-shell-linux64/chrome-headless-shell']) if (await exists(join(root, d, p))) return join(root, d, p);
+  }
+  return null;
+}
+
+const runCmd = (cmd, args, opts = {}) => new Promise((ok, fail) => {
+  const c = spawn(cmd, args, { stdio: ['ignore', 'pipe', 'pipe'], ...opts });
+  let log = '';
+  c.stdout.on('data', (d) => { log += d; }); c.stderr.on('data', (d) => { log += d; });
+  c.on('close', (code) => (code === 0 ? ok(log) : fail(new Error(`${cmd} ${args.join(' ')} exited ${code}\n${log.slice(-2000)}`))));
+});
+
+/** Builds and renders today's Reel (reels/daily-news) to an MP4. Returns the file's bytes. */
+async function renderReel(data, dataFile, outFile) {
+  const t0 = Date.now();
+  await writeFile(dataFile, JSON.stringify({ ...data, music: REEL.music }, null, 1));
+  // build.mjs rewrites the tracked composition; keep git from treating that as a local change mid-run
+  try { execFileSync('git', ['update-index', '--skip-worktree', `${REEL.dir}/index.html`]); } catch { /* not a git checkout */ }
+  console.log((await runCmd('node', [`${REEL.dir}/scripts/build.mjs`, dataFile, '--ai'])).trim());
+  const env = { ...process.env };
+  const hs = await headlessShell();
+  if (hs) env.HYPERFRAMES_BROWSER_PATH = hs;
+  const log = await runCmd('npx', ['--yes', `hyperframes@${REEL.hyperframes}`, 'render', '--output', resolve(outFile)], { cwd: REEL.dir, env });
+  console.log(`reel rendered in ${Math.round((Date.now() - t0) / 1000)}s: ${(log.match(/[\d.]+ MB[^\n]*/) || [''])[0]}`);
+  return readFile(outFile);
+}
+
 async function waitPublic(urls) {
   for (let i = 0; i < 24; i++) {
     const ok = await Promise.all(urls.map((u) => fetch(u, { method: 'HEAD' }).then((r) => r.ok && /image/.test(r.headers.get('content-type') || ''), () => false)));
@@ -92,7 +126,7 @@ async function main() {
   }
   if (!DRY && !WEEKEND) {
     // pick up stories.json committed by the scheduled Claude writer since checkout
-    const pull = () => { try { git('pull', '--rebase', 'origin', BRANCH); } catch { /* keep going with what we have */ } };
+    const pull = () => { try { git('pull', '--rebase', '--autostash', 'origin', BRANCH); } catch { /* keep going with what we have */ } };
     pull();
     if (!FORCE && !(await exists(`${dir}/stories.json`))) { await waitUntil('07:28'); pull(); }
   }
@@ -111,7 +145,15 @@ async function main() {
   for (const [i, jpg] of short.entries()) await writeFile(`${dir}/45/${i + 1}.jpg`, jpg);
   await writeFile(`${dir}/caption.txt`, p.caption);
   await writeFile(`${dir}/story.jpg`, await storyCard(tall[0], bgs[0]));
-  if (DRY) return console.log(`dry run: ${tall.length} slides in ./out\n\n${p.caption}`);
+
+  // Reel (market days): render in the background while the carousel goes out; it posts at 7:35.
+  const wantReel = !WEEKEND && p.reel && REEL.enabled && process.env.REELS !== 'off';
+  const reelJob = wantReel ? renderReel(p.reel, `${dir}/reel.json`, DRY ? `${dir}/reel.mp4` : join(process.env.RUNNER_TEMP || 'out', 'reel.mp4')).catch((e) => ({ error: e })) : null;
+  if (DRY) {
+    const r = reelJob && await reelJob;
+    if (r?.error) { console.error(r.error); process.exitCode = 1; }
+    return console.log(`dry run: ${tall.length} slides${reelJob && !r?.error ? ' + reel.mp4' : ''} in ./out\n\n${p.caption}`);
+  }
 
   const { token, changed } = await currentToken();
   commitPush([dir, ...(changed ? ['state'] : [])], `Slides for ${p.key}`);
@@ -134,9 +176,27 @@ async function main() {
   }
   let storyId = null; // nudge followers via Stories; never fails the run
   try { storyId = await ig.publishStory({ imageUrl: raw('story.jpg') }); } catch (e) { console.warn(`story skipped: ${e.message}`); }
-  await writeFile(`${dir}/posted.json`, JSON.stringify({ mediaId, storyId, username, format, postedAt: new Date().toISOString(), stories: p.stories }, null, 1));
+  const posted = { mediaId, storyId, username, format, postedAt: new Date().toISOString(), stories: p.stories };
+  await writeFile(`${dir}/posted.json`, JSON.stringify(posted, null, 1));
   commitPush([dir], `Posted ${p.key}`);
   console.log(`posted ${mediaId} to @${username} (${format})`);
+
+  if (reelJob) { // never undoes the carousel; a failure here just fails the run so the owner gets an email
+    try {
+      const video = await reelJob;
+      if (video.error) throw video.error;
+      const container = await ig.prepareReel({ video, caption: p.caption, shareToFeed: REEL.shareToFeed });
+      if (!FORCE) await waitUntil(REEL.at);
+      posted.reelId = await ig.publish(container);
+      posted.reelAt = new Date().toISOString();
+      await writeFile(`${dir}/posted.json`, JSON.stringify(posted, null, 1));
+      commitPush([dir], `Posted reel ${p.key}`);
+      console.log(`posted reel ${posted.reelId}`);
+    } catch (e) {
+      console.error(`reel not posted: ${e.stack || e}`);
+      process.exitCode = 1;
+    }
+  }
 }
 
 main().catch(async (e) => {

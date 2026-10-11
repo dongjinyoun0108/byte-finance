@@ -232,8 +232,8 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4E2A
       <p id="o-disc">General information only, not financial advice. It doesn’t consider your objectives, financial situation or needs.</p>
     </div>
   </div>
-  <audio id="music" src="assets/audio/theme.wav" data-start="0" data-duration="28.74" data-track-index="10" data-volume="0.85"
-    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.85},{"t":27.54,"v":0.85},{"t":28.74,"v":0}]}]}'></audio>
+  <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="28.74" data-track-index="10" data-volume="1"
+    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":1},{"t":27.54,"v":1},{"t":28.74,"v":0}]}]}'></audio>
   <audio id="whoosh0" src="assets/audio/whoosh.wav" data-start="2.874" data-duration="0.7" data-track-index="11" data-volume="0.35"></audio>
   <audio id="whoosh1" src="assets/audio/whoosh.wav" data-start="8.231" data-duration="0.7" data-track-index="12" data-volume="0.35"></audio>
   <audio id="whoosh2" src="assets/audio/whoosh.wav" data-start="13.428" data-duration="0.7" data-track-index="13" data-volume="0.35"></audio>
@@ -550,7 +550,7 @@ function build() {
   {
     const t0 = T[T.length - 2];
     const W = NST * P - GAP;
-    const s = 1000 / W;
+    const s = Math.min(1000 / W, 0.2); // few stations: keep the mini cards small so they clear the lockup
     const Yc = 1060;
     tl.to(world, { x: 0, duration: 1.1, ease: 'power3.inOut' }, t0 - 0.35);
     tl.to(cam, { scale: s, x: -s * (W / 2 - 540), y: Yc - 960, duration: 1.1, ease: 'power3.inOut' }, t0 - 0.35);

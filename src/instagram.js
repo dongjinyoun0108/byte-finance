@@ -23,8 +23,8 @@ export function instagram({
     return json;
   }
 
-  async function waitReady(id) {
-    for (let i = 0; i < 30; i++) {
+  async function waitReady(id, tries = 30) {
+    for (let i = 0; i < tries; i++) {
       const { status_code } = await call(id, { fields: 'status_code' }, 'GET');
       if (status_code === 'FINISHED') return;
       if (status_code === 'ERROR' || status_code === 'EXPIRED') throw new Error(`Instagram container ${id} ${status_code}`);
@@ -39,6 +39,35 @@ export function instagram({
       const { id } = await call(`${userId}/media`, { image_url: imageUrl, media_type: 'STORIES' });
       await waitReady(id);
       return (await call(`${userId}/media_publish`, { creation_id: id })).id;
+    },
+    /**
+     * Reel, step 1: create the container and upload the MP4 straight from disk (resumable upload, so the
+     * video never needs public hosting), then wait for Instagram to finish processing it. Returns the
+     * container id; call publish(id) when it should go live. Falls back to videoUrl if given.
+     */
+    async prepareReel({ video, videoUrl, caption, thumbOffsetMs = 2700, shareToFeed = false }) {
+      const base = { media_type: 'REELS', caption, share_to_feed: String(shareToFeed), thumb_offset: String(thumbOffsetMs) };
+      let id;
+      try {
+        if (!video) throw new Error('no local video');
+        const c = await call(`${userId}/media`, { ...base, upload_type: 'resumable' });
+        id = c.id;
+        const res = await fetchImpl(c.uri || `https://rupload.facebook.com/ig-api-upload/${version}/${id}`, {
+          method: 'POST',
+          headers: { Authorization: `OAuth ${token}`, offset: '0', file_size: String(video.length), 'Content-Type': 'application/octet-stream' },
+          body: video,
+        });
+        const j = await res.json().catch(() => ({}));
+        if (!res.ok || j.success === false || j.error) throw new Error(`upload failed: ${j.error?.message || j.debug_info?.message || res.status}`);
+      } catch (e) {
+        if (!videoUrl) throw e;
+        id = (await call(`${userId}/media`, { ...base, video_url: videoUrl })).id;
+      }
+      await waitReady(id, 90); // video processing: allow ~3 minutes at the default 2s poll
+      return id;
+    },
+    async publish(creationId) {
+      return (await call(`${userId}/media_publish`, { creation_id: creationId })).id;
     },
     async publishCarousel({ imageUrls, caption, altTexts = [] }) {
       if (imageUrls.length < 2 || imageUrls.length > 10) throw new Error('A carousel needs 2-10 images');

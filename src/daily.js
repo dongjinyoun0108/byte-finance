@@ -96,7 +96,23 @@ export async function prepare({ now = new Date(), fetchImpl = fetch, writer = ca
       }),
     });
   });
-  slides.push({ name: `${slides.length + 1}-outro`, html: outroSlide({ pose: [0, 1, 2].map((j) => OUTRO_POSES[(idx + j) % OUTRO_POSES.length]).find((x) => x !== pose && x !== (sp && boardMood(sp).pose)), handle: '@byte.finance.au', disclaimer: DISCLAIMER }) });
+  const outroPose = [0, 1, 2].map((j) => OUTRO_POSES[(idx + j) % OUTRO_POSES.length]).find((x) => x !== pose && x !== (sp && boardMood(sp).pose));
+  slides.push({ name: `${slides.length + 1}-outro`, html: outroSlide({ pose: outroPose, handle: '@byte.finance.au', disclaimer: DISCLAIMER }) });
+
+  // Same day's data for the Reel (reels/daily-news/scripts/build.mjs). Needs the board; stories are optional.
+  const reel = car.boardOk && hook ? {
+    date: coverDate(now),
+    hook: {
+      name: SHORT[hook.row.key], pct: hook.row.changePct, pose: 'coffee',
+      others: ['sp500', 'nasdaq', 'asx', 'btc', 'gold', 'aud', 'oil'].filter((k) => k !== hook.row.key && board.rows.some((r) => r.key === k)).map((k) => SHORT[k]).slice(0, 4),
+    },
+    board: { headline: sp ? boardMood(sp).headline : 'Overnight markets', asOf: `Prices at ${clockLabel(now)}`, hero: boardRow(hook.row).label, rows: board.rows.map(boardRow) },
+    stories: used.map((k) => {
+      const s = stories[k];
+      return { tag: s.tag, headline: s.headline, why: s.why, figure: s.figure || '', figureLabel: s.figure_label || '', pose: s.tag === 'Aussie dollar' ? 'kangaroo' : s.mood };
+    }),
+    outroPose,
+  } : null;
 
   // Alt text per slide (accessibility, and Instagram reads it for search)
   const alts = slides.map((sl) => {
@@ -107,7 +123,7 @@ export async function prepare({ now = new Date(), fetchImpl = fetch, writer = ca
     return s ? `${s.tag}: ${s.headline}. ${s.body} ${s.why}` : '';
   });
   return {
-    key: day.dateKey, slides, caption: car.caption, alts, boardOk: car.boardOk, storyCount: n,
+    key: day.dateKey, slides, caption: car.caption, alts, reel, boardOk: car.boardOk, storyCount: n,
     log: { board: { loaded: board.rows.length, missing: board.missing }, news: { items: news.items.length, errors: news.errors }, writer: log },
     stories: Object.fromEntries(Object.entries(stories).map(([k, s]) => [k, { headline: s.headline, source: s.item.source, link: s.item.link }])),
     bg: FIELDS.cover.bg,

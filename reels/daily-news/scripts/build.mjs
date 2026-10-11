@@ -25,7 +25,12 @@ const fontSrc = {
   'inter-tight.woff2': 'node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2',
 };
 for (const [to, from] of Object.entries(fontSrc)) copyFileSync(join(repo, from), join(here, 'assets/fonts', to));
-for (const a of ['theme.wav', 'whoosh.wav', 'ding.wav']) copyFileSync(join(repo, 'render/assets/audio', a), join(here, 'assets/audio', a));
+for (const a of ['whoosh.wav', 'ding.wav']) copyFileSync(join(repo, 'render/assets/audio', a), join(here, 'assets/audio', a));
+// Music bed: one of render/assets/audio/music/*.wav (all original, 112 BPM, -14 LUFS). --music=name or data.music.
+const MUSIC = args.find((a) => a.startsWith('--music='))?.slice(8) || D.music || 'morning-desk';
+const musicSrc = join(repo, 'render/assets/audio/music', `${MUSIC}.wav`);
+if (!existsSync(musicSrc)) throw new Error(`unknown music "${MUSIC}"`);
+copyFileSync(musicSrc, join(here, 'assets/audio/music.wav'));
 
 const stories = (D.stories || []).slice(0, 3);
 const poses = {
@@ -617,7 +622,7 @@ function build() {
   {
     const t0 = T[T.length - 2];
     const W = NST * P - GAP;
-    const s = 1000 / W;
+    const s = Math.min(1000 / W, 0.2); // few stations: keep the mini cards small so they clear the lockup
     const Yc = 1060;
     tl.to(world, { x: 0, duration: 1.1, ease: 'power3.inOut' }, t0 - 0.35);
     tl.to(cam, { scale: s, x: -s * (W / 2 - 540), y: Yc - 960, duration: 1.1, ease: 'power3.inOut' }, t0 - 0.35);
@@ -670,8 +675,8 @@ const html = `<!doctype html>
       <p id="o-disc">${DISCLAIMER}</p>
     </div>
   </div>
-  <audio id="music" src="assets/audio/theme.wav" data-start="0" data-duration="${TOTAL}" data-track-index="10" data-volume="0.85"
-    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.85},{"t":${(TOTAL - 1.2).toFixed(2)},"v":0.85},{"t":${TOTAL},"v":0}]}]}'></audio>
+  <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="${TOTAL}" data-track-index="10" data-volume="1"
+    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":1},{"t":${(TOTAL - 1.2).toFixed(2)},"v":1},{"t":${TOTAL},"v":0}]}]}'></audio>
   ${whooshes.map((t, i) => `<audio id="whoosh${i}" src="assets/audio/whoosh.wav" data-start="${t}" data-duration="0.7" data-track-index="${11 + i}" data-volume="0.35"></audio>`).join('\n  ')}
   ${dingAt !== null ? `<audio id="ding" src="assets/audio/ding.wav" data-start="${dingAt}" data-duration="1.4" data-track-index="18" data-volume="0.45"></audio>` : ''}
 </div>
@@ -680,4 +685,4 @@ const html = `<!doctype html>
 </html>`;
 
 writeFileSync(join(here, OUT), html);
-console.log(`index.html: ${stations} stations, ${nS} stories, ${TOTAL}s; scene starts ${T.join(', ')}`);
+console.log(`${OUT}: music ${MUSIC}, ${stations} stations, ${nS} stories, ${TOTAL}s; scene starts ${T.join(', ')}`);
