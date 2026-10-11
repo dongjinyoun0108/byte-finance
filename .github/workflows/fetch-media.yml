@@ -1,0 +1,39 @@
+# Manual helper: downloads media files (e.g. AI-generated coin clips) into the repo.
+name: fetch-media
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "Space-separated name=url pairs"
+        required: true
+      dir:
+        description: "Target folder"
+        default: "reels/coin-motion/raw"
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download
+        env:
+          URLS: ${{ inputs.urls }}
+          DIR: ${{ inputs.dir }}
+        run: |
+          mkdir -p "$DIR"
+          for pair in $URLS; do
+            name="${pair%%=*}"; url="${pair#*=}"
+            case "$name" in *[!A-Za-z0-9._-]*) echo "bad name $name"; exit 1;; esac
+            curl -fsSL --max-filesize 60000000 -o "$DIR/$name" "$url"
+          done
+          ls -la "$DIR"
+      - name: Commit
+        env:
+          DIR: ${{ inputs.dir }}
+        run: |
+          git config user.name "byte-finance-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$DIR"
+          git commit -m "Fetch media into $DIR" || exit 0
+          git pull --rebase -q && git push -q
