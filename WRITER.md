@@ -6,16 +6,13 @@ Each Tuesday to Saturday morning you write the three story slides for the Byte F
 
 ## 1. Gather candidates (last ~20 hours only)
 
-Use WebFetch on these feeds. Ask for each item's title, short summary, link and publish time:
+Don't use WebFetch: it can't reach the feeds in an unattended run. The GitHub workflow "Morning feeds" fetches them
+and commits `posts/YYYY-MM-DD/feed.json` (your task prompt says how to start it and wait for it). It holds up to 40
+recent items from the RBA, ABC News business, Yahoo Finance AU and US, CNBC and the Federal Reserve, each with
+`id`, `source`, `region`, `title`, `summary`, `link` and `published`.
 
-- https://www.rba.gov.au/rss/rss-cb-media-releases.xml (RBA)
-- https://www.abc.net.au/news/feed/51892/rss.xml (ABC News business)
-- https://feeds.finance.yahoo.com/rss/2.0/headline?s=%5EAXJO,BHP.AX,CBA.AX,CSL.AX,WES.AX&region=AU&lang=en-AU (Yahoo Finance AU)
-- https://feeds.finance.yahoo.com/rss/2.0/headline?s=%5EGSPC,%5EIXIC,%5EDJI,NVDA,AAPL,MSFT&region=US&lang=en-US (Yahoo Finance US)
-- https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147 (CNBC)
-- https://www.federalreserve.gov/feeds/press_all.xml (Federal Reserve)
-
-Record each candidate you might use in `items`, with the title and summary **exactly as the feed gives them**. The guardrails compare your numbers and wording against these.
+Copy every item you might use into `items` **exactly as feed.json has it** (same id, source, title, summary, link).
+The guardrails compare your numbers and wording against these. If feed.json has no items, write all slots as null.
 
 ## 2. Pick one story per slot (or null)
 

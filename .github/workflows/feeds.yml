@@ -1,0 +1,29 @@
+# Started by the morning Claude writer: fetch the news feeds and commit them as posts/<folder>/feed.json.
+name: Morning feeds
+
+on:
+  workflow_dispatch:
+    inputs:
+      folder:
+        description: "Folder under posts/ (default: today's Sydney date)"
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  feeds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Fetch feeds
+        env:
+          FOLDER: ${{ inputs.folder }}
+        run: node scripts/fetch-feeds.js ${FOLDER:+--folder=$FOLDER}
