@@ -5,14 +5,19 @@ on:
     # 6:50am Sydney every day (waits until 7:30). Two UTC times cover daylight saving (AEDT/AEST);
     # the script ignores the run that lands outside 6-11am and posts only once per day.
     # Tue-Sat: market news (after each US session). Sun + Mon: "Money explained" lesson.
-    - cron: '50 19 * * *'
+    # GitHub can start scheduled runs late or skip them under load, so there are several start times. The first
+    # to start waits for 7:25; the others see posted.json (or queue behind it) and exit.
+    - cron: '5 19 * * *'
+    - cron: '35 19 * * *'
+    - cron: '5 20 * * *'
+    - cron: '35 20 * * *'
     - cron: '50 20 * * *'
   workflow_dispatch:
     inputs:
       mode:
-        description: 'dry = render only, preview = render + save reel to previews/, reeltest = render + upload reel without publishing, check = test Instagram login, force = post right now'
+        description: 'auto = the normal scheduled run (waits for 7:25, posts once), dry = render only, preview = render + save reel to previews/, reeltest = render + upload reel without publishing, check = test Instagram login, force = post right now'
         type: choice
-        options: [dry, preview, reeltest, check, force]
+        options: [dry, preview, reeltest, check, force, auto]
         default: dry
       format:
         description: 'which post to make (auto = market news Tue-Sat, lesson Sun/Mon)'
@@ -51,7 +56,7 @@ jobs:
           REEL_LESSON_MUSIC: ${{ vars.REEL_LESSON_MUSIC }}
         run: |
           if [ "$PAUSED" = "true" ]; then echo "Paused"; exit 0; fi
-          node scripts/daily.js ${{ github.event_name == 'workflow_dispatch' && format('--{0}', inputs.mode) || '' }} ${{ github.event_name == 'workflow_dispatch' && inputs.format != 'auto' && format('--{0}', inputs.format) || '' }}
+          node scripts/daily.js ${{ github.event_name == 'workflow_dispatch' && inputs.mode != 'auto' && format('--{0}', inputs.mode) || '' }} ${{ github.event_name == 'workflow_dispatch' && inputs.format != 'auto' && format('--{0}', inputs.format) || '' }}
       - name: Keep dry-run slides
         if: github.event_name == 'workflow_dispatch' && inputs.mode == 'dry'
         uses: actions/upload-artifact@v4
