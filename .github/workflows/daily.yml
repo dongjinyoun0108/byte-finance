@@ -15,9 +15,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'auto = the normal scheduled run (waits for 7:25, posts once), dry = render only, preview = render + save reel to previews/, reeltest = render + upload reel without publishing, check = test Instagram login, force = post right now'
+        description: 'auto = the normal scheduled run (waits for 7:25, posts once), dry = render only, preview = render + save reel to previews/, reeltest = render + upload reel without publishing, reel = post only today's reel (carousel already out), check = test Instagram login, force = post right now'
         type: choice
-        options: [dry, preview, reeltest, check, force, auto]
+        options: [dry, preview, reeltest, reel, check, force, auto]
         default: dry
       format:
         description: 'which post to make (auto = market news Tue-Sat, lesson Sun/Mon)'

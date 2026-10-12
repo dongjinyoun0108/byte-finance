@@ -19,6 +19,7 @@ import { readFileSync } from 'node:fs';
 const hasLessonVisual = (id) => { try { return !!JSON.parse(readFileSync('content/lesson-visuals.json', 'utf8'))[id]; } catch { return false; } };
 
 const arg = (n) => process.argv.includes(`--${n}`);
+const REELONLY = arg('reel'); // carousel already posted today: render and post just the reel, now
 const REELTEST = arg('reeltest'); // render today's reel and upload it to Instagram WITHOUT publishing; result -> previews/
 const PREVIEW = arg('preview') || REELTEST; // like --dry, but commits today's reel.mp4 to previews/ so it can be checked
 const DRY = arg('dry') || PREVIEW, FORCE = arg('force');
@@ -143,7 +144,11 @@ async function main() {
   // Market posts follow the US session: Tue-Sat Sydney mornings. Lessons on Sun + Mon (no US trading overnight).
   const WEEKEND = arg('weekend') || ((day.weekday === 7 || day.weekday === 1) && !arg('weekday'));
   const dir = DRY ? 'out' : `posts/${day.dateKey}`;
-  if (!DRY && !FORCE) {
+  if (REELONLY) {
+    const posted = JSON.parse(await readFile(`${dir}/posted.json`, 'utf8').catch(() => 'null'));
+    if (!posted) throw new Error('nothing posted today yet; run the normal job instead');
+    if (posted.reelId) return console.log(`reel already posted today (${posted.reelId})`);
+  } else if (!DRY && !FORCE) {
     if (day.hh < 6 || day.hh >= 11) return console.log(`outside the morning window (${day.hhmm} Sydney)`);
     if (await exists(`${dir}/posted.json`)) return console.log('already posted today');
     await waitUntil('07:25');
@@ -183,6 +188,23 @@ async function main() {
     }
   }
   const reelJob = reelSpec ? renderReel(reelSpec).catch((e) => ({ error: e })) : null;
+  if (REELONLY) {
+    const posted = JSON.parse(await readFile(`${dir}/posted.json`, 'utf8'));
+    const video = reelJob && await reelJob;
+    if (!video) throw new Error('no reel for today');
+    if (video.error) throw video.error;
+    const { token } = await currentToken();
+    const { userId } = await instagramUserId(token);
+    const ig = instagram({ userId, token });
+    const videoUrl = await hostVideo(reelSpec.outFile, `reel-${p.key}.mp4`);
+    const container = await ig.prepareReel({ videoUrl, caption: p.caption, shareToFeed: REEL.shareToFeed });
+    posted.reelId = await ig.publish(container);
+    posted.reelAt = new Date().toISOString();
+    delete posted.reelError;
+    await writeFile(`${dir}/posted.json`, JSON.stringify(posted, null, 1));
+    commitPush([`${dir}/posted.json`], `Posted reel ${p.key}`);
+    return console.log(`posted reel ${posted.reelId}`);
+  }
   if (DRY) {
     const r = reelJob && await reelJob;
     if (r?.error) { console.error(r.error); process.exitCode = 1; }
