@@ -19,7 +19,8 @@ import { readFileSync } from 'node:fs';
 const hasLessonVisual = (id) => { try { return !!JSON.parse(readFileSync('content/lesson-visuals.json', 'utf8'))[id]; } catch { return false; } };
 
 const arg = (n) => process.argv.includes(`--${n}`);
-const PREVIEW = arg('preview'); // like --dry, but commits today's reel.mp4 to previews/ so it can be checked
+const REELTEST = arg('reeltest'); // render today's reel and upload it to Instagram WITHOUT publishing; result -> previews/
+const PREVIEW = arg('preview') || REELTEST; // like --dry, but commits today's reel.mp4 to previews/ so it can be checked
 const DRY = arg('dry') || PREVIEW, FORCE = arg('force');
 const REPO = process.env.GITHUB_REPOSITORY || 'dongjinyoun0108/byte-finance';
 const BRANCH = process.env.GITHUB_REF_NAME || 'main';
@@ -167,6 +168,25 @@ async function main() {
   if (DRY) {
     const r = reelJob && await reelJob;
     if (r?.error) { console.error(r.error); process.exitCode = 1; }
+    if (REELTEST) {
+      const res = { at: new Date().toISOString(), topic: p.topic };
+      try {
+        if (!reelJob) throw new Error('no reel for today');
+        if (r?.error) throw r.error;
+        res.bytes = r.length;
+        const { token } = await currentToken();
+        const { userId } = await instagramUserId(token);
+        const ig = instagram({ userId, token });
+        const t1 = Date.now();
+        res.container = await ig.prepareReel({ video: r, caption: 'test (not published)', debug: (m) => { (res.trace ||= []).push(m); } });
+        res.processedSeconds = Math.round((Date.now() - t1) / 1000);
+        res.result = 'uploaded and processed OK (not published)';
+      } catch (e) { res.result = 'FAILED'; res.error = String(e.stack || e).slice(0, 3000); }
+      await mkdir('previews', { recursive: true });
+      await writeFile(`previews/${p.key}-reeltest.json`, JSON.stringify(res, null, 1));
+      commitPush(['previews'], `Reel test ${p.key}`);
+      return console.log(JSON.stringify(res, null, 1));
+    }
     if (PREVIEW) {
       await mkdir('previews', { recursive: true });
       const log = { at: new Date().toISOString(), reel: !reelJob ? 'none' : r?.error ? String(r.error.stack || r.error) : 'ok', slides: tall.length, topic: p.topic, reelData: p.reel };
@@ -216,6 +236,9 @@ async function main() {
       console.log(`posted reel ${posted.reelId}`);
     } catch (e) {
       console.error(`reel not posted: ${e.stack || e}`);
+      posted.reelError = String(e.message || e).slice(0, 2000); // logs aren't always reachable; keep the reason with the post
+      await writeFile(`${dir}/posted.json`, JSON.stringify(posted, null, 1));
+      try { commitPush([dir], `Reel failed ${p.key}`); } catch { /* still exit non-zero below */ }
       process.exitCode = 1;
     }
   }

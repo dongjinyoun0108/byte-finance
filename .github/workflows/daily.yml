@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'dry = render only, preview = render + save reel to previews/, check = test Instagram login, force = post right now'
+        description: 'dry = render only, preview = render + save reel to previews/, reeltest = render + upload reel without publishing, check = test Instagram login, force = post right now'
         type: choice
-        options: [dry, preview, check, force]
+        options: [dry, preview, reeltest, check, force]
         default: dry
       format:
         description: 'which post to make (auto = market news Tue-Sat, lesson Sun/Mon)'

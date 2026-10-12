@@ -23,11 +23,12 @@ export function instagram({
     return json;
   }
 
-  async function waitReady(id, tries = 30) {
+  async function waitReady(id, tries = 30, debug) {
     for (let i = 0; i < tries; i++) {
-      const { status_code } = await call(id, { fields: 'status_code' }, 'GET');
+      const { status_code, status } = await call(id, { fields: 'status_code,status' }, 'GET');
+      if (debug && (i === 0 || status_code !== 'IN_PROGRESS')) debug(`container ${id}: ${status_code}${status ? ` (${status})` : ''}`);
       if (status_code === 'FINISHED') return;
-      if (status_code === 'ERROR' || status_code === 'EXPIRED') throw new Error(`Instagram container ${id} ${status_code}`);
+      if (status_code === 'ERROR' || status_code === 'EXPIRED') throw new Error(`Instagram container ${id} ${status_code}${status ? `: ${status}` : ''}`);
       await new Promise((r) => setTimeout(r, pollMs));
     }
     throw new Error(`Instagram container ${id} not ready in time`);
@@ -45,25 +46,29 @@ export function instagram({
      * video never needs public hosting), then wait for Instagram to finish processing it. Returns the
      * container id; call publish(id) when it should go live. Falls back to videoUrl if given.
      */
-    async prepareReel({ video, videoUrl, caption, thumbOffsetMs = 2700, shareToFeed = false }) {
+    async prepareReel({ video, videoUrl, caption, thumbOffsetMs = 2700, shareToFeed = false, debug = () => {} }) {
       const base = { media_type: 'REELS', caption, share_to_feed: String(shareToFeed), thumb_offset: String(thumbOffsetMs) };
       let id;
       try {
         if (!video) throw new Error('no local video');
         const c = await call(`${userId}/media`, { ...base, upload_type: 'resumable' });
         id = c.id;
+        debug(`container ${id}, upload uri ${c.uri ? c.uri.replace(/access_token=[^&]+/, 'access_token=…') : '(none returned)'}`);
         const res = await fetchImpl(c.uri || `https://rupload.facebook.com/ig-api-upload/${version}/${id}`, {
           method: 'POST',
           headers: { Authorization: `OAuth ${token}`, offset: '0', file_size: String(video.length), 'Content-Type': 'application/octet-stream' },
           body: video,
         });
-        const j = await res.json().catch(() => ({}));
-        if (!res.ok || j.success === false || j.error) throw new Error(`upload failed: ${j.error?.message || j.debug_info?.message || res.status}`);
+        const text = await res.text();
+        debug(`upload HTTP ${res.status}: ${text.slice(0, 500)}`);
+        let j = {}; try { j = JSON.parse(text); } catch { /* not JSON */ }
+        if (!res.ok || j.success === false || j.error) throw new Error(`upload failed (HTTP ${res.status}): ${j.error?.message || j.debug_info?.message || text.slice(0, 300)}`);
       } catch (e) {
         if (!videoUrl) throw e;
+        debug(`resumable upload failed (${e.message}); trying video_url`);
         id = (await call(`${userId}/media`, { ...base, video_url: videoUrl })).id;
       }
-      await waitReady(id, 90); // video processing: allow ~3 minutes at the default 2s poll
+      await waitReady(id, 90, debug); // video processing: allow ~3 minutes at the default 2s poll
       return id;
     },
     async publish(creationId) {
