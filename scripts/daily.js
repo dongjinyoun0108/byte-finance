@@ -233,6 +233,8 @@ async function main() {
       const log = { at: new Date().toISOString(), reel: !reelJob ? 'none' : r?.error ? String(r.error.stack || r.error) : 'ok', slides: tall.length, topic: p.topic, reelData: p.reel };
       await writeFile(`previews/${p.key}.json`, JSON.stringify(log, null, 1));
       if (reelJob && !r?.error) await writeFile(`previews/${p.key}-reel.mp4`, r);
+      await mkdir(`previews/${p.key}-slides`, { recursive: true });
+      for (const [i, jpg] of tall.entries()) await writeFile(`previews/${p.key}-slides/${i + 1}.jpg`, jpg);
       commitPush(['previews'], `Preview ${p.key}`);
     }
     return console.log(`dry run: ${tall.length} slides${reelJob && !r?.error ? ' + reel.mp4' : ''} in ./out\n\n${p.caption}`);
