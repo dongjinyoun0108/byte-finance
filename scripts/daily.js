@@ -103,6 +103,24 @@ async function renderReel({ dir, buildArgs, outFile }) {
   return readFile(outFile);
 }
 
+/**
+ * Instagram (Instagram-login API) only takes Reels by public URL. Publish the MP4 on a one-commit orphan branch
+ * `media`, force-pushed each time, so the video is reachable at a raw URL without bloating main's history.
+ */
+async function hostVideo(file, name) {
+  const blob = execFileSync('git', ['hash-object', '-w', file]).toString().trim();
+  const tree = execFileSync('git', ['mktree'], { input: `100644 blob ${blob}\t${name}\n` }).toString().trim();
+  const commit = execFileSync('git', ['-c', 'user.name=byte-finance-bot', '-c', 'user.email=bot@users.noreply.github.com', 'commit-tree', tree, '-m', `Reel ${name}`]).toString().trim();
+  execFileSync('git', ['push', '-f', 'origin', `${commit}:refs/heads/media`], { stdio: 'inherit' });
+  const url = `https://raw.githubusercontent.com/${REPO}/media/${name}`;
+  for (let i = 0; i < 36; i++) { // wait until the CDN serves it
+    const r = await fetch(url, { method: 'HEAD' }).catch(() => null);
+    if (r?.ok && +(r.headers.get('content-length') || 0) > 1000) return url;
+    await sleep(5000);
+  }
+  throw new Error(`video never became reachable at ${url}`);
+}
+
 async function waitPublic(urls) {
   for (let i = 0; i < 24; i++) {
     const ok = await Promise.all(urls.map((u) => fetch(u, { method: 'HEAD' }).then((r) => r.ok && /image/.test(r.headers.get('content-type') || ''), () => false)));
@@ -178,7 +196,8 @@ async function main() {
         const { userId } = await instagramUserId(token);
         const ig = instagram({ userId, token });
         const t1 = Date.now();
-        res.container = await ig.prepareReel({ video: r, caption: 'test (not published)', debug: (m) => { (res.trace ||= []).push(m); } });
+        res.videoUrl = await hostVideo(reelSpec.outFile, `reel-${p.key}-test.mp4`);
+        res.container = await ig.prepareReel({ videoUrl: res.videoUrl, caption: 'test (not published)', debug: (m) => { (res.trace ||= []).push(m); } });
         res.processedSeconds = Math.round((Date.now() - t1) / 1000);
         res.result = 'uploaded and processed OK (not published)';
       } catch (e) { res.result = 'FAILED'; res.error = String(e.stack || e).slice(0, 3000); }
@@ -227,7 +246,8 @@ async function main() {
     try {
       const video = await reelJob;
       if (video.error) throw video.error;
-      const container = await ig.prepareReel({ video, caption: p.caption, shareToFeed: REEL.shareToFeed });
+      const videoUrl = await hostVideo(reelSpec.outFile, `reel-${p.key}.mp4`);
+      const container = await ig.prepareReel({ videoUrl, caption: p.caption, shareToFeed: REEL.shareToFeed });
       if (!FORCE) await waitUntil(REEL.at);
       posted.reelId = await ig.publish(container);
       posted.reelAt = new Date().toISOString();

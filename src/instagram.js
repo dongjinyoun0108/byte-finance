@@ -49,6 +49,12 @@ export function instagram({
     async prepareReel({ video, videoUrl, caption, thumbOffsetMs = 2700, shareToFeed = false, debug = () => {} }) {
       const base = { media_type: 'REELS', caption, share_to_feed: String(shareToFeed), thumb_offset: String(thumbOffsetMs) };
       let id;
+      if (videoUrl) { // the Instagram-login API takes Reels by URL only (no resumable upload)
+        id = (await call(`${userId}/media`, { ...base, video_url: videoUrl })).id;
+        debug(`container ${id} from ${videoUrl}`);
+        await waitReady(id, 90, debug);
+        return id;
+      }
       try {
         if (!video) throw new Error('no local video');
         const c = await call(`${userId}/media`, { ...base, upload_type: 'resumable' });
