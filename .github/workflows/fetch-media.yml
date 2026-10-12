@@ -25,7 +25,7 @@ jobs:
           for pair in $URLS; do
             name="${pair%%=*}"; url="${pair#*=}"
             case "$name" in *[!A-Za-z0-9._-]*) echo "bad name $name"; exit 1;; esac
-            curl -fsSL --max-filesize 60000000 -o "$DIR/$name" "$url"
+            curl -fsSL --max-filesize 60000000 -o "$DIR/$name" "$url" || echo "missing: $name"
           done
           ls -la "$DIR"
       - name: Commit
