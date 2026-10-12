@@ -1,7 +1,14 @@
 {
- "at": "2026-10-12T00:17:05.586Z",
+ "at": "2026-10-12T00:19:51.241Z",
  "topic": "compound-interest",
- "bytes": 7362127,
- "result": "FAILED",
- "error": "Error: Instagram API: The parameter video_url is required\n    at call (file:///home/runner/work/byte-finance/byte-finance/src/instagram.js:22:38)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async Object.prepareReel (file:///home/runner/work/byte-finance/byte-finance/src/instagram.js:54:19)\n    at async main (file:///home/runner/work/byte-finance/byte-finance/scripts/daily.js:181:25)"
+ "bytes": 7362456,
+ "videoUrl": "https://raw.githubusercontent.com/dongjinyoun0108/byte-finance/media/reel-2026-10-12-test.mp4",
+ "trace": [
+  "container 18124178242791476 from https://raw.githubusercontent.com/dongjinyoun0108/byte-finance/media/reel-2026-10-12-test.mp4",
+  "container 18124178242791476: IN_PROGRESS (IN_PROGRESS)",
+  "container 18124178242791476: FINISHED (FINISHED)"
+ ],
+ "container": "18124178242791476",
+ "processedSeconds": 28,
+ "result": "uploaded and processed OK (not published)"
 }
