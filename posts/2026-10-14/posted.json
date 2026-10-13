@@ -1,0 +1,24 @@
+{
+ "mediaId": "17877928461562141",
+ "storyId": "18645220975042108",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-13T20:30:40.179Z",
+ "stories": {
+  "aus": {
+   "headline": "Chalmers Lines Up Trust Tax",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-10-14/greens-warn-of-private-school-fees-loophole-in-trust-tax/107262122"
+  },
+  "us": {
+   "headline": "Apple Unveils $299 HomeView",
+   "source": "Yahoo Finance",
+   "link": "https://www.tikr.com/blog/apple-bets-on-a-299-siri-screen-as-its-home-prices-keep-climbing-heres-what-it-means-for-aapl-stock?ref=yahoofinance&.tsrc=rss"
+  },
+  "biz": {
+   "headline": "UnitedHealth Lifts Outlook",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/10/13/unitedhealth-group-unh-earnings-q3-2026.html"
+  }
+ }
+}
