@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "n21",
+      "source": "ABC News",
+      "title": "Greens warn of private school fees loophole in Labor's trust tax",
+      "summary": "Treasurer Jim Chalmers is preparing to introduce legislation for a 30 per cent tax on discretionary trusts on Wednesday amid fierce business opposition, but has been presented with another obstacle from the Greens.",
+      "link": "https://www.abc.net.au/news/2026-10-14/greens-warn-of-private-school-fees-loophole-in-trust-tax/107262122"
+    },
+    {
+      "id": "n13",
+      "source": "Yahoo Finance",
+      "title": "Apple Bets on a $299 Siri Screen as Its Home Prices Keep Climbing: Here’s What It Means for AAPL Stock",
+      "summary": "Apple (AAPL:NASDAQ) finally has a screen for the kitchen counter. At its “Welcome home” event in New York on Tuesday, October 13, Apple launched HomeView, a Siri-powered smart display priced at $299 in both tabletop and wall-mounted versions.",
+      "link": "https://www.tikr.com/blog/apple-bets-on-a-299-siri-screen-as-its-home-prices-keep-climbing-heres-what-it-means-for-aapl-stock?ref=yahoofinance&.tsrc=rss"
+    },
+    {
+      "id": "n23",
+      "source": "CNBC",
+      "title": "UnitedHealth Group tops estimates, hikes profit outlook as insurer manages high medical costs",
+      "summary": "UnitedHealth Group said it expects 2026 adjusted earnings of at least $20.50 per share, up from a previous outlook of $19.50 to $20.00 per share.",
+      "link": "https://www.cnbc.com/2026/10/13/unitedhealth-group-unh-earnings-q3-2026.html"
+    }
+  ],
+  "aus": {
+    "item_id": "n21",
+    "tag": "Economy",
+    "headline": "Chalmers Lines Up Trust Tax",
+    "body": "Treasurer Jim Chalmers plans to bring in a 30% tax on discretionary trusts.",
+    "why": "Business groups are fighting it, and the Greens have raised a new hurdle.",
+    "figure": "30%",
+    "figure_label": "Proposed tax on trusts",
+    "mood": "thinking"
+  },
+  "us": {
+    "item_id": "n13",
+    "tag": "Tech",
+    "headline": "Apple Unveils $299 HomeView",
+    "body": "Apple launched a Siri-powered smart display in tabletop and wall versions.",
+    "why": "Apple now finally has its own screen for the kitchen bench.",
+    "figure": "$299",
+    "figure_label": "HomeView price",
+    "mood": "celebrating"
+  },
+  "biz": {
+    "item_id": "n23",
+    "tag": "Earnings",
+    "headline": "UnitedHealth Lifts Outlook",
+    "body": "UnitedHealth beat estimates and now sees 2026 adjusted EPS of at least $20.50.",
+    "why": "It is a read on how US health insurers are handling high medical costs.",
+    "figure": "$20.50",
+    "figure_label": "2026 adj. EPS, at least",
+    "mood": "finger_gun"
+  }
+}
