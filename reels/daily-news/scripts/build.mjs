@@ -58,7 +58,7 @@ function actor(id, list, { left, top, width }) {
 const SPRITES = {};
 if (AI) {
   mkdirSync(join(here, 'assets/sprites'), { recursive: true });
-  for (const [pose, name] of [['coffee', 'coffee']]) {
+  for (const [pose, name] of [['coffee', 'coffee'], ['__outro', 'flip']]) {
     const meta = join(repo, 'reels/coin-motion/sprites', `${name}.json`);
     if (!existsSync(meta)) continue;
     SPRITES[pose] = { name, ...JSON.parse(readFileSync(meta, 'utf8')) };
@@ -115,6 +115,8 @@ const beatsPer = [6, 10, ...stories.map(() => 10), 7];
 const T = [0];
 for (const b of beatsPer) T.push(+(T[T.length - 1] + b * BEAT).toFixed(3));
 const TOTAL = +(T[T.length - 1] + 0.35).toFixed(2);
+// the outro flip clip plays a touch faster than real time so it lands before the fade
+const OUTRO_FLIP = +(TOTAL - T[T.length - 2] - 0.6 - 0.2).toFixed(3);
 const stations = 2 + nS; // hook, board, stories
 const GAP = 160, P = 1080 + GAP;
 
@@ -314,6 +316,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: ${C.bu
 
 const runtime = `
 const B = ${BEAT};
+const OUTRO_FLIP = ${OUTRO_FLIP};
 const T = ${JSON.stringify(T)};
 const P = ${P}, GAP = ${GAP}, NST = ${stations}, NS = ${nS};
 const HERO = ${heroIdx};
@@ -633,8 +636,14 @@ function build() {
     tl.fromTo('#o-follow span', { scale: 0.6, opacity: 0, transformOrigin: '0% 50%' }, { scale: 1, opacity: 1, duration: 0.45, ease: 'expo.out' }, t0 + 0.95);
     tl.fromTo('#o-disc', { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 1.2);
     const oc = A('o-coin');
-    settleIn(oc, t0 + 0.8);
-    breathe(oc, t0 + 1.6, ${TOTAL});
+    if (isSprite(oc)) {
+      // ElevenLabs clip: crouch, one front flip, land back in the same pose
+      settleIn(oc, t0 + 0.45, { fromY: 40, dur: 0.4 });
+      play(oc, t0 + 0.6, OUTRO_FLIP);
+    } else {
+      settleIn(oc, t0 + 0.8);
+      breathe(oc, t0 + 1.6, ${TOTAL});
+    }
 
   }
 
@@ -672,7 +681,8 @@ stories.forEach((s, i) => {
     cue('coin', end + 0.1, 0.14);
   }
 });
-cue('coin', T[T.length - 2] + 1.15, 0.2);                  // outro coin
+if (SPRITES.__outro) { cue('whoosh', T[T.length - 2] + 0.6 + 0.3 * OUTRO_FLIP, 0.16); cue('coin', T[T.length - 2] + 0.6 + 0.74 * OUTRO_FLIP, 0.26); } // flip + landing
+else cue('coin', T[T.length - 2] + 1.15, 0.2);             // outro coin
 cue('chime', T[T.length - 2] + 0.95, 0.3);                 // follow pill
 for (const n of new Set(SFX.map((c) => c.name))) copyFileSync(join(repo, 'render/assets/audio/sfx', n + '.wav'), join(here, 'assets/audio', 'sfx-' + n + '.wav'));
 const SFX_LEN = { whoosh: 0.62, pop: 0.3, coin: 0.45, tick: 1.0, chime: 0.9, draw: 0.55, slide: 0.7 };
@@ -699,7 +709,7 @@ const html = `<!doctype html>
     <div id="outro" data-layout-allow-overlap>
       <div id="o-head" class="d">See you tomorrow, 7:30am</div>
       <div id="o-follow"><span>Follow @byte.finance.au</span></div>
-      ${SPRITES[poses.outro] ? spriteActor('o-coin', SPRITES[poses.outro], { left: 600, top: 1200, width: 380, dw: 320 }) : actor('o-coin', [poses.outro], { left: 600, top: 1200, width: 380 })}
+      ${SPRITES.__outro ? spriteActor('o-coin', SPRITES.__outro, { left: 620, top: 1220, width: 360, dw: 300 }) : SPRITES[poses.outro] ? spriteActor('o-coin', SPRITES[poses.outro], { left: 600, top: 1200, width: 380, dw: 320 }) : actor('o-coin', [poses.outro], { left: 600, top: 1200, width: 380 })}
       <p id="o-disc">${DISCLAIMER}</p>
     </div>
   </div>

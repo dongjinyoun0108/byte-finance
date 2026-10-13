@@ -1,8 +1,10 @@
 # Keys the magenta background out of an AI clip and packs the frames into one transparent sprite sheet.
 #   python3 key.py raw/coffee.mp4 coffee 12      -> sprites/coffee.png + sprites/coffee.json
 import sys, json, subprocess, os, numpy as np
+from scipy import ndimage
 from PIL import Image
 src, name, fps = sys.argv[1], sys.argv[2], int(sys.argv[3])
+DESPECKLE = '--despeckle' in sys.argv  # drop AI sparkles: keep only the character's own blob(s)
 W, H = 720, 1280
 raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', src, '-vf', f'fps={fps}', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], capture_output=True, check=True).stdout
 frames = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3).astype(np.float32)
@@ -11,6 +13,13 @@ for f in frames:
     r, g, b = f[..., 0], f[..., 1], f[..., 2]
     bgness = np.minimum(r, b) - g                       # magenta: R and B high, G low
     a = 1 - np.clip((bgness - 60) / (150 - 60), 0, 1)   # soft matte
+    if DESPECKLE:
+        lab, n = ndimage.label(a > 0.3)
+        if n:
+            sizes = ndimage.sum(np.ones_like(a), lab, range(1, n + 1))
+            keep = np.isin(lab, 1 + np.where(sizes >= max(1500, sizes.max() * 0.04))[0])
+            keep = ndimage.binary_dilation(keep, iterations=3)
+            a = a * keep
     edge = a < 0.995
     b2 = np.where(edge, np.minimum(b, g + 18), b)       # kill magenta spill on edges
     r2 = np.where(edge, np.minimum(r, np.maximum(g + 90, r * 0.92)), r)
