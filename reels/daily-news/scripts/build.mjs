@@ -65,12 +65,13 @@ if (AI) {
     copyFileSync(join(repo, 'reels/coin-motion/sprites', `${name}.png`), join(here, 'assets/sprites', `${name}.png`));
   }
 }
-// Story coins: keep the writer's pose when it has a clip; otherwise rotate the animated moves day by day.
+// Story coins: a random mix each day. Each story's coin is either the writer's still pose or a random
+// animated move (seeded by the date, so a re-render of the same day comes out the same).
 const MOVES = ['kangaroo', 'padel', 'shocked'].filter((m) => SPRITES[m]);
 if (MOVES.length) {
-  const seed = [...String(D.date || '')].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
-  let k = 0;
-  poses.s = poses.s.map((p) => (SPRITES[p] ? p : MOVES[(seed + k++) % MOVES.length]));
+  let h = [...String(D.date || '')].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const rnd = () => ((h = (h * 1664525 + 1013904223) >>> 0) / 4294967296);
+  poses.s = poses.s.map((p) => (SPRITES[p] || rnd() < 0.5 ? p : MOVES[Math.floor(rnd() * MOVES.length)]));
 }
 /** Same rig as actor(), but the body is a sprite sheet stepped frame by frame. */
 function spriteActor(id, sp, { left, top, width, dw }) {
