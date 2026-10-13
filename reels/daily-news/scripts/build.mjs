@@ -25,7 +25,6 @@ const fontSrc = {
   'inter-tight.woff2': 'node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2',
 };
 for (const [to, from] of Object.entries(fontSrc)) copyFileSync(join(repo, from), join(here, 'assets/fonts', to));
-for (const a of ['whoosh.wav', 'ding.wav']) copyFileSync(join(repo, 'render/assets/audio', a), join(here, 'assets/audio', a));
 // Music bed: one of render/assets/audio/music/*.wav (all original, 112 BPM, -14 LUFS). --music=name or data.music.
 const MUSIC = args.find((a) => a.startsWith('--music='))?.slice(8) || D.music || 'morning-desk';
 const musicSrc = join(repo, 'render/assets/audio/music', `${MUSIC}.wav`);
@@ -645,10 +644,38 @@ function build() {
 document.fonts.ready.then(build);
 `;
 
-const whooshes = [];
-for (let k = 1; k < stations; k++) whooshes.push(+(k === 3 ? T[k] - 0.5 : T[k] - 0.34).toFixed(3));
-whooshes.push(+(T[T.length - 2] - 0.4).toFixed(3));
-const dingAt = nS ? +(T[2] + 0.55).toFixed(3) : null;
+// ---- sound design: ElevenLabs-made SFX (render/assets/audio/sfx), each placed on the motion it belongs to ----
+// Timings mirror the runtime timeline above; volumes stay low so the music still leads.
+const SFX = [];
+const SFX_GAIN = 1.6; // overall SFX level vs the music bed
+const cue = (name, at, vol) => SFX.push({ name, at: +Math.max(0, at).toFixed(3), vol: +Math.min(0.85, vol * SFX_GAIN).toFixed(2) });
+cue('tick', 0.38, 0.16);                                   // hook: slot names roll
+cue('pop', 1.45, 0.5);                                     // hook: the % lands
+for (let k = 1; k < stations; k++) cue('whoosh', k === 3 ? T[k] - 0.5 : T[k] - 0.34, 0.34); // whips / dolly
+cue('whoosh', T[T.length - 2] - 0.4, 0.3);                 // pull back to the outro
+cue('slide', T[1] + 0.12, 0.26);                           // board: cards fly in
+cue('tick', T[1] + 0.45, 0.12);                            // board: prices count
+if (rows.length) { cue('whoosh', T[1] + 2.75, 0.12); cue('pop', T[1] + 3.35, 0.32); } // push onto the hero card + ring
+const storyCues = (ts, s) => {
+  if (s.figure) { cue('tick', ts + 0.5, 0.15); cue('pop', ts + 1.45, 0.36); }
+  cue('coin', ts + 1.2, 0.14);                             // coin settles in
+};
+stories.forEach((s, i) => {
+  const t0 = T[2 + i];
+  if (i === 0) { cue('chime', t0 + 0.55, 0.36); cue('whoosh', t0 + 1.75, 0.2); storyCues(t0 + 2.4, s); }
+  else if (i === 1 && s.figure) storyCues(t0 + 0.1, s);
+  else {
+    const n = beats(s.headline).length;
+    for (let j = 0; j < n; j++) cue('slide', t0 + 0.2 + j * 2 * BEAT, 0.2);
+    const end = t0 + 0.2 + n * 2 * BEAT;
+    if (s.figure) cue('pop', end, 0.36);
+    cue('coin', end + 0.1, 0.14);
+  }
+});
+cue('coin', T[T.length - 2] + 1.15, 0.2);                  // outro coin
+cue('chime', T[T.length - 2] + 0.95, 0.3);                 // follow pill
+for (const n of new Set(SFX.map((c) => c.name))) copyFileSync(join(repo, 'render/assets/audio/sfx', n + '.wav'), join(here, 'assets/audio', 'sfx-' + n + '.wav'));
+const SFX_LEN = { whoosh: 0.62, pop: 0.3, coin: 0.45, tick: 1.0, chime: 0.9, draw: 0.55, slide: 0.7 };
 
 const html = `<!doctype html>
 <html lang="en" data-resolution="portrait">
@@ -678,8 +705,7 @@ const html = `<!doctype html>
   </div>
   <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="${TOTAL}" data-track-index="10" data-volume="1"
     data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":1},{"t":${(TOTAL - 1.2).toFixed(2)},"v":1},{"t":${TOTAL},"v":0}]}]}'></audio>
-  ${whooshes.map((t, i) => `<audio id="whoosh${i}" src="assets/audio/whoosh.wav" data-start="${t}" data-duration="0.7" data-track-index="${11 + i}" data-volume="0.35"></audio>`).join('\n  ')}
-  ${dingAt !== null ? `<audio id="ding" src="assets/audio/ding.wav" data-start="${dingAt}" data-duration="1.4" data-track-index="18" data-volume="0.45"></audio>` : ''}
+  ${SFX.filter((c) => c.at + 0.05 < TOTAL).map((c, i) => `<audio id="sfx${i}" src="assets/audio/sfx-${c.name}.wav" data-start="${c.at}" data-duration="${Math.min(SFX_LEN[c.name], +(TOTAL - c.at).toFixed(3))}" data-track-index="${11 + i}" data-volume="${c.vol}"></audio>`).join('\n  ')}
 </div>
 <script>${runtime}</script>
 </body>

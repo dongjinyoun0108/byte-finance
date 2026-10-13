@@ -15,6 +15,33 @@ const TONES = {
 };
 const FILL = { blue: '#2D4E86', gold: '#E9B21A', red: '#C5453A', mint: '#3E8E62', ink: '#17181C', paper: '#FFFFFF' };
 
+import { cueList, shellCues, sfxTags } from './sfx.mjs';
+
+/** Mirror of the runtime step timeline, as sound cues. */
+function flowCues({ V, N, edges, steps, T }) {
+  const list = cueList();
+  shellCues(list, T);
+  const shown = new Set();
+  const E = Object.fromEntries(edges.map((e) => [e.id, e]));
+  (V.steps || []).forEach((st, i) => {
+    const t0 = T[1 + i];
+    let t = t0 + 0.35, pops = 0;
+    (st.show || []).forEach((id) => {
+      if (N[id]) { if (!shown.has(id)) { if (pops++ < 3) list.cue('pop', t, 0.22); shown.add(id); t += 0.28; } }
+      else if (E[id]) { if (!E[id].dashed) list.cue('draw', t, 0.2); t += 0.22; }
+    });
+    const tf = Math.max(t + 0.3, t0 + 1.4);
+    (st.flow || []).forEach((id, k) => list.cue('coin', tf + k * 0.35 + 1.0, 0.12));
+    const s = steps[i];
+    if (st.badge && s && s.figure && N[st.badge]) {
+      const tb = Math.max(t, t0 + 1.0);
+      list.cue('pop', tb, 0.34);
+      if (/\d/.test(s.figure) && !/[–-]/.test(String(s.figure).replace(/^-/, ''))) list.cue('tick', tb + 0.05, 0.12);
+    }
+  });
+  return list;
+}
+
 export function flowHtml({ topic, V, T, TOTAL, B, poses, field }) {
   const steps = topic.steps.slice(0, 4);
   const W = 1000, H = 800;
@@ -356,6 +383,7 @@ document.fonts.ready.then(build);
  </div>
  <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="${TOTAL}" data-track-index="10" data-volume="1"
    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":1},{"t":${(TOTAL - 1.2).toFixed(2)},"v":1},{"t":${TOTAL},"v":0}]}]}'></audio>
+ ${sfxTags(flowCues({ V, N, edges, steps, T }), TOTAL)}
 </div>
 <script>${runtime}</script>
 </body></html>`;

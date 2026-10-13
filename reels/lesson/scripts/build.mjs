@@ -7,6 +7,7 @@ import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ALL_TOPICS } from '../../../src/explainers.js';
+import { copySfx, cueList, shellCues, sfxTags } from './sfx.mjs';
 
 const here = join(dirname(fileURLToPath(import.meta.url)), '..');
 const repo = join(here, '../..');
@@ -24,6 +25,7 @@ for (const d of ['coin', 'fonts', 'audio']) mkdirSync(join(here, 'assets', d), {
 copyFileSync(join(repo, 'node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2'), join(here, 'assets/fonts/bricolage.woff2'));
 copyFileSync(join(repo, 'node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2'), join(here, 'assets/fonts/inter-tight.woff2'));
 copyFileSync(join(repo, 'render/assets/audio/music', `${MUSIC}.wav`), join(here, 'assets/audio/music.wav'));
+copySfx(repo, here);
 const poses = [topic.pose || 'thinking', V.endPose || 'worried', 'cbd_strut'];
 for (const p of new Set(poses)) copyFileSync(join(repo, 'render/assets/coin', `${p}.png`), join(here, 'assets/coin', `${p}.png`));
 
@@ -160,6 +162,7 @@ const html = `<!doctype html>
  </div>
  <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="${TOTAL}" data-track-index="10" data-volume="1"
    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":1},{"t":${(TOTAL - 1.2).toFixed(2)},"v":1},{"t":${TOTAL},"v":0}]}]}'></audio>
+ ${(() => { const l = cueList(); shellCues(l, T); return sfxTags(l, TOTAL); })()}
 </div>
 <script>
 const B = ${B}, T = ${JSON.stringify(T)}, BASE = ${BASE}, K = ${k}, STEP = ${STEP}, COLW = ${COLW}, X0 = ${X0}, YRS = ${g.yrs};
