@@ -14,7 +14,7 @@ import { renderSlides } from '../render/render.js';
 import { instagram } from '../src/instagram.js';
 import { currentToken, instagramUserId } from '../src/igtoken.js';
 import { sydney } from '../src/time.js';
-import { REEL } from '../src/config.js';
+import { REEL, reelMusic } from '../src/config.js';
 import { readFileSync } from 'node:fs';
 const hasLessonVisual = (id) => { try { return !!JSON.parse(readFileSync('content/lesson-visuals.json', 'utf8'))[id]; } catch { return false; } };
 
@@ -181,10 +181,10 @@ async function main() {
   let reelSpec = null;
   if (REEL.enabled && process.env.REELS !== 'off') {
     if (!WEEKEND && p.reel) {
-      await writeFile(`${dir}/reel.json`, JSON.stringify({ ...p.reel, music: REEL.music }, null, 1));
+      await writeFile(`${dir}/reel.json`, JSON.stringify({ ...p.reel, music: reelMusic(REEL.music, day.dateKey) }, null, 1));
       reelSpec = { dir: REEL.dir, buildArgs: [`${dir}/reel.json`, '--ai'], outFile: reelOut };
     } else if (WEEKEND && hasLessonVisual(p.topic)) {
-      reelSpec = { dir: REEL.lessonDir, buildArgs: [p.topic, `--music=${REEL.lessonMusic}`], outFile: reelOut };
+      reelSpec = { dir: REEL.lessonDir, buildArgs: [p.topic, `--music=${reelMusic(REEL.lessonMusic, day.dateKey, 2)}`], outFile: reelOut };
     }
   }
   const reelJob = reelSpec ? renderReel(reelSpec).catch((e) => ({ error: e })) : null;

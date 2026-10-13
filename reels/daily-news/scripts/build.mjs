@@ -65,6 +65,13 @@ if (AI) {
     copyFileSync(join(repo, 'reels/coin-motion/sprites', `${name}.png`), join(here, 'assets/sprites', `${name}.png`));
   }
 }
+// Story coins: keep the writer's pose when it has a clip; otherwise rotate the animated moves day by day.
+const MOVES = ['kangaroo', 'padel', 'shocked'].filter((m) => SPRITES[m]);
+if (MOVES.length) {
+  const seed = [...String(D.date || '')].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+  let k = 0;
+  poses.s = poses.s.map((p) => (SPRITES[p] ? p : MOVES[(seed + k++) % MOVES.length]));
+}
 /** Same rig as actor(), but the body is a sprite sheet stepped frame by frame. */
 function spriteActor(id, sp, { left, top, width, dw }) {
   const h = Math.round(dw * sp.fh / sp.fw), rows = Math.ceil(sp.frames / sp.cols);

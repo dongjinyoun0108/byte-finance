@@ -113,10 +113,18 @@ export const MORNING_WINDOW = { from: '07:10', to: '07:50', weekdays: [1, 2, 3, 
 export const REEL = {
   enabled: true,
   at: '07:35',                 // Sydney time
-  music: process.env.REEL_MUSIC || 'morning-desk', // render/assets/audio/music/<name>.wav
+  music: process.env.REEL_MUSIC || 'rotate', // render/assets/audio/music/<name>.wav, or 'rotate' through ROTATION
   shareToFeed: false,          // Reels tab only; keeps the profile grid to carousels
   dir: 'reels/daily-news',
   lessonDir: 'reels/lesson',   // Sun + Mon: living-diagram lesson Reels (topics listed in content/lesson-visuals.json)
-  lessonMusic: process.env.REEL_LESSON_MUSIC || 'sunday-paper',
+  lessonMusic: process.env.REEL_LESSON_MUSIC || 'rotate',
+  rotation: ['eleven-a', 'eleven-b', 'eleven-c', 'eleven-d'], // ElevenLabs takes, one per day in turn
   hyperframes: '0.8.147',
 };
+
+/** Music for a Reel on a given day: a fixed track name, or the next ElevenLabs take in the rotation. */
+export function reelMusic(setting, dateStr, offset = 0) {
+  if (setting && setting !== 'rotate') return setting;
+  const day = Math.floor(Date.parse(dateStr + 'T00:00:00Z') / 864e5);
+  return REEL.rotation[(((day + offset) % REEL.rotation.length) + REEL.rotation.length) % REEL.rotation.length];
+}
