@@ -58,7 +58,7 @@ function actor(id, list, { left, top, width }) {
 const SPRITES = {};
 if (AI) {
   mkdirSync(join(here, 'assets/sprites'), { recursive: true });
-  for (const [pose, name] of [['coffee', 'coffee'], ['__outro', 'flip']]) {
+  for (const [pose, name] of [['coffee', 'coffee'], ['__outro', 'flip'], ['kangaroo', 'kangaroo'], ['newspaper', 'newspaper'], ['shocked', 'shocked'], ['padel', 'padel']]) {
     const meta = join(repo, 'reels/coin-motion/sprites', `${name}.json`);
     if (!existsSync(meta)) continue;
     SPRITES[pose] = { name, ...JSON.parse(readFileSync(meta, 'utf8')) };
@@ -70,6 +70,12 @@ function spriteActor(id, sp, { left, top, width, dw }) {
   const h = Math.round(dw * sp.fh / sp.fw), rows = Math.ceil(sp.frames / sp.cols);
   return `<div class="actor" id="${id}" data-sprite="${sp.frames},${sp.cols},${sp.fps}" style="left:${left}px; top:${top}px; width:${width}px; height:${width}px">
     <i class="shadow"></i><div class="abody"><div class="breath"><div class="sprite" style="left:${Math.round((width - dw) / 2)}px; top:${Math.round(0.9 * width - sp.feet * h)}px; width:${dw}px; height:${h}px; background-image:url(assets/sprites/${sp.name}.png); background-size:${sp.cols * 100}% ${rows * 100}%"></div></div></div></div>`;
+}
+
+/** A coin: the animated clip when one exists for this pose (with --ai), otherwise the still-pose rig. */
+function coin(id, list, geo) {
+  const sp = SPRITES[list[0]];
+  return sp ? spriteActor(id, sp, { ...geo, dw: Math.round(geo.width * 0.86) }) : actor(id, list, geo);
 }
 
 // ---- helpers ----
@@ -189,11 +195,11 @@ function storyStation(s, i) {
       <div class="notif" id="p-notif" data-layout-ignore><div class="nhead"><b class="app"></b><span>Byte Finance</span><span class="dim">now</span></div>
         <div class="ntag">${esc(s.tag)}</div><div class="ntext">${esc(s.headline)}</div></div>
     </div></div></div>
-    ${actor('p-coin', [poses.phone, poses.s[0]], { left: 600, top: 1060, width: 440 })}
+    ${coin('p-coin', [poses.phone, poses.s[0]], { left: 600, top: 1060, width: 440 })}
   </div>
   <div class="inside" id="p-in" style="background:${bg}">
     ${storyBody(s, i)}
-    ${actor(`s${i}-coin`, [poses.s[i]], { left: 640, top: 1110, width: 400 })}
+    ${coin(`s${i}-coin`, [poses.s[i]], { left: 640, top: 1110, width: 400 })}
   </div>
 </section>`;
   }
@@ -201,7 +207,7 @@ function storyStation(s, i) {
     return `
 <section class="st" id="st${k}" style="left:${k * P}px; background:${bg}">
   ${storyBody(s, i, { bars: true })}
-  ${actor(`s${i}-coin`, [poses.s[i]], { left: 640, top: 1110, width: 400 })}
+  ${coin(`s${i}-coin`, [poses.s[i]], { left: 640, top: 1110, width: 400 })}
 </section>`;
   }
   // Kinetic headline beats
@@ -217,7 +223,7 @@ function storyStation(s, i) {
     ${f && !figInHead ? `<div class="figrow" id="s${i}-figrow"><span class="d" style="color:${deep}">${esc(f)}</span>${s.figureLabel ? ` <span class="figlab" style="color:${deep}">${esc(s.figureLabel)}</span>` : ''}</div>` : ''}
     <p class="why fit" id="s${i}-why" data-maxh="200">${esc(s.why)}</p>
   </div>
-  ${actor(`s${i}-coin`, [poses.s[i]], { left: 640, top: 1110, width: 400 })}
+  ${coin(`s${i}-coin`, [poses.s[i]], { left: 640, top: 1110, width: 400 })}
 </section>`;
 }
 
@@ -419,6 +425,14 @@ function build() {
     tl.fromTo(o, { f: from }, { f: last, duration: dur, ease: 'none', onUpdate: show, onStart: show }, at);
   };
   const isSprite = (a) => !!a.el.dataset.sprite;
+  // Play an animated coin once in real time, cut short if its scene ends first.
+  const playFor = (a, at, until) => {
+    if (!isSprite(a)) return false;
+    const [frames, , fps] = a.el.dataset.sprite.split(',').map(Number);
+    const dur = Math.min(frames / fps, until - at - 0.1);
+    if (dur > 0.3) play(a, at, dur, { to: Math.round(dur * fps) });
+    return true;
+  };
   const pose = (a, name, at) => a.poses.forEach((p) => tl.set(p, { opacity: p.dataset.pose === name ? 1 : 0 }, at));
   const land = (a, at, lean = 0) => {
     tl.to(a.body, { scaleX: 1.16, scaleY: 0.82, rotation: -lean * 0.5, duration: 0.08, ease: 'power2.out' }, at);
@@ -570,7 +584,7 @@ function build() {
     const ac = coin && A(coin.id);
     if (ac) {
       settleIn(ac, t0 + 0.9);
-      breathe(ac, t0 + 1.6, opts.until);
+      if (!playFor(ac, t0 + 1.3, opts.until)) breathe(ac, t0 + 1.6, opts.until);
     }
   };
 
@@ -580,7 +594,7 @@ function build() {
       // phone: notification drops, then the camera dives through the screen into the story
       const pc = A('p-coin');
       settleIn(pc, t0 + 0.25, { fromX: 360, fromY: 0 });
-      breathe(pc, t0 + 1.0, t0 + 1.6);
+      if (!playFor(pc, t0 + 0.4, t0 + 1.85)) breathe(pc, t0 + 1.0, t0 + 1.6);
       tl.fromTo('#p-notif', { y: -260, opacity: 0, scale: 0.92 }, { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'expo.out' }, t0 + 0.55);
       const dive = t0 + 1.75;
       tl.to('#p-dive', { scale: 3.6, x: 120, y: 260, transformOrigin: '42% 38%', duration: 0.75, ease: 'power3.in' }, dive);
@@ -614,7 +628,7 @@ function build() {
       if (why) tl.fromTo(splitLines(why), { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, end + 0.25);
       const kc = A('s' + i + '-coin');
       settleIn(kc, end - 0.3, { fromX: 360, fromY: 0 });
-      breathe(kc, end + 0.5, T[3 + i]);
+      if (!playFor(kc, end, T[3 + i])) breathe(kc, end + 0.5, T[3 + i]);
     }
     if (i + 1 < NS) {
       if (i === 0) dolly(3 + i, T[3 + i] - 0.5); else whip(3 + i, T[3 + i] - 0.28);
