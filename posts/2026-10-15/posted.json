@@ -1,0 +1,24 @@
+{
+ "mediaId": "18123310111939771",
+ "storyId": "18113760968109275",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-14T20:30:45.045Z",
+ "stories": {
+  "aus": {
+   "headline": "BHP Axes 300 Iron Ore Jobs",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-10-14/bhp-slashing-jobs-iron-ore-mines-pilbara-/107266662"
+  },
+  "us": {
+   "headline": "Nasdaq Falls 2% On CPI Shock",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/m/a9aa7eaa-2df2-3f6f-b548-5269d49f67bc/stock-market-today%3A-nasdaq.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "BofA Shares Sink 8%",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/10/14/bank-of-america-bac-q3-2026-earnings.html"
+  }
+ }
+}
