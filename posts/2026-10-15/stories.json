@@ -1,0 +1,61 @@
+{
+ "items": [
+  {
+   "id": "n30",
+   "source": "ABC News",
+   "region": "aus",
+   "title": "Mining giant BHP to cut hundreds of jobs at iron ore mines",
+   "summary": "Mining giant BHP confirms job cuts at its iron ore operations in Western Australia, which the ABC understands will mean 300 positions axed.",
+   "link": "https://www.abc.net.au/news/2026-10-14/bhp-slashing-jobs-iron-ore-mines-pilbara-/107266662",
+   "published": "2026-10-14T05:40:33.000Z"
+  },
+  {
+   "id": "n12",
+   "source": "Yahoo Finance",
+   "region": "us",
+   "title": "Stock Market Today: Nasdaq Dives 2% On Rate Hike Jitters, AI Woes; These Home Builders Slide (Live Coverage)",
+   "summary": "The Dow Jones index wavers Wednesday on a surprise CPI inflation report. Bank of America plunges on earnings.",
+   "link": "https://finance.yahoo.com/m/a9aa7eaa-2df2-3f6f-b548-5269d49f67bc/stock-market-today%3A-nasdaq.html?.tsrc=rss",
+   "published": "2026-10-14T19:08:20.000Z"
+  },
+  {
+   "id": "n24",
+   "source": "CNBC",
+   "region": "us",
+   "title": "Bank of America shares drop 8% after third-quarter revenue miss and regulatory penalty",
+   "summary": "Bank of America shares fell Wednesday after the company posted weaker-than-expected trading revenue and the impact of a $1.2 billion Treasury fine.",
+   "link": "https://www.cnbc.com/2026/10/14/bank-of-america-bac-q3-2026-earnings.html",
+   "published": "2026-10-14T16:49:11.000Z"
+  }
+ ],
+ "aus": {
+  "item_id": "n30",
+  "tag": "Jobs",
+  "headline": "BHP Axes 300 Iron Ore Jobs",
+  "body": "BHP confirmed job cuts in its WA iron ore business, with about 300 roles to go.",
+  "why": "Hundreds of WA mining workers face losing their jobs.",
+  "figure": "300",
+  "figure_label": "Iron ore roles being cut",
+  "mood": "worried"
+ },
+ "us": {
+  "item_id": "n12",
+  "tag": "Wall Street",
+  "headline": "Nasdaq Falls 2% On CPI Shock",
+  "body": "The Nasdaq sank 2% after a surprise US inflation report stirred rate hike fears.",
+  "why": "US rate hike fears can ripple through global share markets.",
+  "figure": "-2%",
+  "figure_label": "Nasdaq, Wednesday",
+  "mood": "shocked"
+ },
+ "biz": {
+  "item_id": "n24",
+  "tag": "Banks",
+  "headline": "BofA Shares Sink 8%",
+  "body": "Bank of America fell after a trading revenue miss and a $1.2b Treasury fine.",
+  "why": "A slide at a US banking giant can weigh on bank stocks worldwide.",
+  "figure": "-8%",
+  "figure_label": "Bank of America shares",
+  "mood": "worried"
+ }
+}
