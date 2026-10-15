@@ -1,0 +1,24 @@
+{
+ "mediaId": "18641626717011541",
+ "storyId": "17970076710191474",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-15T20:30:52.553Z",
+ "stories": {
+  "aus": {
+   "headline": "Unemployment At Five-Year High",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-10-15/unemployment-rate-september-2026-australia/107268870"
+  },
+  "us": {
+   "headline": "Dow Climbs 450 Points As Yields Drop",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/m/27f9f9ee-5b06-3a78-a91a-ddc2a33bd2d2/stock-market-today%3A-dow-jumps.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "South32 Puts $8b Sale To Shareholders",
+   "source": "Yahoo Finance",
+   "link": "https://www.proactiveinvestors.com/companies/news/1100131/south32-shareholders-to-vote-on-8-billion-alcoa-asset-sale-1100131.html?.tsrc=rss"
+  }
+ }
+}
