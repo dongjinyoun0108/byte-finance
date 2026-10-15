@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n35",
+      "title": "Unemployment at five-year high after nearly 40,000 jobs lost",
+      "summary": "An estimated 39,300 fewer Australians were in work last month, while the number of unemployed people increased by 8,900.",
+      "link": "https://www.abc.net.au/news/2026-10-15/unemployment-rate-september-2026-australia/107268870",
+      "published": "2026-10-15T00:50:22.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    },
+    {
+      "id": "n12",
+      "title": "Stock Market Today: Dow Jumps 450 Points As Yields Dive; Eli Lilly Charges Higher (Live Coverage)",
+      "summary": "The Dow Jones index rises Thursday while the Nasdaq slides on further tech weakness.",
+      "link": "https://finance.yahoo.com/m/27f9f9ee-5b06-3a78-a91a-ddc2a33bd2d2/stock-market-today%3A-dow-jumps.html?.tsrc=rss",
+      "published": "2026-10-15T18:52:09.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n36",
+      "title": "South32 shareholders to vote on $8 billion Alcoa asset sale",
+      "summary": "South32 Ltd (LSE:S32, ASX:S32, FRA:32Z, OTC:SHTLF, JSE:S32) shareholders will vote today on the proposed $8 billion sale of its aluminium and alumina assets to Alcoa (NYSE:AA), a transaction that would reshape the miner's portfolio and accelerate its transition towards higher-growth base...",
+      "link": "https://www.proactiveinvestors.com/companies/news/1100131/south32-shareholders-to-vote-on-8-billion-alcoa-asset-sale-1100131.html?.tsrc=rss",
+      "published": "2026-10-15T00:33:00.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    }
+  ],
+  "aus": {
+    "item_id": "n35",
+    "tag": "Jobs",
+    "headline": "Unemployment At Five-Year High",
+    "body": "Nearly 40,000 jobs vanished last month as the number out of work rose by 8,900.",
+    "why": "More Australians are now hunting for work.",
+    "figure": "-39,300",
+    "figure_label": "Fewer people in work",
+    "mood": "worried"
+  },
+  "us": {
+    "item_id": "n12",
+    "tag": "Wall Street",
+    "headline": "Dow Climbs 450 Points As Yields Drop",
+    "body": "The Dow rose 450 points on Thursday while the Nasdaq fell on more tech weakness.",
+    "why": "Many Australians hold US shares through their super.",
+    "figure": "+450",
+    "figure_label": "Dow points, Thursday",
+    "mood": "celebrating"
+  },
+  "biz": {
+    "item_id": "n36",
+    "tag": "Deals",
+    "headline": "South32 Puts $8b Sale To Shareholders",
+    "body": "South32 investors were set to vote on an $8b sale of its aluminium assets to Alcoa.",
+    "why": "The deal would reshape one of the ASX big miners.",
+    "figure": "$8b",
+    "figure_label": "Alcoa asset sale",
+    "mood": "thinking"
+  }
+}
