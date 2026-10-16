@@ -1,0 +1,24 @@
+{
+ "mediaId": "18125539082308848",
+ "storyId": "18130225282745858",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-16T20:30:34.121Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX 200 Jumps 87 Points",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/mining-and-tech-rally-lifts-asx-200-by-87-points-to-end-week-higher/news-story/b08b6cb042cd2851fd4fb180212e3476?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Nasdaq Has Worst Week In Months",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/nasdaq-posts-worst-weekly-drop-182300972.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "PLS Backs $1.3b Lithium Growth",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/pls-group-shares-rise-3-010750379.html?.tsrc=rss"
+  }
+ }
+}
