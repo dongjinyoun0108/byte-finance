@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n25",
+      "title": "Tech, mining rally lifts ASX200",
+      "summary": "The ASX 200 has surged 87 points as mining and technology stocks rebounded, following a Wall Street recovery that steadied global markets after a turbulent week.",
+      "link": "https://www.news.com.au/finance/markets/australian-markets/mining-and-tech-rally-lifts-asx-200-by-87-points-to-end-week-higher/news-story/b08b6cb042cd2851fd4fb180212e3476?.tsrc=rss",
+      "published": "2026-10-16T06:54:38.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    },
+    {
+      "id": "n16",
+      "title": "Nasdaq Posts Worst Weekly Drop in Months as Dow Edges to a Narrow Gain",
+      "summary": "Stock Preachers News Commentary - Wall Street closed a volatile week split sharply down the middle. The Dow finished Friday at 52,134.63, down 0.08% on the day but still up 0.93% for the week, while the Nasdaq Composite tumbled 1.28% Friday and 3.64% for the week, its worst stretch in months. The S&P 500 fell 1.43% weekly and the Russell 2000 dropped 2.43%. The VIX climbed to 17.02 and the VXN jumped to 22.89, underscoring the growing divide between mega-cap tech weakness and broader market resi",
+      "link": "https://finance.yahoo.com/markets/stocks/articles/nasdaq-posts-worst-weekly-drop-182300972.html?.tsrc=rss",
+      "published": "2026-10-16T18:23:00.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n31",
+      "title": "PLS Group shares rise 3% as it approves $1.3 billion lithium expansion",
+      "summary": "Investing.com -- Pls Group (ASX:PLS) shares rose 3% on Friday after the Australian lithium producer approved a $1.3 billion expansion of its Pilgangoora operation in Western Australia, paving the way to nearly double its spodumene concentrate production capacity by 2029.",
+      "link": "https://finance.yahoo.com/markets/stocks/articles/pls-group-shares-rise-3-010750379.html?.tsrc=rss",
+      "published": "2026-10-16T01:07:50.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    }
+  ],
+  "aus": {
+    "item_id": "n25",
+    "tag": "ASX",
+    "headline": "ASX 200 Jumps 87 Points",
+    "body": "Miners and tech names led the ASX 200 up 87 points after Wall Street steadied.",
+    "why": "Most Australians own ASX shares through their super.",
+    "figure": "+87",
+    "figure_label": "ASX 200 points, Friday",
+    "mood": "celebrating"
+  },
+  "us": {
+    "item_id": "n16",
+    "tag": "Wall Street",
+    "headline": "Nasdaq Has Worst Week In Months",
+    "body": "The Nasdaq lost 3.64% over the week, while the Dow ended the week up 0.93%.",
+    "why": "Many Australians hold US tech shares through super.",
+    "figure": "-3.64%",
+    "figure_label": "Nasdaq, weekly change",
+    "mood": "worried"
+  },
+  "biz": {
+    "item_id": "n31",
+    "tag": "Mining",
+    "headline": "PLS Backs $1.3b Lithium Growth",
+    "body": "PLS approved a $1.3b expansion at Pilgangoora in WA, and its shares rose 3%.",
+    "why": "It could nearly double output at a major WA lithium mine.",
+    "figure": "$1.3b",
+    "figure_label": "Pilgangoora expansion",
+    "mood": "celebrating"
+  }
+}
