@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n9",
+      "title": "Former Hunter coalmine site chosen for train manufacturing facility",
+      "summary": "The development is expected to support up to 780 jobs during construction and about 550 ongoing jobs across the facility and supply chains, the NSW government says.",
+      "link": "https://www.abc.net.au/news/2026-10-20/coalmine-site-chosen-for-train-manufacturing-facility/107283046",
+      "published": "2026-10-19T19:11:03.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    },
+    {
+      "id": "n15",
+      "title": "What's Wrong With CoreWeave Stock?",
+      "summary": "In just the past month, this once-hot artificial intelligence stock has crashed more than 26%.",
+      "link": "https://www.fool.com/investing/2026/10/19/what-s-wrong-with-coreweave-stock/?.tsrc=rss",
+      "published": "2026-10-19T19:00:02.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n21",
+      "title": "Robot factories and hypersonic missiles: JPMorgan Chase's first $5 billion of defense investments",
+      "summary": "With $5 billion already deployed off its balance sheet, JPMorgan Chase is racing ahead on direct investments in defense tech, hardware and supply chains.",
+      "link": "https://www.cnbc.com/2026/10/19/jpmorgan-security-defense-investments.html",
+      "published": "2026-10-19T12:34:01.000Z",
+      "source": "CNBC",
+      "region": "us"
+    }
+  ],
+  "aus": {
+    "item_id": "n9",
+    "tag": "Jobs",
+    "headline": "Coalmine Site To Build Trains",
+    "body": "A former Hunter coalmine site has been chosen to host a new train factory.",
+    "why": "The NSW government says it could support about 550 ongoing jobs.",
+    "figure": "550",
+    "figure_label": "Ongoing jobs expected",
+    "mood": "celebrating"
+  },
+  "us": {
+    "item_id": "n15",
+    "tag": "Tech",
+    "headline": "CoreWeave Shares Slide",
+    "body": "Shares in AI firm CoreWeave are down more than 26% over the past month.",
+    "why": "Shows how fast the mood on once-hot AI stocks can turn.",
+    "figure": "-26%",
+    "figure_label": "Share price, past month",
+    "mood": "shocked"
+  },
+  "biz": {
+    "item_id": "n21",
+    "tag": "Banks",
+    "headline": "JPMorgan Puts $5b Into Defence",
+    "body": "JPMorgan Chase has put $5 billion of its own money into defence tech deals.",
+    "why": "Big banks are now backing defence tech, hardware and supply chains.",
+    "figure": "$5b",
+    "figure_label": "Defence investments so far",
+    "mood": "thinking"
+  }
+}
