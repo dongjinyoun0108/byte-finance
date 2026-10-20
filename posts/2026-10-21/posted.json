@@ -1,0 +1,24 @@
+{
+ "mediaId": "18193476214355262",
+ "storyId": "17911954704519654",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-20T20:30:51.239Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Slides As Miners Slump",
+   "source": "Yahoo Finance",
+   "link": "https://au.finance.yahoo.com/news/australian-shares-end-lower-corporate-053901534.html?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Dow Climbs On Iran Peace Hopes",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/m/f3498525-5b31-3702-9e4b-aa8f358f4086/stock-market-today%3A-dow.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "NAB Axing 2,500 Roles",
+   "source": "Yahoo Finance",
+   "link": "https://au.finance.yahoo.com/news/nab-cut-2-500-jobs-020209081.html?.tsrc=rss"
+  }
+ }
+}
