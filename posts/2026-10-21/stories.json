@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "n35",
+      "source": "Yahoo Finance",
+      "title": "Australian Shares End Lower; Corporate Travel Management Surges on Release of Security Guarantee",
+      "summary": "Australian shares ended lower on Tuesday as oil prices climbed, with a sell-off in energy and mining",
+      "link": "https://au.finance.yahoo.com/news/australian-shares-end-lower-corporate-053901534.html?.tsrc=rss"
+    },
+    {
+      "id": "n19",
+      "source": "Yahoo Finance",
+      "title": "Stock Market Today: Dow Jumps, Oil Falls On U.S.-Iran Hopes; GM Stock Flashes This Sell Signal (Live Coverage)",
+      "summary": "Stock Market Today: The Dow Jones index and other indexes gain Tuesday on U.S.-Iran peace hopes. Biotech and software stocks show strength.",
+      "link": "https://finance.yahoo.com/m/f3498525-5b31-3702-9e4b-aa8f358f4086/stock-market-today%3A-dow.html?.tsrc=rss"
+    },
+    {
+      "id": "n39",
+      "source": "Yahoo Finance",
+      "title": "NAB to cut 2,500 jobs as bank moves to simplify operations",
+      "summary": "Investing.com -- National Australia Bank plans to cut up to 2,500 jobs over the next year and book a pre-tax restructuring charge of about A$300 million in fiscal 2027 as it seeks to simplify operations and reduce costs amid intensifying competition and rapid technological change.",
+      "link": "https://au.finance.yahoo.com/news/nab-cut-2-500-jobs-020209081.html?.tsrc=rss"
+    }
+  ],
+  "aus": {
+    "item_id": "n35",
+    "tag": "ASX",
+    "headline": "ASX Slides As Miners Slump",
+    "body": "Aussie shares closed down on Tuesday as energy and mining stocks were sold off.",
+    "why": "Energy and mining firms are some of the biggest names on the ASX.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "worried"
+  },
+  "us": {
+    "item_id": "n19",
+    "tag": "Wall Street",
+    "headline": "Dow Climbs On Iran Peace Hopes",
+    "body": "US stocks rose and oil slipped on hopes of peace between the US and Iran.",
+    "why": "Oil prices feed into what Australians pay at the bowser.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "celebrating"
+  },
+  "biz": {
+    "item_id": "n39",
+    "tag": "Banks",
+    "headline": "NAB Axing 2,500 Roles",
+    "body": "National Australia Bank plans to shed up to 2,500 roles over the next year.",
+    "why": "One of the big four banks is shrinking its workforce to cut costs.",
+    "figure": "2,500",
+    "figure_label": "Jobs to go at NAB",
+    "mood": "shocked"
+  }
+}
