@@ -1,0 +1,24 @@
+{
+ "mediaId": "18392116123167767",
+ "storyId": "17938380981387383",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-20T00:06:25.442Z",
+ "stories": {
+  "aus": {
+   "headline": "Coalmine Site To Build Trains",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-10-20/coalmine-site-chosen-for-train-manufacturing-facility/107283046"
+  },
+  "us": {
+   "headline": "CoreWeave Shares Slide",
+   "source": "Yahoo Finance",
+   "link": "https://www.fool.com/investing/2026/10/19/what-s-wrong-with-coreweave-stock/?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "JPMorgan Puts $5b Into Defence",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/10/19/jpmorgan-security-defense-investments.html"
+  }
+ }
+}
