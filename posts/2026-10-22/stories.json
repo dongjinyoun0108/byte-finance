@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n15",
+      "title": "Nvidia’s $1.1 Billion KYEC Deal Is the Small Number in a $279 Billion Supply Bet",
+      "summary": "Nvidia (NVDA:NASDAQ) shares traded about 2% higher on Wednesday, near $220, after the company used its GTC Berlin event on October 21 to put cash behind its supply chain. Nvidia is giving King Yuan Electronics (2449.",
+      "link": "https://www.tikr.com/blog/nvidias-1-1-billion-kyec-deal-is-the-small-number-in-a-279-billion-supply-bet?ref=yahoofinance&.tsrc=rss",
+      "published": "2026-10-21T18:45:20.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n23",
+      "title": "EBay to lay off 9% of workforce in its second round of job cuts this year",
+      "summary": "EBay will lay off 9% of its workforce, or about 1,000 employees, as it works to focus on its \"top strategic priorities.\"",
+      "link": "https://www.cnbc.com/2026/10/21/ebay-layoffs-workforce-cuts.html",
+      "published": "2026-10-21T15:17:03.000Z",
+      "source": "CNBC",
+      "region": "us"
+    },
+    {
+      "id": "n26",
+      "title": "House prices across capitals post steepest quarterly decline ever: Domain",
+      "summary": "For only the second time ever, house prices have fallen across all Australian capital cities, falling by 4.7 per cent last quarter, the steepest drop on record.",
+      "link": "https://www.abc.net.au/news/2026-10-22/domain-house-price-september-quarter/107289400",
+      "published": "2026-10-21T13:01:00.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    }
+  ],
+  "aus": {
+    "item_id": "n26",
+    "tag": "Property",
+    "headline": "House Prices Post Record Fall",
+    "body": "Capital city house prices dropped 4.7% last quarter, the biggest fall Domain has recorded.",
+    "why": "Prices slid in every capital, hitting home values across the country.",
+    "figure": "-4.7%",
+    "figure_label": "Capital house prices, quarter",
+    "mood": "shocked"
+  },
+  "us": {
+    "item_id": "n15",
+    "tag": "Tech",
+    "headline": "Nvidia Backs Its Chip Supply Chain",
+    "body": "Nvidia put $1.1b into chip tester KYEC at its Berlin event, and its shares rose about 2%.",
+    "why": "Big AI chip deals can move global tech shares, including ours.",
+    "figure": "$1.1b",
+    "figure_label": "Nvidia deal with KYEC",
+    "mood": "finger_gun"
+  },
+  "biz": {
+    "item_id": "n23",
+    "tag": "Big business",
+    "headline": "eBay Cuts 9% Of Its Staff",
+    "body": "eBay is axing about 1,000 jobs, its second round of cuts this year.",
+    "why": "eBay is a marketplace many Aussie shoppers and sellers use.",
+    "figure": "9%",
+    "figure_label": "Share of eBay staff cut",
+    "mood": "worried"
+  }
+}
