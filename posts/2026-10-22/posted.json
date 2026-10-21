@@ -1,0 +1,24 @@
+{
+ "mediaId": "18191700241404741",
+ "storyId": "18638226364017636",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-21T20:30:49.224Z",
+ "stories": {
+  "aus": {
+   "headline": "House Prices Post Record Fall",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-10-22/domain-house-price-september-quarter/107289400"
+  },
+  "us": {
+   "headline": "Nvidia Backs Its Chip Supply Chain",
+   "source": "Yahoo Finance",
+   "link": "https://www.tikr.com/blog/nvidias-1-1-billion-kyec-deal-is-the-small-number-in-a-279-billion-supply-bet?ref=yahoofinance&.tsrc=rss"
+  },
+  "biz": {
+   "headline": "eBay Cuts 9% Of Its Staff",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/10/21/ebay-layoffs-workforce-cuts.html"
+  }
+ }
+}
