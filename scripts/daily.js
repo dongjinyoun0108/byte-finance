@@ -136,6 +136,7 @@ async function main() {
     const { token, changed } = await currentToken();
     const me = await instagramUserId(token);
     console.log(`Instagram OK: @${me.username} (id ${me.userId})${changed ? ', token refreshed' : ''}`);
+    await saveStatus('last-check.txt', `Instagram OK: @${me.username}`);
     if (changed) commitPush(['state'], 'Refresh Instagram token');
     return;
   }
@@ -288,7 +289,19 @@ async function main() {
   }
 }
 
+// Save why a run failed where it can be read without the Actions logs (tokens redacted).
+async function saveStatus(name, text) {
+  if (!process.env.GITHUB_ACTIONS) return;
+  try {
+    await mkdir('status', { recursive: true });
+    const clean = String(text).replace(/access_token=[^&\s"']+/g, 'access_token=…').replace(/IG[A-Za-z0-9_-]{40,}/g, '…');
+    await writeFile(`status/${name}`, `${new Date().toISOString()}\n${clean}\n`);
+    commitPush(['status'], `Run status: ${name}`);
+  } catch { /* best effort */ }
+}
+
 main().catch(async (e) => {
   console.error(e);
+  await saveStatus('last-error.txt', e.stack || e);
   process.exitCode = 1; // a failed run emails the repo owner
 });
