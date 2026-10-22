@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "n28",
+      "source": "ABC News",
+      "title": "Snowy 2.0 to cost 12 times more than initial budget with further delays",
+      "summary": "Australia's biggest renewable energy project, which has faced financial and timeline challenges since its inception, could now cost $25 billion and is expected to be delivered in late 2029.",
+      "link": "https://www.abc.net.au/news/2026-10-22/cost-of-snowy-hydro-expansion-doubles/107276162"
+    },
+    {
+      "id": "n2",
+      "source": "Yahoo Finance",
+      "title": "Equal-Weight Index Defies S&P 500's 1.4% Decline",
+      "summary": "The stock market was struggling on an index level, but under the surface things were less dire.",
+      "link": "https://finance.yahoo.com/m/c6051d1c-868f-3e43-b822-3c8dc51a2eb6/equal-weight-index-defies-s%26p.html?.tsrc=rss"
+    },
+    {
+      "id": "n24",
+      "source": "CNBC",
+      "title": "Procter & Gamble earnings beat as sales rise 4%, boosted by laundry and home products",
+      "summary": "Procter & Gamble topped Wall Street's estimates for its quarterly earnings and revenue.",
+      "link": "https://www.cnbc.com/2026/10/22/procter-gamble-pg-q1-2027-earnings.html"
+    }
+  ],
+  "aus": {
+    "item_id": "n28",
+    "tag": "Economy",
+    "headline": "Snowy 2.0 Cost Blowout",
+    "body": "The big renewable energy project may now cost $25b, with completion slipping to late 2029.",
+    "why": "The bill is now 12 times the first budget for a key power project.",
+    "figure": "$25b",
+    "figure_label": "Snowy 2.0 cost estimate",
+    "mood": "shocked"
+  },
+  "us": {
+    "item_id": "n2",
+    "tag": "Wall Street",
+    "headline": "S&P 500 Slides 1.4%",
+    "body": "The S&P 500 fell 1.4%, but the equal-weight version of the index held up better.",
+    "why": "Wall Street sell-offs often set the tone for the ASX open.",
+    "figure": "-1.4%",
+    "figure_label": "S&P 500 daily move",
+    "mood": "worried"
+  },
+  "biz": {
+    "item_id": "n24",
+    "tag": "Earnings",
+    "headline": "P&G Tops Profit Estimates",
+    "body": "Procter & Gamble beat estimates as laundry and home products lifted sales 4%.",
+    "why": "A read on how shoppers are spending on everyday household goods.",
+    "figure": "+4%",
+    "figure_label": "P&G quarterly sales growth",
+    "mood": "celebrating"
+  }
+}
