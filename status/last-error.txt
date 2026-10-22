@@ -1,0 +1,6 @@
+2026-10-22T23:41:21.920Z
+Error: Instagram API: Application request limit reached
+    at call (file:///home/runner/work/byte-finance/byte-finance/src/instagram.js:22:38)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.publishCarousel (file:///home/runner/work/byte-finance/byte-finance/src/instagram.js:102:15)
+    at async main (file:///home/runner/work/byte-finance/byte-finance/scripts/daily.js:256:15)
