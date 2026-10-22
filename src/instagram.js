@@ -8,18 +8,27 @@ export function instagram({
   // Default: "Instagram API with Instagram Login" (no Facebook Page needed).
   host = process.env.IG_GRAPH_HOST || 'graph.instagram.com',
   fetchImpl = fetch,
-  pollMs = 2000,
+  pollMs = 5000,
+  limitWaitMs = 10 * 60e3, // Instagram's app rate limit is a rolling hour: back off and retry instead of failing
 } = {}) {
   if (!userId || !token) throw new Error('IG_USER_ID and IG_ACCESS_TOKEN are required');
   const base = `https://${host}/${version}`;
 
-  async function call(path, params, method = 'POST') {
+  async function call(path, params, method = 'POST', attempt = 0) {
     const body = new URLSearchParams({ ...params, access_token: token });
     const res = method === 'GET'
       ? await fetchImpl(`${base}/${path}?${body}`)
       : await fetchImpl(`${base}/${path}`, { method, body });
     const json = await res.json();
-    if (!res.ok || json.error) throw new Error(`Instagram API: ${json.error?.message || res.status}`);
+    if (!res.ok || json.error) {
+      const msg = json.error?.message || String(res.status);
+      if (/request limit|rate limit|too many calls/i.test(msg) && attempt < 4) {
+        console.warn(`Instagram rate limit (${msg}); waiting ${Math.round(limitWaitMs / 60e3)} min before retrying`);
+        await new Promise((r) => setTimeout(r, limitWaitMs));
+        return call(path, params, method, attempt + 1);
+      }
+      throw new Error(`Instagram API: ${msg}`);
+    }
     return json;
   }
 
@@ -52,7 +61,7 @@ export function instagram({
       if (videoUrl) { // the Instagram-login API takes Reels by URL only (no resumable upload)
         id = (await call(`${userId}/media`, { ...base, video_url: videoUrl })).id;
         debug(`container ${id} from ${videoUrl}`);
-        await waitReady(id, 90, debug);
+        await waitReady(id, 60, debug);
         return id;
       }
       try {
@@ -74,7 +83,7 @@ export function instagram({
         debug(`resumable upload failed (${e.message}); trying video_url`);
         id = (await call(`${userId}/media`, { ...base, video_url: videoUrl })).id;
       }
-      await waitReady(id, 90, debug); // video processing: allow ~3 minutes at the default 2s poll
+      await waitReady(id, 60, debug); // video processing: allow ~5 minutes at the default 5s poll
       return id;
     },
     async publish(creationId) {
