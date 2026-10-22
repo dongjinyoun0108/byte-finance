@@ -136,7 +136,11 @@ async function main() {
     const { token, changed } = await currentToken();
     const me = await instagramUserId(token);
     console.log(`Instagram OK: @${me.username} (id ${me.userId})${changed ? ', token refreshed' : ''}`);
-    await saveStatus('last-check.txt', `Instagram OK: @${me.username}`);
+    const g = async (path) => (await fetch(`https://graph.instagram.com/v21.0/${path}${path.includes('?') ? '&' : '?'}access_token=${encodeURIComponent(token)}`)).json().catch((e) => ({ error: String(e) }));
+    const media = await g(`${me.userId}/media?fields=timestamp,media_type,caption&limit=5`);
+    const quota = await g(`${me.userId}/content_publishing_limit?fields=quota_usage,config`);
+    const recent = (media.data || []).map((m) => `${m.timestamp} ${m.media_type} ${(m.caption || '').split('\n')[0].slice(0, 60)}`).join('\n') || JSON.stringify(media.error || media);
+    await saveStatus('last-check.txt', `Instagram OK: @${me.username}\nquota: ${JSON.stringify(quota.data || quota.error || quota)}\nrecent media:\n${recent}`);
     if (changed) commitPush(['state'], 'Refresh Instagram token');
     return;
   }
