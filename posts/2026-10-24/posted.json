@@ -1,0 +1,24 @@
+{
+ "mediaId": "17914123029500643",
+ "storyId": "18077581964448772",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-23T20:41:25.803Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Shrugs Off AI Sell-Off",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/australian-shares-edge-higher-despite-mining-slump-and-global-ai-rout/news-story/8f915f034a76cf09ed8d330d61df214f?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Dow Drops 600 As Oil Jumps",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/m/81c00f86-3a6b-31fa-a8aa-5d5650c74f9c/stock-market-today%3A-dow-sheds.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Amex Cuts 5% Of Staff For AI",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/10/23/american-express-job-cuts.html"
+  }
+ }
+}
