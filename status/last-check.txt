@@ -1,9 +1,24 @@
-2026-10-23T00:17:07.478Z
+2026-10-23T00:18:28.356Z
 Instagram OK: @byte.finance.au
 quota: [{"quota_usage":0,"config":{"quota_total":100,"quota_duration":86400}}]
 recent media:
-2026-10-23T00:05:50+0000 CAROUSEL_ALBUM Ouch. Wall St had a rough one 📉
-2026-10-22T23:41:19+0000 CAROUSEL_ALBUM Ouch. Wall St had a rough one 📉
-2026-10-22T23:32:46+0000 CAROUSEL_ALBUM Ouch. Wall St had a rough one 📉
-2026-10-22T23:14:47+0000 CAROUSEL_ALBUM Ouch. Wall St had a rough one 📉
-2026-10-22T22:49:25+0000 CAROUSEL_ALBUM Ouch. Wall St had a rough one 📉
+2026-10-23T00:05:50+0000 CAROUSEL_ALBUM https://www.instagram.com/p/De0OuflFXpX/ Ouch. Wall St had a rough one 📉
+2026-10-22T23:41:19+0000 CAROUSEL_ALBUM https://www.instagram.com/p/De0L7maDAqc/ Ouch. Wall St had a rough one 📉
+2026-10-22T23:32:46+0000 CAROUSEL_ALBUM https://www.instagram.com/p/De0K8rCmPJu/ Ouch. Wall St had a rough one 📉
+2026-10-22T23:14:47+0000 CAROUSEL_ALBUM https://www.instagram.com/p/De0I4y3GdEc/ Ouch. Wall St had a rough one 📉
+2026-10-22T22:49:25+0000 CAROUSEL_ALBUM https://www.instagram.com/p/De0F_HNCTHw/ Ouch. Wall St had a rough one 📉
+2026-10-22T22:47:43+0000 CAROUSEL_ALBUM https://www.instagram.com/p/De0FytcATdp/ Ouch. Wall St had a rough one 📉
+2026-10-22T20:30:49+0000 CAROUSEL_ALBUM https://www.instagram.com/p/Dez2H07o63n/ Ouch. Wall St had a rough one 📉
+2026-10-21T20:35:09+0000 VIDEO https://www.instagram.com/reel/DexRXNBjaCz/ Up and away overnight 🚀
+2026-10-21T20:30:33+0000 CAROUSEL_ALBUM https://www.instagram.com/p/DexRTItgYGU/ Up and away overnight 🚀
+2026-10-20T20:35:08+0000 VIDEO https://www.instagram.com/reel/DeuskOcDHxG/ A calm one overnight 😌
+2026-10-20T20:30:40+0000 CAROUSEL_ALBUM https://www.instagram.com/p/DeushMNiYNE/ A calm one overnight 😌
+2026-10-20T00:07:13+0000 VIDEO https://www.instagram.com/reel/DesgeIvDf7o/ Wall St woke up happy 📈
+2026-10-20T00:06:13+0000 CAROUSEL_ALBUM https://www.instagram.com/p/DesgY51oFQR/ Wall St woke up happy 📈
+2026-10-18T20:35:08+0000 VIDEO https://www.instagram.com/reel/Depi8kFAFVv/ Learn this once, use it forever 📌
+2026-10-18T20:30:27+0000 CAROUSEL_ALBUM https://www.instagram.com/p/Depi52DGkvy/ Learn this once, use it forever 📌
+2026-10-17T20:35:14+0000 VIDEO https://www.instagram.com/reel/Dem-N_tFcpl/ Your 60-second money lesson 🪙
+2026-10-17T20:30:31+0000 CAROUSEL_ALBUM https://www.instagram.com/p/Dem-HS5gcsa/ Your 60-second money lesson 🪙
+2026-10-16T20:35:12+0000 VIDEO https://www.instagram.com/reel/DekZbBVFXEO/ Ouch. Wall St had a rough one 📉
+2026-10-16T20:30:24+0000 CAROUSEL_ALBUM https://www.instagram.com/p/DekZTxBFBzO/ Ouch. Wall St had a rough one 📉
+2026-10-15T20:35:09+0000 VIDEO https://www.instagram.com/reel/Deh0rablbgO/ Up and away overnight 🚀
