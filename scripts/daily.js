@@ -201,9 +201,13 @@ async function main() {
     const { token } = await currentToken();
     const { userId } = await instagramUserId(token);
     const ig = instagram({ userId, token });
-    const videoUrl = await hostVideo(reelSpec.outFile, `reel-${p.key}.mp4`);
-    const container = await ig.prepareReel({ videoUrl, caption: p.caption, shareToFeed: REEL.shareToFeed });
-    posted.reelId = await ig.publish(container);
+    const done = await ig.findPosted({ caption: p.caption, type: 'VIDEO', since: Date.parse(`${p.key}T00:00:00Z`) - 11 * 3600e3 }).catch(() => null);
+    if (done) posted.reelId = done.id;
+    else {
+      const videoUrl = await hostVideo(reelSpec.outFile, `reel-${p.key}.mp4`);
+      const container = await ig.prepareReel({ videoUrl, caption: p.caption, shareToFeed: REEL.shareToFeed });
+      posted.reelId = await ig.publish(container, { caption: p.caption, type: 'VIDEO' });
+    }
     posted.reelAt = new Date().toISOString();
     delete posted.reelError;
     await writeFile(`${dir}/posted.json`, JSON.stringify(posted, null, 1));
@@ -256,8 +260,13 @@ async function main() {
   const { userId, username } = await instagramUserId(token);
   const ig = instagram({ userId, token });
   let mediaId, format = '3:4';
+  // Never post twice: if today's carousel is already on the account (an earlier run that errored after
+  // publishing), record it and carry on with the story and reel.
+  const dayStart = Date.parse(`${p.key}T00:00:00Z`) - 11 * 3600e3;
+  const existing = await ig.findPosted({ caption: p.caption, type: 'CAROUSEL_ALBUM', since: dayStart }).catch(() => null);
   try {
-    mediaId = await ig.publishCarousel({ imageUrls: urls34, caption: p.caption, altTexts: p.alts });
+    if (existing) { mediaId = existing.id; format = 'existing'; console.log(`carousel already posted today (${mediaId}); not posting again`); }
+    else mediaId = await ig.publishCarousel({ imageUrls: urls34, caption: p.caption, altTexts: p.alts });
   } catch (e) {
     if (!/aspect|ratio|dimension|size/i.test(e.message)) throw e;
     console.warn(`3:4 rejected (${e.message}); posting the 4:5 versions`);
@@ -265,7 +274,7 @@ async function main() {
     mediaId = await ig.publishCarousel({ imageUrls: urls45, caption: p.caption, altTexts: p.alts });
   }
   let storyId = null; // nudge followers via Stories; never fails the run
-  try { storyId = await ig.publishStory({ imageUrl: raw('story.jpg') }); } catch (e) { console.warn(`story skipped: ${e.message}`); }
+  if (!existing) try { storyId = await ig.publishStory({ imageUrl: raw('story.jpg') }); } catch (e) { console.warn(`story skipped: ${e.message}`); }
   const posted = { mediaId, storyId, username, format, postedAt: new Date().toISOString(), stories: p.stories };
   await writeFile(`${dir}/posted.json`, JSON.stringify(posted, null, 1));
   commitPush([dir], `Posted ${p.key}`);
@@ -275,10 +284,14 @@ async function main() {
     try {
       const video = await reelJob;
       if (video.error) throw video.error;
-      const videoUrl = await hostVideo(reelSpec.outFile, `reel-${p.key}.mp4`);
-      const container = await ig.prepareReel({ videoUrl, caption: p.caption, shareToFeed: REEL.shareToFeed });
-      if (!FORCE) await waitUntil(REEL.at);
-      posted.reelId = await ig.publish(container);
+      const reelDone = await ig.findPosted({ caption: p.caption, type: 'VIDEO', since: dayStart }).catch(() => null);
+      if (reelDone) posted.reelId = reelDone.id;
+      else {
+        const videoUrl = await hostVideo(reelSpec.outFile, `reel-${p.key}.mp4`);
+        const container = await ig.prepareReel({ videoUrl, caption: p.caption, shareToFeed: REEL.shareToFeed });
+        if (!FORCE) await waitUntil(REEL.at);
+        posted.reelId = await ig.publish(container, { caption: p.caption, type: 'VIDEO' });
+      }
       posted.reelAt = new Date().toISOString();
       await writeFile(`${dir}/posted.json`, JSON.stringify(posted, null, 1));
       commitPush([dir], `Posted reel ${p.key}`);

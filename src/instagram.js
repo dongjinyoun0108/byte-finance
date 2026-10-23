@@ -43,7 +43,33 @@ export function instagram({
     throw new Error(`Instagram container ${id} not ready in time`);
   }
 
+  const firstLine = (c) => String(c || '').split('\n')[0].trim();
+  /** An already-published post matching this caption and type since `since` (ms), or null. */
+  async function findPosted({ caption, type, since }) {
+    const { data = [] } = await call(`${userId}/media`, { fields: 'id,timestamp,media_type,caption', limit: '15' }, 'GET');
+    return data.find((m) => m.media_type === type && Date.parse(m.timestamp) >= since - 60e3 && firstLine(m.caption) === firstLine(caption)) || null;
+  }
+  /**
+   * media_publish sometimes returns an error (rate limit, "Fatal") even though the post went live.
+   * Before treating that as a failure, look for the post; never publish the same thing twice.
+   */
+  async function safePublish(creationId, { caption, type } = {}) {
+    const started = Date.now();
+    try {
+      return (await call(`${userId}/media_publish`, { creation_id: creationId })).id;
+    } catch (e) {
+      if (!caption || !type) throw e;
+      for (let i = 0; i < 4; i++) {
+        await new Promise((r) => setTimeout(r, pollMs * 3));
+        const hit = await findPosted({ caption, type, since: started - 5 * 60e3 }).catch(() => null);
+        if (hit) { console.warn(`publish reported "${e.message}" but the post is live (${hit.id})`); return hit.id; }
+      }
+      throw e;
+    }
+  }
+
   return {
+    findPosted,
     /** A Story (9:16 image). Returns the media id. */
     async publishStory({ imageUrl }) {
       const { id } = await call(`${userId}/media`, { image_url: imageUrl, media_type: 'STORIES' });
@@ -86,8 +112,8 @@ export function instagram({
       await waitReady(id, 60, debug); // video processing: allow ~5 minutes at the default 5s poll
       return id;
     },
-    async publish(creationId) {
-      return (await call(`${userId}/media_publish`, { creation_id: creationId })).id;
+    async publish(creationId, check) {
+      return safePublish(creationId, check);
     },
     async publishCarousel({ imageUrls, caption, altTexts = [] }) {
       if (imageUrls.length < 2 || imageUrls.length > 10) throw new Error('A carousel needs 2-10 images');
@@ -108,7 +134,7 @@ export function instagram({
       for (const id of children) await waitReady(id);
       const { id: parent } = await call(`${userId}/media`, { media_type: 'CAROUSEL', children: children.join(','), caption });
       await waitReady(parent);
-      return (await call(`${userId}/media_publish`, { creation_id: parent })).id;
+      return safePublish(parent, { caption, type: 'CAROUSEL_ALBUM' });
     },
   };
 }
