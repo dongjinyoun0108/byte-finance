@@ -1,7 +1,8 @@
-2026-10-23T00:18:28.356Z
+2026-10-23T00:51:13.626Z
 Instagram OK: @byte.finance.au
-quota: [{"quota_usage":0,"config":{"quota_total":100,"quota_duration":86400}}]
+quota: [{"quota_usage":1,"config":{"quota_total":100,"quota_duration":86400}}]
 recent media:
+2026-10-23T00:22:16+0000 VIDEO https://www.instagram.com/reel/De0Qkt8FNzc/ Ouch. Wall St had a rough one 📉
 2026-10-23T00:05:50+0000 CAROUSEL_ALBUM https://www.instagram.com/p/De0OuflFXpX/ Ouch. Wall St had a rough one 📉
 2026-10-22T23:41:19+0000 CAROUSEL_ALBUM https://www.instagram.com/p/De0L7maDAqc/ Ouch. Wall St had a rough one 📉
 2026-10-22T23:32:46+0000 CAROUSEL_ALBUM https://www.instagram.com/p/De0K8rCmPJu/ Ouch. Wall St had a rough one 📉
@@ -21,4 +22,3 @@ recent media:
 2026-10-17T20:30:31+0000 CAROUSEL_ALBUM https://www.instagram.com/p/Dem-HS5gcsa/ Your 60-second money lesson 🪙
 2026-10-16T20:35:12+0000 VIDEO https://www.instagram.com/reel/DekZbBVFXEO/ Ouch. Wall St had a rough one 📉
 2026-10-16T20:30:24+0000 CAROUSEL_ALBUM https://www.instagram.com/p/DekZTxBFBzO/ Ouch. Wall St had a rough one 📉
-2026-10-15T20:35:09+0000 VIDEO https://www.instagram.com/reel/Deh0rablbgO/ Up and away overnight 🚀
