@@ -1,0 +1,24 @@
+{
+ "mediaId": "18198562780388730",
+ "storyId": null,
+ "username": "byte.finance.au",
+ "format": "existing",
+ "postedAt": "2026-10-23T00:20:44.736Z",
+ "stories": {
+  "aus": {
+   "headline": "Snowy 2.0 Cost Blowout",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-10-22/cost-of-snowy-hydro-expansion-doubles/107276162"
+  },
+  "us": {
+   "headline": "S&P 500 Slides 1.4%",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/m/c6051d1c-868f-3e43-b822-3c8dc51a2eb6/equal-weight-index-defies-s%26p.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "P&G Tops Profit Estimates",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/10/22/procter-gamble-pg-q1-2027-earnings.html"
+  }
+ }
+}
