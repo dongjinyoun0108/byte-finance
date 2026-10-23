@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n20",
+      "title": "‘Script flipped’: ASX defies global AI falls",
+      "summary": "Australia’s sharemarket has defied global carnage, closing marginally higher as AI capital expenditure fears hammered Wall Street and local mining stocks.",
+      "link": "https://www.news.com.au/finance/markets/australian-markets/australian-shares-edge-higher-despite-mining-slump-and-global-ai-rout/news-story/8f915f034a76cf09ed8d330d61df214f?.tsrc=rss",
+      "published": "2026-10-23T07:34:13.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    },
+    {
+      "id": "n4",
+      "title": "Stock Market Today: Dow Sheds 600 Points As Oil Jumps; Samsara Breaks Out (Live Coverage)",
+      "summary": "The Dow Jones index drops 600 points Friday as oil prices rally. Bloom, MaxLinear and WDC are big earnings movers.",
+      "link": "https://finance.yahoo.com/m/81c00f86-3a6b-31fa-a8aa-5d5650c74f9c/stock-market-today%3A-dow-sheds.html?.tsrc=rss",
+      "published": "2026-10-23T19:17:16.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n8",
+      "title": "American Express is cutting 5% of its workforce to 'prepare for AI'",
+      "summary": "Amex, which reported third-quarter results earlier Friday, is taking a $336 million restructuring charge in the quarter, CEO Stephen Squeri said Friday.",
+      "link": "https://www.cnbc.com/2026/10/23/american-express-job-cuts.html",
+      "published": "2026-10-23T18:57:48.000Z",
+      "source": "CNBC",
+      "region": "us"
+    }
+  ],
+  "aus": {
+    "item_id": "n20",
+    "tag": "ASX",
+    "headline": "ASX Shrugs Off AI Sell-Off",
+    "body": "Local shares closed a touch higher while AI spending fears hit Wall Street and miners.",
+    "why": "Aussie shares held steady while global markets slid.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "coffee"
+  },
+  "us": {
+    "item_id": "n4",
+    "tag": "Wall Street",
+    "headline": "Dow Drops 600 As Oil Jumps",
+    "body": "The Dow fell 600 points on Friday as oil prices rallied.",
+    "why": "Big Wall Street moves often set the tone for the ASX.",
+    "figure": "-600",
+    "figure_label": "Dow points, Friday",
+    "mood": "shocked"
+  },
+  "biz": {
+    "item_id": "n8",
+    "tag": "Big business",
+    "headline": "Amex Cuts 5% Of Staff For AI",
+    "body": "Amex is shedding 5% of its staff and taking a $336m restructuring hit.",
+    "why": "A sign of how big firms are reshaping jobs around AI.",
+    "figure": "5%",
+    "figure_label": "Share of workforce cut",
+    "mood": "worried"
+  }
+}
