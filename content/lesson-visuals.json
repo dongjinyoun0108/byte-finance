@@ -2698,5 +2698,1095 @@
     "badgeSide": "right"
    }
   ]
+ },
+ "tax-brackets": {
+  "type": "flow",
+  "field": "#C9DDF1",
+  "endPose": "celebrating",
+  "nodes": {
+   "inc": {
+    "x": 500,
+    "y": 120,
+    "label": "Taxable income",
+    "w": 360,
+    "tone": "ink"
+   },
+   "s1": {
+    "x": 130,
+    "y": 420,
+    "label": "Tax-free slice",
+    "w": 220,
+    "tone": "mint"
+   },
+   "s2": {
+    "x": 375,
+    "y": 420,
+    "label": "Second slice",
+    "w": 220
+   },
+   "s3": {
+    "x": 620,
+    "y": 420,
+    "label": "Third slice",
+    "w": 220,
+    "tone": "blue"
+   },
+   "s4": {
+    "x": 865,
+    "y": 420,
+    "label": "Top slice",
+    "w": 220,
+    "tone": "gold"
+   },
+   "ato": {
+    "x": 500,
+    "y": 680,
+    "label": "Total tax",
+    "sub": "added up slice by slice",
+    "w": 300,
+    "tone": "ink"
+   }
+  },
+  "edges": [
+   {
+    "id": "i1",
+    "from": "inc",
+    "to": "s1"
+   },
+   {
+    "id": "i2",
+    "from": "inc",
+    "to": "s2"
+   },
+   {
+    "id": "i3",
+    "from": "inc",
+    "to": "s3"
+   },
+   {
+    "id": "i4",
+    "from": "inc",
+    "to": "s4"
+   },
+   {
+    "id": "a2",
+    "from": "s2",
+    "to": "ato"
+   },
+   {
+    "id": "a3",
+    "from": "s3",
+    "to": "ato"
+   },
+   {
+    "id": "a4",
+    "from": "s4",
+    "to": "ato"
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "inc",
+     "s1",
+     "i1"
+    ],
+    "flow": [
+     "i1"
+    ],
+    "focus": [
+     "inc",
+     "s1"
+    ],
+    "badge": "s1"
+   },
+   {
+    "show": [
+     "s2",
+     "i2"
+    ],
+    "flow": [
+     "i2"
+    ],
+    "focus": [
+     "inc",
+     "s1",
+     "s2"
+    ],
+    "badge": "s2"
+   },
+   {
+    "show": [
+     "s3",
+     "i3"
+    ],
+    "flow": [
+     "i3"
+    ],
+    "focus": [
+     "s2",
+     "s3",
+     "inc"
+    ],
+    "badge": "s3",
+    "highlight": [
+     "s3"
+    ]
+   },
+   {
+    "show": [
+     "s4",
+     "i4",
+     "ato",
+     "a2",
+     "a3",
+     "a4"
+    ],
+    "flow": [
+     "i4",
+     "a2",
+     "a3",
+     "a4"
+    ],
+    "focus": [
+     "inc",
+     "s4",
+     "ato"
+    ],
+    "badge": "s4",
+    "highlight": [
+     "s4"
+    ]
+   }
+  ]
+ },
+ "salary-sacrifice": {
+  "type": "flow",
+  "field": "#F3D5CE",
+  "endPose": "cbd_strut",
+  "nodes": {
+   "pay": {
+    "x": 500,
+    "y": 110,
+    "label": "Pre-tax pay",
+    "w": 320,
+    "tone": "ink"
+   },
+   "take": {
+    "x": 220,
+    "y": 330,
+    "label": "Take-home pay",
+    "sub": "taxed at marginal rates",
+    "w": 300
+   },
+   "fund": {
+    "x": 780,
+    "y": 330,
+    "label": "Super fund",
+    "sub": "receives the sacrificed part",
+    "w": 300,
+    "tone": "mint"
+   },
+   "cap": {
+    "x": 780,
+    "y": 580,
+    "label": "Concessional cap",
+    "sub": "shared yearly limit",
+    "w": 300,
+    "tone": "gold"
+   },
+   "emp": {
+    "x": 220,
+    "y": 600,
+    "label": "Employer",
+    "sub": "compulsory super on top",
+    "w": 300,
+    "tone": "blue"
+   }
+  },
+  "edges": [
+   {
+    "id": "pt",
+    "from": "pay",
+    "to": "take"
+   },
+   {
+    "id": "pf",
+    "from": "pay",
+    "to": "fund",
+    "label": "sacrificed"
+   },
+   {
+    "id": "fc",
+    "from": "fund",
+    "to": "cap",
+    "dashed": true
+   },
+   {
+    "id": "ef",
+    "from": "emp",
+    "to": "fund",
+    "label": "compulsory super"
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "pay",
+     "take",
+     "fund",
+     "pt",
+     "pf"
+    ],
+    "flow": [
+     "pf"
+    ],
+    "focus": [
+     "pay",
+     "take",
+     "fund"
+    ]
+   },
+   {
+    "badge": "fund",
+    "focus": [
+     "pay",
+     "fund"
+    ],
+    "highlight": [
+     "fund"
+    ]
+   },
+   {
+    "show": [
+     "cap",
+     "fc"
+    ],
+    "badge": "cap",
+    "badgeSide": "left",
+    "focus": [
+     "fund",
+     "cap"
+    ]
+   },
+   {
+    "show": [
+     "emp",
+     "ef"
+    ],
+    "flow": [
+     "ef",
+     "pf"
+    ],
+    "focus": [
+     "emp",
+     "fund",
+     "take",
+     "cap"
+    ]
+   }
+  ]
+ },
+ "comparison-rate": {
+  "type": "flow",
+  "field": "#F4E2A2",
+  "endPose": "thinking",
+  "nodes": {
+   "ir": {
+    "x": 250,
+    "y": 150,
+    "label": "Interest rate",
+    "sub": "the headline number",
+    "w": 300,
+    "tone": "blue"
+   },
+   "fees": {
+    "x": 750,
+    "y": 150,
+    "label": "Fees and charges",
+    "sub": "most of them",
+    "w": 300
+   },
+   "cr": {
+    "x": 500,
+    "y": 420,
+    "label": "Comparison rate",
+    "sub": "one percentage figure",
+    "w": 320,
+    "tone": "gold"
+   },
+   "low": {
+    "x": 220,
+    "y": 660,
+    "label": "Low rate, high fees",
+    "sub": "higher comparison rate",
+    "w": 320,
+    "tone": "red"
+   },
+   "kfs": {
+    "x": 780,
+    "y": 660,
+    "label": "Key Facts Sheet",
+    "sub": "personalised for the loan",
+    "w": 320,
+    "tone": "ink"
+   }
+  },
+  "edges": [
+   {
+    "id": "ic",
+    "from": "ir",
+    "to": "cr"
+   },
+   {
+    "id": "fc",
+    "from": "fees",
+    "to": "cr"
+   },
+   {
+    "id": "cl",
+    "from": "cr",
+    "to": "low"
+   },
+   {
+    "id": "ck",
+    "from": "cr",
+    "to": "kfs",
+    "dashed": true
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "ir",
+     "fees"
+    ],
+    "focus": [
+     "ir",
+     "fees"
+    ],
+    "highlight": [
+     "ir"
+    ]
+   },
+   {
+    "show": [
+     "cr",
+     "ic",
+     "fc"
+    ],
+    "flow": [
+     "ic",
+     "fc"
+    ],
+    "focus": [
+     "ir",
+     "fees",
+     "cr"
+    ]
+   },
+   {
+    "show": [
+     "low",
+     "cl"
+    ],
+    "focus": [
+     "cr",
+     "low"
+    ],
+    "wobble": [
+     "low"
+    ]
+   },
+   {
+    "show": [
+     "kfs",
+     "ck"
+    ],
+    "focus": [
+     "cr",
+     "kfs",
+     "low"
+    ],
+    "highlight": [
+     "kfs"
+    ]
+   }
+  ]
+ },
+ "fhss": {
+  "type": "flow",
+  "field": "#DDD6F3",
+  "endPose": "celebrating",
+  "nodes": {
+   "vc": {
+    "x": 250,
+    "y": 120,
+    "label": "Voluntary contributions",
+    "w": 340
+   },
+   "fund": {
+    "x": 750,
+    "y": 120,
+    "label": "Super fund",
+    "sub": "held with other super",
+    "w": 300,
+    "tone": "mint"
+   },
+   "ato": {
+    "x": 750,
+    "y": 400,
+    "label": "ATO determination",
+    "sub": "works out the release",
+    "w": 320,
+    "tone": "ink"
+   },
+   "rel": {
+    "x": 250,
+    "y": 400,
+    "label": "Released amount",
+    "sub": "taxed with an offset",
+    "w": 320,
+    "tone": "gold"
+   },
+   "home": {
+    "x": 500,
+    "y": 660,
+    "label": "Home deposit",
+    "w": 300,
+    "tone": "blue"
+   }
+  },
+  "edges": [
+   {
+    "id": "vf",
+    "from": "vc",
+    "to": "fund"
+   },
+   {
+    "id": "fa",
+    "from": "fund",
+    "to": "ato",
+    "label": "request"
+   },
+   {
+    "id": "ar",
+    "from": "ato",
+    "to": "rel",
+    "label": "release"
+   },
+   {
+    "id": "rh",
+    "from": "rel",
+    "to": "home"
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "vc",
+     "fund",
+     "vf"
+    ],
+    "flow": [
+     "vf"
+    ],
+    "focus": [
+     "vc",
+     "fund"
+    ]
+   },
+   {
+    "badge": "fund",
+    "focus": [
+     "vc",
+     "fund"
+    ],
+    "highlight": [
+     "fund"
+    ]
+   },
+   {
+    "show": [
+     "ato",
+     "fa"
+    ],
+    "flow": [
+     "fa"
+    ],
+    "badge": "ato",
+    "focus": [
+     "fund",
+     "ato"
+    ]
+   },
+   {
+    "show": [
+     "rel",
+     "home",
+     "ar",
+     "rh"
+    ],
+    "flow": [
+     "ar",
+     "rh"
+    ],
+    "badge": "rel",
+    "badgeSide": "left",
+    "focus": [
+     "ato",
+     "rel",
+     "home"
+    ]
+   }
+  ]
+ },
+ "asx-trading-hours": {
+  "type": "flow",
+  "field": "#C8DAF2",
+  "endPose": "trading_desk",
+  "nodes": {
+   "pre": {
+    "x": 150,
+    "y": 200,
+    "label": "Pre-open",
+    "sub": "orders queue",
+    "w": 300,
+    "tone": "ink"
+   },
+   "open": {
+    "x": 500,
+    "y": 200,
+    "label": "Opening auction",
+    "sub": "sets opening prices",
+    "w": 300,
+    "tone": "gold"
+   },
+   "norm": {
+    "x": 850,
+    "y": 200,
+    "label": "Normal trading",
+    "sub": "continuous matching",
+    "w": 300,
+    "tone": "mint"
+   },
+   "close": {
+    "x": 500,
+    "y": 540,
+    "label": "Closing auction",
+    "sub": "sets closing prices",
+    "w": 300,
+    "tone": "gold"
+   },
+   "shut": {
+    "x": 150,
+    "y": 540,
+    "label": "Market closed",
+    "w": 260,
+    "tone": "ink"
+   }
+  },
+  "edges": [
+   {
+    "id": "po",
+    "from": "pre",
+    "to": "open"
+   },
+   {
+    "id": "on",
+    "from": "open",
+    "to": "norm"
+   },
+   {
+    "id": "nc",
+    "from": "norm",
+    "to": "close",
+    "label": "orders adjust"
+   },
+   {
+    "id": "cs",
+    "from": "close",
+    "to": "shut"
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "pre"
+    ],
+    "badge": "pre",
+    "focus": [
+     "pre"
+    ],
+    "highlight": [
+     "pre"
+    ]
+   },
+   {
+    "show": [
+     "open",
+     "po"
+    ],
+    "flow": [
+     "po"
+    ],
+    "focus": [
+     "pre",
+     "open"
+    ]
+   },
+   {
+    "show": [
+     "norm",
+     "on"
+    ],
+    "flow": [
+     "on"
+    ],
+    "badge": "norm",
+    "focus": [
+     "open",
+     "norm"
+    ]
+   },
+   {
+    "show": [
+     "close",
+     "shut",
+     "nc",
+     "cs"
+    ],
+    "flow": [
+     "nc",
+     "cs"
+    ],
+    "badge": "close",
+    "focus": [
+     "norm",
+     "close",
+     "shut"
+    ]
+   }
+  ]
+ },
+ "wage-price-index": {
+  "type": "flow",
+  "field": "#CFE8D8",
+  "endPose": "coffee",
+  "nodes": {
+   "biz": {
+    "x": 220,
+    "y": 150,
+    "label": "Businesses",
+    "sub": "public and private",
+    "w": 300
+   },
+   "jobs": {
+    "x": 780,
+    "y": 150,
+    "label": "Matched jobs",
+    "sub": "same roles each quarter",
+    "w": 300,
+    "tone": "blue"
+   },
+   "mix": {
+    "x": 180,
+    "y": 420,
+    "label": "Workforce mix",
+    "sub": "removed from the index",
+    "w": 260,
+    "tone": "red"
+   },
+   "wpi": {
+    "x": 500,
+    "y": 420,
+    "label": "Wage Price Index",
+    "w": 300,
+    "tone": "gold"
+   },
+   "excl": {
+    "x": 820,
+    "y": 420,
+    "label": "Bonuses and on-costs",
+    "sub": "not in the headline",
+    "w": 260,
+    "tone": "red"
+   },
+   "abs": {
+    "x": 500,
+    "y": 660,
+    "label": "ABS release",
+    "sub": "every quarter",
+    "w": 300,
+    "tone": "ink"
+   }
+  },
+  "edges": [
+   {
+    "id": "bj",
+    "from": "biz",
+    "to": "jobs",
+    "label": "report pay"
+   },
+   {
+    "id": "jw",
+    "from": "jobs",
+    "to": "wpi"
+   },
+   {
+    "id": "mw",
+    "from": "mix",
+    "to": "wpi",
+    "dashed": true
+   },
+   {
+    "id": "xw",
+    "from": "excl",
+    "to": "wpi",
+    "dashed": true
+   },
+   {
+    "id": "wa",
+    "from": "wpi",
+    "to": "abs"
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "biz",
+     "jobs",
+     "bj"
+    ],
+    "flow": [
+     "bj"
+    ],
+    "focus": [
+     "biz",
+     "jobs"
+    ]
+   },
+   {
+    "badge": "jobs",
+    "focus": [
+     "biz",
+     "jobs"
+    ],
+    "highlight": [
+     "jobs"
+    ]
+   },
+   {
+    "show": [
+     "wpi",
+     "mix",
+     "jw",
+     "mw"
+    ],
+    "flow": [
+     "jw"
+    ],
+    "focus": [
+     "jobs",
+     "wpi",
+     "mix"
+    ],
+    "wobble": [
+     "mix"
+    ]
+   },
+   {
+    "show": [
+     "excl",
+     "abs",
+     "xw",
+     "wa"
+    ],
+    "flow": [
+     "wa"
+    ],
+    "focus": [
+     "wpi",
+     "excl",
+     "abs"
+    ]
+   }
+  ]
+ },
+ "term-deposits": {
+  "type": "flow",
+  "field": "#C9DDF1",
+  "endPose": "umbrella",
+  "nodes": {
+   "cash": {
+    "x": 200,
+    "y": 130,
+    "label": "Savings",
+    "w": 280
+   },
+   "td": {
+    "x": 700,
+    "y": 130,
+    "label": "Term deposit",
+    "sub": "fixed rate, fixed term",
+    "w": 320,
+    "tone": "blue"
+   },
+   "early": {
+    "x": 200,
+    "y": 420,
+    "label": "Early withdrawal",
+    "sub": "notice, fees, less interest",
+    "w": 300,
+    "tone": "red"
+   },
+   "mat": {
+    "x": 700,
+    "y": 420,
+    "label": "Maturity",
+    "sub": "paid out or rolled over",
+    "w": 300,
+    "tone": "mint"
+   },
+   "fcs": {
+    "x": 500,
+    "y": 680,
+    "label": "Financial Claims Scheme",
+    "sub": "if the bank fails",
+    "w": 300,
+    "tone": "gold"
+   }
+  },
+  "edges": [
+   {
+    "id": "ct",
+    "from": "cash",
+    "to": "td",
+    "label": "locked in"
+   },
+   {
+    "id": "te",
+    "from": "td",
+    "to": "early",
+    "dashed": true
+   },
+   {
+    "id": "tm",
+    "from": "td",
+    "to": "mat"
+   },
+   {
+    "id": "mt",
+    "from": "mat",
+    "to": "td",
+    "bend": 0.4,
+    "label": "rolls over"
+   },
+   {
+    "id": "ft",
+    "from": "fcs",
+    "to": "td",
+    "dashed": true
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "cash",
+     "td",
+     "ct"
+    ],
+    "flow": [
+     "ct"
+    ],
+    "focus": [
+     "cash",
+     "td"
+    ]
+   },
+   {
+    "show": [
+     "early",
+     "te"
+    ],
+    "badge": "early",
+    "focus": [
+     "td",
+     "early"
+    ],
+    "wobble": [
+     "early"
+    ]
+   },
+   {
+    "show": [
+     "mat",
+     "tm",
+     "mt"
+    ],
+    "flow": [
+     "tm",
+     "mt"
+    ],
+    "focus": [
+     "td",
+     "mat"
+    ]
+   },
+   {
+    "show": [
+     "fcs",
+     "ft"
+    ],
+    "badge": "fcs",
+    "badgeSide": "right",
+    "focus": [
+     "fcs",
+     "td",
+     "mat",
+     "early"
+    ],
+    "highlight": [
+     "fcs"
+    ]
+   }
+  ]
+ },
+ "pe-ratio": {
+  "type": "flow",
+  "field": "#F3D5CE",
+  "endPose": "thinking",
+  "nodes": {
+   "price": {
+    "x": 220,
+    "y": 150,
+    "label": "Share price",
+    "w": 300,
+    "tone": "blue"
+   },
+   "profit": {
+    "x": 780,
+    "y": 150,
+    "label": "Company profit",
+    "sub": "last twelve months",
+    "w": 300,
+    "tone": "mint"
+   },
+   "pe": {
+    "x": 220,
+    "y": 400,
+    "label": "P/E ratio",
+    "sub": "price divided by EPS",
+    "w": 300,
+    "tone": "gold"
+   },
+   "eps": {
+    "x": 780,
+    "y": 400,
+    "label": "Earnings per share",
+    "sub": "profit per share",
+    "w": 300
+   },
+   "mc": {
+    "x": 500,
+    "y": 660,
+    "label": "Market cap",
+    "sub": "price times shares on issue",
+    "w": 340,
+    "tone": "ink"
+   }
+  },
+  "edges": [
+   {
+    "id": "pp",
+    "from": "price",
+    "to": "pe"
+   },
+   {
+    "id": "ep",
+    "from": "eps",
+    "to": "pe"
+   },
+   {
+    "id": "fe",
+    "from": "profit",
+    "to": "eps",
+    "label": "per share"
+   },
+   {
+    "id": "pm",
+    "from": "price",
+    "to": "mc",
+    "dashed": true
+   },
+   {
+    "id": "mp",
+    "from": "mc",
+    "to": "pe",
+    "label": "over total profit"
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "price",
+     "eps",
+     "pe",
+     "pp",
+     "ep"
+    ],
+    "flow": [
+     "pp",
+     "ep"
+    ],
+    "focus": [
+     "price",
+     "eps",
+     "pe"
+    ]
+   },
+   {
+    "show": [
+     "profit",
+     "fe"
+    ],
+    "flow": [
+     "fe"
+    ],
+    "focus": [
+     "profit",
+     "eps"
+    ]
+   },
+   {
+    "focus": [
+     "price",
+     "pe",
+     "eps"
+    ],
+    "highlight": [
+     "pe"
+    ],
+    "wobble": [
+     "pe"
+    ]
+   },
+   {
+    "show": [
+     "mc",
+     "pm",
+     "mp"
+    ],
+    "flow": [
+     "pm",
+     "mp"
+    ],
+    "focus": [
+     "mc",
+     "pe",
+     "price"
+    ]
+   }
+  ]
  }
 }

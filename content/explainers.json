@@ -236,5 +236,251 @@
         "body": "Unemployed people as a share of the labour force, which is everyone employed plus everyone unemployed."
       }
     ]
+  },
+  {
+    "id": "tax-brackets",
+    "title": "How tax brackets\nwork in Australia",
+    "pose": "quarter_zip",
+    "tags": [
+      "#Tax",
+      "#AusFinance"
+    ],
+    "steps": [
+      {
+        "head": "A tax-free first slice",
+        "figure": "$18,200",
+        "figureLabel": "tax-free threshold for residents",
+        "body": "Australian residents pay no income tax on the first $18,200 of taxable income each year."
+      },
+      {
+        "head": "Rates rise in steps",
+        "figure": "15%",
+        "figureLabel": "rate from $18,201 in 2026–27",
+        "body": "For 2026–27, each dollar from $18,201 to $45,000 is taxed at 15c, down from 16c the year before."
+      },
+      {
+        "head": "Only the slice is taxed",
+        "figure": "30%",
+        "figureLabel": "rate from $45,001 to $135,000",
+        "body": "Moving into a higher bracket only changes the rate on dollars above that line. Lower slices keep their lower rates."
+      },
+      {
+        "head": "The top rate",
+        "figure": "45%",
+        "figureLabel": "rate on each $1 over $190,000",
+        "body": "Income over $190,000 is taxed at 45c per dollar. The 2% Medicare levy sits on top of these rates."
+      }
+    ]
+  },
+  {
+    "id": "salary-sacrifice",
+    "title": "What is salary\nsacrifice?",
+    "pose": "cbd_strut",
+    "tags": [
+      "#Super",
+      "#Payslip"
+    ],
+    "steps": [
+      {
+        "head": "Pay goes in before tax",
+        "body": "Under salary sacrifice, an employee agrees to send part of their pre-tax pay into super instead of their bank account."
+      },
+      {
+        "head": "Taxed in the fund",
+        "figure": "15%",
+        "figureLabel": "tax on it inside the super fund",
+        "body": "The sacrificed amount skips PAYG withholding. The fund taxes it at 15%, generally lower than marginal tax rates."
+      },
+      {
+        "head": "It counts toward a cap",
+        "figure": "$32,500",
+        "figureLabel": "concessional cap from 1 July 2026",
+        "body": "Salary sacrifice and employer contributions share the concessional cap, which rose from $30,000 to $32,500 on 1 July 2026."
+      },
+      {
+        "head": "Employer super stays put",
+        "body": "The employer still pays its full compulsory super. Sacrificed amounts are extra and do not count toward it."
+      }
+    ]
+  },
+  {
+    "id": "comparison-rate",
+    "title": "What is a\ncomparison rate?",
+    "pose": "newspaper",
+    "tags": [
+      "#HomeLoans",
+      "#Interest"
+    ],
+    "steps": [
+      {
+        "head": "Two rates on one loan",
+        "body": "Home loans come with two rates: the advertised interest rate and a comparison rate."
+      },
+      {
+        "head": "Fees folded in",
+        "body": "The comparison rate rolls the interest rate and most fees and charges into a single percentage figure."
+      },
+      {
+        "head": "Why the two differ",
+        "body": "A loan with a low rate but high fees can end up with a comparison rate well above its headline rate."
+      },
+      {
+        "head": "Not every cost is in it",
+        "body": "It covers most fees, not all. A lender’s Key Facts Sheet shows a personalised comparison rate for the amount borrowed."
+      }
+    ]
+  },
+  {
+    "id": "fhss",
+    "title": "The first home\nsuper saver scheme",
+    "pose": "celebrating",
+    "tags": [
+      "#FirstHome",
+      "#Super"
+    ],
+    "steps": [
+      {
+        "head": "Saving inside super",
+        "body": "The FHSS scheme lets first home savers make voluntary super contributions, then later release them for a home."
+      },
+      {
+        "head": "Yearly and total limits",
+        "figure": "$50,000",
+        "figureLabel": "eligible contributions in total",
+        "body": "Up to $15,000 of eligible contributions count each financial year, with a total limit of $50,000 across all years."
+      },
+      {
+        "head": "What comes back out",
+        "figure": "85%",
+        "figureLabel": "of before-tax contributions count",
+        "body": "All after-tax contributions count, but only 85% of before-tax ones like salary sacrifice, plus some deemed earnings."
+      },
+      {
+        "head": "Tax on the way out",
+        "figure": "30%",
+        "figureLabel": "FHSS tax offset on the release",
+        "body": "Released amounts are taxed with a 30% offset. The ATO determination has to be requested before settlement."
+      }
+    ]
+  },
+  {
+    "id": "asx-trading-hours",
+    "title": "When the ASX\nis open",
+    "pose": "trading_desk",
+    "tags": [
+      "#ASX",
+      "#Shares"
+    ],
+    "steps": [
+      {
+        "head": "Orders queue up first",
+        "figure": "7am",
+        "figureLabel": "pre-open starts, Sydney time",
+        "body": "From 7am Sydney time, orders can be entered but nothing is matched yet. They wait in a queue."
+      },
+      {
+        "head": "An opening auction",
+        "body": "Just before 10am, a short auction sets each opening price from the queued orders, then normal trading begins."
+      },
+      {
+        "head": "Normal trading",
+        "figure": "4pm",
+        "figureLabel": "continuous matching ends",
+        "body": "Through the day, orders are matched continuously whenever prices meet. That stops at 4pm."
+      },
+      {
+        "head": "A closing auction",
+        "figure": "4:10pm",
+        "figureLabel": "closing auction starts",
+        "body": "After ten minutes for orders to adjust, a closing single price auction from 4:10pm sets each closing price."
+      }
+    ]
+  },
+  {
+    "id": "wage-price-index",
+    "title": "What the Wage\nPrice Index tracks",
+    "pose": "coffee",
+    "tags": [
+      "#Wages",
+      "#AustralianEconomy"
+    ],
+    "steps": [
+      {
+        "head": "The price of labour",
+        "body": "The ABS Wage Price Index tracks how hourly rates of pay change over time, a bit like the CPI does for prices."
+      },
+      {
+        "head": "Same jobs, every quarter",
+        "figure": "18,000",
+        "figureLabel": "matched jobs priced each quarter",
+        "body": "About 3,000 businesses report pay for around 18,000 matched jobs, so the same jobs are compared each quarter."
+      },
+      {
+        "head": "Mix changes stripped out",
+        "body": "Shifts in who is working, like more high-paid roles, are removed, so the index shows pure changes in pay rates."
+      },
+      {
+        "head": "What is left out",
+        "body": "The headline index excludes bonuses and on-costs like payroll tax and super. It comes out about 7 weeks after each quarter."
+      }
+    ]
+  },
+  {
+    "id": "term-deposits",
+    "title": "How term\ndeposits work",
+    "pose": "umbrella",
+    "tags": [
+      "#Savings",
+      "#Banking"
+    ],
+    "steps": [
+      {
+        "head": "Locked rate, locked term",
+        "body": "A term deposit holds money for a set period, often one month to five years, at an interest rate fixed at the start."
+      },
+      {
+        "head": "Getting out early",
+        "figure": "31 days",
+        "figureLabel": "notice some providers ask for",
+        "body": "Withdrawing early can mean up to 31 days’ notice, a fee, and only part of the interest, or none at all."
+      },
+      {
+        "head": "At maturity",
+        "body": "The provider makes contact when the term ends. If nothing changes, the deposit may roll into a new term at a new rate."
+      },
+      {
+        "head": "Government backed",
+        "figure": "$250,000",
+        "figureLabel": "Financial Claims Scheme cover",
+        "body": "If an APRA-regulated bank, credit union or building society fails, the scheme covers deposits up to $250,000."
+      }
+    ]
+  },
+  {
+    "id": "pe-ratio",
+    "title": "What is a\nP/E ratio?",
+    "pose": "thinking",
+    "tags": [
+      "#Shares",
+      "#StockMarket"
+    ],
+    "steps": [
+      {
+        "head": "Price over earnings",
+        "body": "A P/E ratio divides a company’s share price by its earnings per share over the past twelve months."
+      },
+      {
+        "head": "Earnings per share",
+        "body": "Earnings per share is the company’s profit divided by the number of shares on issue."
+      },
+      {
+        "head": "Reading the number",
+        "body": "A higher P/E means the market is paying more for each dollar of a company’s yearly earnings."
+      },
+      {
+        "head": "Linked to market cap",
+        "body": "Market cap is the share price times shares on issue, so P/E also equals market cap divided by total profit."
+      }
+    ]
   }
 ]
