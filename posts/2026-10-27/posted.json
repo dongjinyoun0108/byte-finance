@@ -1,0 +1,24 @@
+{
+ "mediaId": "17932476312423223",
+ "storyId": "18134996623738699",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-26T20:41:06.946Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Ends Flat As Tuas Sinks",
+   "source": "Yahoo Finance",
+   "link": "https://au.finance.yahoo.com/news/australian-stocks-flat-tuas-plunges-053536595.html?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Microsoft Offers 60,000 Buyouts",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/technology/articles/microsoft-offers-buyouts-60-000-190437430.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Anthropic Eyes $US1.5tn Float",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-10-27/anthropic-claude-ipo-filing/107312096"
+  }
+ }
+}
