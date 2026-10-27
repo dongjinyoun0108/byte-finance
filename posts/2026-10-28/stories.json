@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n29",
+      "title": "Mining giants drive ASX to seven-week high",
+      "summary": "Mining heavyweights BHP and Rio Tinto have helped lift the ASX 200 to a seven-week high, buoyed by a strong Wall Street lead from the Anthropic IPO.",
+      "link": "https://www.news.com.au/finance/markets/australian-markets/mining-giants-bhp-and-rio-tinto-propel-australian-sharemarket-to-sevenweek-high/news-story/8552706fb310fda16a668c2059affcac?.tsrc=rss",
+      "published": "2026-10-27T06:25:26.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    },
+    {
+      "id": "n15",
+      "title": "Nvidia Plays Kingmaker Again. Why the Meta Deal Is a Winning Move.",
+      "summary": "Nvidia will invest $3 billion in Meta Platforms as part of a larger partnership.",
+      "link": "https://www.fool.com/investing/2026/10/27/nvidia-plays-kingmaker-again-why-the-meta-deal-is/?.tsrc=rss",
+      "published": "2026-10-27T19:05:00.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n9",
+      "title": "Boeing stock sinks 10% as company says it won't significantly ramp up 737 Max production until late 2027",
+      "summary": "Boeing is set to brief investors on its aircraft production outlook when it reports quarterly results before the market opens Tuesday.",
+      "link": "https://www.cnbc.com/2026/10/27/-boeing-ba-q3-2026-earnings.html",
+      "published": "2026-10-27T19:10:24.000Z",
+      "source": "CNBC",
+      "region": "us"
+    }
+  ],
+  "aus": {
+    "item_id": "n29",
+    "tag": "ASX",
+    "headline": "ASX Hits Seven-Week High",
+    "body": "Big miners BHP and Rio Tinto drove the ASX 200 to its best level in seven weeks.",
+    "why": "Miners are some of the largest companies on the local share market.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "celebrating"
+  },
+  "us": {
+    "item_id": "n15",
+    "tag": "Tech",
+    "headline": "Nvidia Puts $3b Into Meta",
+    "body": "The chip maker is backing Meta with $3 billion under a broader tie-up.",
+    "why": "Deals between AI giants shape the tech stocks many Aussies hold.",
+    "figure": "$3b",
+    "figure_label": "Nvidia investment in Meta",
+    "mood": "shocked"
+  },
+  "biz": {
+    "item_id": "n9",
+    "tag": "Big business",
+    "headline": "Boeing Shares Sink 10%",
+    "body": "Boeing fell 10% after saying 737 Max output won't rise much until late 2027.",
+    "why": "Slower jet output affects airlines worldwide, including here.",
+    "figure": "-10%",
+    "figure_label": "Boeing share price",
+    "mood": "worried"
+  }
+}
