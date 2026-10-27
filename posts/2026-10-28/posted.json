@@ -1,0 +1,24 @@
+{
+ "mediaId": "17977933614131870",
+ "storyId": "18093906434682641",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-27T20:41:08.803Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Hits Seven-Week High",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/mining-giants-bhp-and-rio-tinto-propel-australian-sharemarket-to-sevenweek-high/news-story/8552706fb310fda16a668c2059affcac?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Nvidia Puts $3b Into Meta",
+   "source": "Yahoo Finance",
+   "link": "https://www.fool.com/investing/2026/10/27/nvidia-plays-kingmaker-again-why-the-meta-deal-is/?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Boeing Shares Sink 10%",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/10/27/-boeing-ba-q3-2026-earnings.html"
+  }
+ }
+}
