@@ -1,0 +1,24 @@
+{
+ "mediaId": "17891481102684620",
+ "storyId": "18105309728037225",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-28T20:41:14.973Z",
+ "stories": {
+  "aus": {
+   "headline": "Inflation Runs Hotter Than Expected",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-10-28/inflation-september-cpi-ahead-of-november-interest-rate-call/107317382"
+  },
+  "us": {
+   "headline": "Fed Holds Rates In Split Vote",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/m/bef4666b-d5e1-36af-b2b7-cc6fedc39677/fed-rate-hike-odds-slip-as.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Frontier Airfares Up 71%",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/10/28/frontier-airlines-airfare-plane-tickets.html"
+  }
+ }
+}
