@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n40",
+      "title": "Inflation surges more than expected ahead of RBA meeting",
+      "summary": "Australia's inflation rate picked up more than expected in September, increasing expectations of an interest rate hike next week.",
+      "link": "https://www.abc.net.au/news/2026-10-28/inflation-september-cpi-ahead-of-november-interest-rate-call/107317382",
+      "published": "2026-10-28T00:38:39.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    },
+    {
+      "id": "n1",
+      "title": "Fed Rate-Hike Odds Slip As Warsh Notes Tighter AI Financing",
+      "summary": "Policymakers voted 10-2 on Wednesday to keep rates unchanged. Fed chief Kevin Warsh has finished speaking.",
+      "link": "https://finance.yahoo.com/m/bef4666b-d5e1-36af-b2b7-cc6fedc39677/fed-rate-hike-odds-slip-as.html?.tsrc=rss",
+      "published": "2026-10-28T19:31:07.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n23",
+      "title": "America's largest budget airline reports 71% jump in airfare",
+      "summary": "Frontier Airlines reported a 71% jump in airfare for the third quarter and said customers continue to book",
+      "link": "https://www.cnbc.com/2026/10/28/frontier-airlines-airfare-plane-tickets.html",
+      "published": "2026-10-28T16:29:09.000Z",
+      "source": "CNBC",
+      "region": "us"
+    }
+  ],
+  "aus": {
+    "item_id": "n40",
+    "tag": "Inflation",
+    "headline": "Inflation Runs Hotter Than Expected",
+    "body": "Price growth in Australia sped up by more than tipped in September.",
+    "why": "It lifts the odds of an RBA rate hike next week.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "worried"
+  },
+  "us": {
+    "item_id": "n1",
+    "tag": "Fed",
+    "headline": "Fed Holds Rates In Split Vote",
+    "body": "The US Fed left rates on hold, with policymakers voting 10-2.",
+    "why": "US rate calls sway the Aussie dollar and global markets.",
+    "figure": "10-2",
+    "figure_label": "Fed vote to hold rates",
+    "mood": "thinking"
+  },
+  "biz": {
+    "item_id": "n23",
+    "tag": "Earnings",
+    "headline": "Frontier Airfares Up 71%",
+    "body": "Budget carrier Frontier Airlines said its airfare rose 71% in the third quarter.",
+    "why": "A sign US travellers are still paying up to fly.",
+    "figure": "+71%",
+    "figure_label": "Frontier airfare jump",
+    "mood": "shocked"
+  }
+}
