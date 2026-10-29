@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n30",
+      "title": "Surprise as ASX surges past inflation shock",
+      "summary": "Australia’s major banks and real estate stocks have powered the ASX 200 higher, defying hotter-than-expected inflation data and looming RBA rate hike fears.",
+      "link": "https://www.news.com.au/finance/markets/australian-markets/asx-surges-past-inflation-shock-as-major-banks-and-property-shares-rally/news-story/b4fdc8881fd23878c874b9485015c902?.tsrc=rss",
+      "published": "2026-10-29T06:49:02.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    },
+    {
+      "id": "n18",
+      "title": "Wall Street Is Done Giving AI Software a Pass",
+      "summary": "Fortinet and ServiceNow plunged 22% and 27%, respectively, as investors punished soft guidance and questioned whether AI hype can deliver real growth.",
+      "link": "https://app.moby.co/home/news/news-wall-street-is-done-giving-ai-software-a-pass?utm_source=yahoo_finance&utm_medium=rss&.tsrc=rss",
+      "published": "2026-10-29T18:54:15.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n32",
+      "title": "‘Tough environment’: Major retail sales cool",
+      "summary": "Three of Australia’s most powerful retailers have simultaneously flagged slowing sales as cost-of-living pressures bite hard.",
+      "link": "https://www.news.com.au/finance/business/retail/bunnings-owner-wesfarmers-and-jb-hifi-report-slowing-sales-as-rate-hikes-bite/news-story/64cf91692d6f93983dbac9bbcab3e937?.tsrc=rss",
+      "published": "2026-10-29T05:05:47.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    }
+  ],
+  "aus": {
+    "item_id": "n30",
+    "tag": "ASX",
+    "headline": "ASX Shrugs Off Hot Inflation",
+    "body": "Banks and property shares lifted the ASX 200 despite hotter-than-expected inflation.",
+    "why": "Hot inflation data keeps RBA rate hike fears in play.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "celebrating"
+  },
+  "us": {
+    "item_id": "n18",
+    "tag": "Tech",
+    "headline": "AI Software Stocks Sink",
+    "body": "ServiceNow fell 27% and Fortinet 22% as investors punished soft guidance.",
+    "why": "Investors are now doubting AI hype turns into real growth.",
+    "figure": "-27%",
+    "figure_label": "ServiceNow shares",
+    "mood": "shocked"
+  },
+  "biz": {
+    "item_id": "n32",
+    "tag": "Retail",
+    "headline": "Big Retailers Feel Pinch",
+    "body": "Three major Aussie retailers have all flagged slowing sales at the same time.",
+    "why": "Cost-of-living pressure is showing up at the checkout.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "worried"
+  }
+}
