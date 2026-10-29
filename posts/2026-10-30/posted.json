@@ -1,0 +1,24 @@
+{
+ "mediaId": "18132043789862233",
+ "storyId": "18111892394578614",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-10-29T20:41:04.259Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Shrugs Off Hot Inflation",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/asx-surges-past-inflation-shock-as-major-banks-and-property-shares-rally/news-story/b4fdc8881fd23878c874b9485015c902?.tsrc=rss"
+  },
+  "us": {
+   "headline": "AI Software Stocks Sink",
+   "source": "Yahoo Finance",
+   "link": "https://app.moby.co/home/news/news-wall-street-is-done-giving-ai-software-a-pass?utm_source=yahoo_finance&utm_medium=rss&.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Big Retailers Feel Pinch",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/business/retail/bunnings-owner-wesfarmers-and-jb-hifi-report-slowing-sales-as-rate-hikes-bite/news-story/64cf91692d6f93983dbac9bbcab3e937?.tsrc=rss"
+  }
+ }
+}
