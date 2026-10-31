@@ -1,6 +1,6 @@
-2026-10-23T00:15:53.588Z
-Error: Instagram API: Fatal
+2026-10-31T20:31:33.783Z
+Error: Instagram API: Media ID is not available
     at call (file:///home/runner/work/byte-finance/byte-finance/src/instagram.js:30:13)
     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-    at async Object.publishCarousel (file:///home/runner/work/byte-finance/byte-finance/src/instagram.js:111:15)
-    at async main (file:///home/runner/work/byte-finance/byte-finance/scripts/daily.js:260:15)
+    at async safePublish (file:///home/runner/work/byte-finance/byte-finance/src/instagram.js:59:15)
+    at async main (file:///home/runner/work/byte-finance/byte-finance/scripts/daily.js:269:20)
