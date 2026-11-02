@@ -1,0 +1,24 @@
+{
+ "mediaId": "18114220040333283",
+ "storyId": "18123087494301331",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-02T20:41:13.777Z",
+ "stories": {
+  "aus": {
+   "headline": "Canberra Inflation Jumps",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-02/act-inflation-rate-rises-above-nation-average/107335864"
+  },
+  "us": {
+   "headline": "Oil Dives, Dow Rallies",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/m/d2c3bbee-4bc3-3931-9b35-8ffcd691e60c/stock-market-today%3A-dow.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Qualcomm Backs AI Start-Up Hark",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/technology/ai/articles/qualcomm-qcom-joins-700-million-190916281.html?.tsrc=rss"
+  }
+ }
+}
