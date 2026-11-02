@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "n12",
+      "source": "Yahoo Finance",
+      "title": "Stock Market Today: Dow Rallies As Marvell, Lumentum Crater; These Stocks Clear Entries (Live Coverage)",
+      "summary": "Stock Market Today: The Dow Jones index rallies Monday as oil prices dive. Amazon jumps but Lumentum and Marvell Technology plunge.",
+      "link": "https://finance.yahoo.com/m/d2c3bbee-4bc3-3931-9b35-8ffcd691e60c/stock-market-today%3A-dow.html?.tsrc=rss"
+    },
+    {
+      "id": "n13",
+      "source": "Yahoo Finance",
+      "title": "Qualcomm (QCOM) Joins $700 Million Hark Funding Round In AI Assistant Bet",
+      "summary": "Qualcomm (NasdaqGS:QCOM) joined Nvidia and AMD in a US$700 million Series A funding round for AI startup Hark, which is valued at US$6b. Hark is working on foundation models, software, and AI-focused hardware aimed at a next generation personal assistant platform. Qualcomm Ventures' participation links the chip designer to Hark's efforts to build AI systems that could reach consumer devices over time. Qualcomm's move into Hark's Series A round sits alongside other shifts in its AI ambitions...",
+      "link": "https://finance.yahoo.com/technology/ai/articles/qualcomm-qcom-joins-700-million-190916281.html?.tsrc=rss"
+    },
+    {
+      "id": "n21",
+      "source": "ABC News",
+      "title": "'Impossible to get ahead': Canberra inflation rate rises above national average",
+      "summary": "The ACT's inflation rate jumped to 4.7 per cent in the 12 months to September this year, and with households curbing costs some Canberra business owners have been left without customers and unable to afford wages.",
+      "link": "https://www.abc.net.au/news/2026-11-02/act-inflation-rate-rises-above-nation-average/107335864"
+    }
+  ],
+  "aus": {
+    "item_id": "n21",
+    "tag": "Inflation",
+    "headline": "Canberra Inflation Jumps",
+    "body": "ACT prices rose 4.7% in the year to September, outpacing the national figure.",
+    "why": "Some Canberra businesses say they now struggle to cover wages.",
+    "figure": "4.7%",
+    "figure_label": "ACT inflation, year to Sept",
+    "mood": "worried"
+  },
+  "us": {
+    "item_id": "n12",
+    "tag": "Wall Street",
+    "headline": "Oil Dives, Dow Rallies",
+    "body": "The Dow climbed on Monday as oil slid, while Marvell and Lumentum shares plunged.",
+    "why": "Wall Street often sets the tone for the ASX each morning.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "thinking"
+  },
+  "biz": {
+    "item_id": "n13",
+    "tag": "Deals",
+    "headline": "Qualcomm Backs AI Start-Up Hark",
+    "body": "AI start-up Hark, valued at US$6b, raised US$700m with Qualcomm, Nvidia and AMD on board.",
+    "why": "Chip giants are pouring cash into personal AI assistants.",
+    "figure": "US$700m",
+    "figure_label": "Hark Series A round",
+    "mood": "newspaper"
+  }
+}
