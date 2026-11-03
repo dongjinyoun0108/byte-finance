@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "n38",
+      "source": "RBA",
+      "title": "Statement by the Monetary Policy Board: Monetary Policy Decision",
+      "summary": "Media release number 2026-30: At its meeting today, the Board decided to increase the cash rate target by 25 basis points to 4.85 per cent.",
+      "link": "https://www.rba.gov.au/media-releases/2026/mr-26-30.html"
+    },
+    {
+      "id": "n12",
+      "source": "Yahoo Finance",
+      "title": "Update: US Equity Indexes Mixed as Apple's Fiscal Q4 Disappoints While Investors Await Midterm Election Results",
+      "summary": "(Updates with index/price moves, macroeconomic data and company/geopolitical news from the first par",
+      "link": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-mixed-apple-191440044.html?.tsrc=rss"
+    },
+    {
+      "id": "n25",
+      "source": "CNBC",
+      "title": "Disney plans several thousand layoffs, asks some managers to cut costs by up to 20%",
+      "summary": "Disney expects to lay off several thousand employees in the latest round of job cuts for the entertainment giant.",
+      "link": "https://www.cnbc.com/2026/11/03/disney-layoffs-cost-cuts.html"
+    }
+  ],
+  "aus": {
+    "item_id": "n38",
+    "tag": "Interest rates",
+    "headline": "RBA Lifts Cash Rate To 4.85%",
+    "body": "Australia's central bank has hiked its official rate target again, now 4.85 per cent.",
+    "why": "Variable mortgage repayments go up again for borrowers.",
+    "figure": "4.85%",
+    "figure_label": "Cash rate target, raised",
+    "mood": "worried"
+  },
+  "us": {
+    "item_id": "n12",
+    "tag": "Wall Street",
+    "headline": "Apple Results Let Down Wall Street",
+    "body": "US share indexes were mixed after Apple posted a disappointing fiscal fourth quarter.",
+    "why": "Moves on Wall Street often set the tone for the ASX.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "thinking"
+  },
+  "biz": {
+    "item_id": "n25",
+    "tag": "Big business",
+    "headline": "Disney Plans Thousands Of Job Cuts",
+    "body": "Disney expects several thousand staff to go in its latest round of layoffs.",
+    "why": "Disney runs streaming, parks and studios used by many Australians.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "shocked"
+  }
+}
