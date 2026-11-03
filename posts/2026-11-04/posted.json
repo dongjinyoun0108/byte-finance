@@ -1,0 +1,24 @@
+{
+ "mediaId": "18123293440938232",
+ "storyId": "18359264584220072",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-03T20:41:05.122Z",
+ "stories": {
+  "aus": {
+   "headline": "RBA Lifts Cash Rate To 4.85%",
+   "source": "RBA",
+   "link": "https://www.rba.gov.au/media-releases/2026/mr-26-30.html"
+  },
+  "us": {
+   "headline": "Apple Results Let Down Wall Street",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-mixed-apple-191440044.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Disney Plans Thousands Of Job Cuts",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/11/03/disney-layoffs-cost-cuts.html"
+  }
+ }
+}
