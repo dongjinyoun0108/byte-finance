@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "n29",
+      "source": "Yahoo Finance",
+      "title": "Big four banks start move on rate hikes",
+      "summary": "The Reserve Bank of Australia has raised the cash rate to its highest level since 2008, with banks moving to pass on the pain to mortgage holders.",
+      "link": "https://www.news.com.au/finance/money/costs/mortgage-holders-face-higher-repayments-as-rba-lifts-cash-rate-to-485-per-cent/news-story/325c70ce8c5979fade622c7b18ad9529?.tsrc=rss"
+    },
+    {
+      "id": "n11",
+      "source": "Yahoo Finance",
+      "title": "Dow surges 1,500 points after Democrats take control of Congress",
+      "summary": "The prospect of political gridlock in Washington, D.C., will limit lawmakers' ability to pass sweeping tax and spending packages, according to Wall Street analysts.",
+      "link": "https://www.cbsnews.com/news/stock-market-soar-democrats-take-control-of-congress/?.tsrc=rss"
+    },
+    {
+      "id": "n17",
+      "source": "CNBC",
+      "title": "CVS to split off drugstore business in major breakup of healthcare giant; shares fall 10%",
+      "summary": "The move would reverse the company's $78 billion acquisition of Aetna and dismantle the vertically integrated healthcare conglomerate it created in 2018.",
+      "link": "https://www.cnbc.com/2026/11/04/cvs-to-split-off-drugstore-business.html"
+    }
+  ],
+  "aus": {
+    "item_id": "n29",
+    "tag": "Interest rates",
+    "headline": "Big Banks Pass On Rate Hike",
+    "body": "The big four are passing the RBA's latest cash rate rise on to mortgage holders.",
+    "why": "Many Australian home loan borrowers now face higher costs.",
+    "figure": "2008",
+    "figure_label": "Cash rate highest since",
+    "mood": "worried"
+  },
+  "us": {
+    "item_id": "n11",
+    "tag": "Wall Street",
+    "headline": "Dow Jumps 1,500 Points",
+    "body": "US shares rallied hard after Democrats won control of Congress.",
+    "why": "Analysts say gridlock may limit big US tax and spending plans.",
+    "figure": "+1,500",
+    "figure_label": "Dow gain in points",
+    "mood": "celebrating"
+  },
+  "biz": {
+    "item_id": "n17",
+    "tag": "Big business",
+    "headline": "CVS Splits Off Its Drugstores",
+    "body": "CVS plans to separate its drugstore arm, undoing its $78 billion Aetna deal of 2018.",
+    "why": "The breakup reshapes one of America's biggest healthcare groups.",
+    "figure": "-10%",
+    "figure_label": "CVS shares on the news",
+    "mood": "shocked"
+  }
+}
