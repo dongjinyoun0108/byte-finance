@@ -1,0 +1,24 @@
+{
+ "mediaId": "17971642083194884",
+ "storyId": "18482896234116091",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-04T20:31:16.343Z",
+ "stories": {
+  "aus": {
+   "headline": "Big Banks Pass On Rate Hike",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/money/costs/mortgage-holders-face-higher-repayments-as-rba-lifts-cash-rate-to-485-per-cent/news-story/325c70ce8c5979fade622c7b18ad9529?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Dow Jumps 1,500 Points",
+   "source": "Yahoo Finance",
+   "link": "https://www.cbsnews.com/news/stock-market-soar-democrats-take-control-of-congress/?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "CVS Splits Off Its Drugstores",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/11/04/cvs-to-split-off-drugstore-business.html"
+  }
+ }
+}
