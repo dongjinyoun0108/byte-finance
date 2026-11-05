@@ -1,0 +1,366 @@
+{
+ "fetchedAt": "2026-11-05T19:42:09.569Z",
+ "items": [
+  {
+   "id": "n1",
+   "title": "Stocks crater as midterms spur investor exodus from tech and AI",
+   "summary": "Tech-heavy Nasdaq plunges nearly 1,300 points as Wall Street weighs the impact of Democratic wins on the AI sector.",
+   "link": "https://www.cbsnews.com/news/stocks-midterm-elections-tech-companies-ai-data-centers/?.tsrc=rss",
+   "published": "2026-11-05T19:34:36.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n2",
+   "title": "SpaceX Stock Is Still Falling. It Trades At Apple’s Valuation.",
+   "summary": "China Renaissance initiates coverage of SpaceX with a Buy rating and a $194.20 price target,",
+   "link": "https://finance.yahoo.com/m/12c89445-f84d-308c-a32e-1b9535c6322f/spacex-stock-is-still.html?.tsrc=rss",
+   "published": "2026-11-05T19:29:00.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n3",
+   "title": "The AI Trade Selloff Is Crushing Industrial Stocks. What Caterpillar’s Valuation Tells Us.",
+   "summary": "The market clearly believes that a Democratic Congress means less AI spending. We ask two very hard questions. Will you like our answers?",
+   "link": "https://finance.yahoo.com/m/a69385ba-7bed-307d-82ea-55b8e8f0fb7a/the-ai-trade-selloff-is.html?.tsrc=rss",
+   "published": "2026-11-05T19:27:00.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n4",
+   "title": "Warren Buffett's 90/10 rule to invest for retirement: Does it still work?",
+   "summary": "Does Warren Buffett's famous investing strategy still hold up? Here's what retirement investors should know.",
+   "link": "https://finance.yahoo.com/personal-finance/investing/article/warren-buffetts-9010-rule-to-invest-for-retirement-does-it-still-work-192629455.html?.tsrc=rss",
+   "published": "2026-11-05T19:26:29.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n5",
+   "title": "Anthropic's IPO plans run up against a battered Wall Street",
+   "summary": "Anthropic's IPO plans are clashing with a market rout.",
+   "link": "https://finance.yahoo.com/technology/article/anthropics-ipo-plans-run-up-against-a-battered-wall-street-192138177.html?.tsrc=rss",
+   "published": "2026-11-05T19:21:38.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n6",
+   "title": "This Semiconductor ETF Is Set For Its Worst Week In Over 18 Months As Democratic Sweep Raises Data Center Skepticism",
+   "summary": "Global chip stocks suffered steep losses on Thursday, extending a broad market retreat as a Democratic sweep in the midterm elections fueled growing political resistance against artificial intelligence infrastructure.",
+   "link": "https://stocktwits.com/news-articles/markets/equity/soxx-etf-semiconductor-is-set-for-its-worst-week-in-over-18-months/cNG1sEhR94Z?.tsrc=rss",
+   "published": "2026-11-05T19:21:17.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n7",
+   "title": "Apple Stocks Move Lower as Investors Revisit Earnings Quality",
+   "summary": "Tariff refunds boosted reported profit metrics in the latest quarter.",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/apple-stocks-move-lower-investors-192048060.html?.tsrc=rss",
+   "published": "2026-11-05T19:20:48.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n8",
+   "title": "Update: Nasdaq Enters Correction Territory, Dow Erases Post-Election Rally Amid Big-Tech Rout",
+   "summary": "(Updates with index/price moves, macroeconomic data and company/geopolitical news from the first par",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/nasdaq-enters-correction-territory-dow-191906339.html?.tsrc=rss",
+   "published": "2026-11-05T19:19:06.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n9",
+   "title": "If You Invested $1,000 in Tesla at Its 2010 IPO, Here’s What You’d Have Today",
+   "summary": "Tesla turned a modest bet into a fortune for early believers, yet buyers from just a few years ago are staring at losses while the S&P 500 pulled ahead. What separates the winners from the underwater, and does today's price still make sense?",
+   "link": "https://247wallst.com/investing/2026/11/05/if-you-invested-1000-in-tesla-at-its-2010-ipo-heres-what-youd-have-today/?.tsrc=rss",
+   "published": "2026-11-05T19:17:42.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n10",
+   "title": "Why Shift4 Payments Stock Crashed Today",
+   "summary": "Shift4 beat earnings soundly. Then the selling began.",
+   "link": "https://www.fool.com/investing/2026/11/05/why-shift4-payments-stock-crashed-today/?.tsrc=rss",
+   "published": "2026-11-05T19:16:48.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n11",
+   "title": "Equities Plunge in Tech-Led Sell-Off Amid Data Center Restriction Fears",
+   "summary": "Stocks on Wall Street plummeted intraday with the technology sector getting hammered the most, as tr",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/equities-plunge-tech-led-sell-191442459.html?.tsrc=rss",
+   "published": "2026-11-05T19:14:42.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n12",
+   "title": "Nasdaq on Track for a Correction as an AI Bloodbath Tanks Stocks",
+   "summary": "The Nasdaq Composite will enter correction territory if losses last in what's shaping up to be an AI bloodbath on Wall Street.",
+   "link": "https://finance.yahoo.com/m/15936d27-6104-3e42-b32a-2f50f607baee/nasdaq-on-track-for-a.html?.tsrc=rss",
+   "published": "2026-11-05T19:11:37.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n13",
+   "title": "Why Intel Stock Is Down Today",
+   "summary": "Chip stocks are getting hammered on fears that Democratic control of Congress and key governorships will slow the data center build-out Intel needs.",
+   "link": "https://www.fool.com/investing/2026/11/05/why-intel-stock-is-down-today/?.tsrc=rss",
+   "published": "2026-11-05T19:07:02.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n14",
+   "title": "Here's What a $10,000 Investment in Anthropic Could Be Worth by 2030",
+   "summary": "Anthropic could be a huge moneymaker for investors if it can maintain its rapid growth rate.",
+   "link": "https://www.fool.com/investing/2026/11/05/heres-what-a-10000-investment-in-anthropic-could-b/?.tsrc=rss",
+   "published": "2026-11-05T19:05:00.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n15",
+   "title": "The Stock Market Celebrated Election Day. Then the AI Trade Imploded.",
+   "summary": "Investors have to consider how quickly data centers can actually be built, and what that will mean for the companies selling products into the ecosystem.",
+   "link": "https://finance.yahoo.com/m/38c96a1f-9853-3505-99f8-e90d6000ec99/the-stock-market-celebrated.html?.tsrc=rss",
+   "published": "2026-11-05T19:04:00.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n16",
+   "title": "Nearly $2m compo paid to company over scrapped Macquarie Point power plan",
+   "summary": "The Tasmanian government has paid about $2 million to not build a thermal power plant at Macquarie Point, the site of the planned Hobart stadium.",
+   "link": "https://www.abc.net.au/news/2026-11-06/millions-paid-for-scrapped-power-plan-macquarie-point-stadium/107350818",
+   "published": "2026-11-05T18:41:59.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n17",
+   "title": "Business says inquiry into sector's struggles ignores key issue of tax",
+   "summary": "A Productivity Commission inquiry into how to make businesses more dynamic releases its interim findings after being directed not to consider tax or industrial relations.",
+   "link": "https://www.abc.net.au/news/2026-11-06/business-says-government-inquiry-into-struggles-misses-point/107351996",
+   "published": "2026-11-05T18:00:00.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n18",
+   "title": "David Jones suppliers left with unpaid invoices",
+   "summary": "David Jones' suppliers tell the ABC they could see \"the writing on the wall\" as payment times got longer and telephone calls went unanswered.",
+   "link": "https://www.abc.net.au/news/2026-11-06/david-jones-suppliers-unpaid-invoices/107347028",
+   "published": "2026-11-05T18:00:00.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n19",
+   "title": "In layman’s terms, this is what is happening at David Jones",
+   "summary": "Can you be in administration and have receivers? Yes, and it is happening at David Jones, which is seeking to restructure but will likely face challenges.",
+   "link": "https://www.abc.net.au/news/2026-11-06/david-jones-what-now-under-administration/107350708",
+   "published": "2026-11-05T18:00:00.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n20",
+   "title": "Expedia CEO says AI agents aren't changing booking habits — yet",
+   "summary": "Expedia CEO Ariane Gorin told CNBC that AI agents present an exciting time for the travel industry but that they haven't yet impacted bookings.",
+   "link": "https://www.cnbc.com/2026/11/05/expedia-ai-agents-booking-habits.html",
+   "published": "2026-11-05T17:03:35.000Z",
+   "source": "CNBC",
+   "region": "us"
+  },
+  {
+   "id": "n21",
+   "title": "Marc Lore's Wonder confidentially files for IPO",
+   "summary": "Marc Lore's latest startup Wonder has confidentially filed for an initial public offering.",
+   "link": "https://www.cnbc.com/2026/11/05/wonder-confidential-ipo-filing.html",
+   "published": "2026-11-05T16:27:10.000Z",
+   "source": "CNBC",
+   "region": "us"
+  },
+  {
+   "id": "n22",
+   "title": "Federal Reserve Board announces termination of enforcement action with Allegiant United Holdings, LLC, Nano Financial Holdings, Inc., and Nano Banc",
+   "summary": "Federal Reserve Board announces termination of enforcement action with Allegiant United Holdings, LLC, Nano Financial Holdings, Inc., and Nano Banc",
+   "link": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20261105a.htm",
+   "published": "2026-11-05T16:00:00.000Z",
+   "source": "Federal Reserve",
+   "region": "us"
+  },
+  {
+   "id": "n23",
+   "title": "Wendy's rejects $1.4 billion takeover proposal from Nelson Peltz’s Trian",
+   "summary": "Wendy's said the $1.4 billion takeover proposal does not reflect potential gains from the burger chain's turnaround strategy.",
+   "link": "https://www.cnbc.com/2026/11/05/wendys-rejects-takeover-proposal.html",
+   "published": "2026-11-05T15:08:05.000Z",
+   "source": "CNBC",
+   "region": "us"
+  },
+  {
+   "id": "n24",
+   "title": "Consumers are spending on physical gifts even as travel tops wish lists, Visa survey finds",
+   "summary": "Even as travel and experiences top the wish list, consumers are still prioritizing spending on physical gifts this holiday season.",
+   "link": "https://www.cnbc.com/2026/11/05/visa-holiday-shopping-physical-gifts-travel.html",
+   "published": "2026-11-05T11:00:01.000Z",
+   "source": "CNBC",
+   "region": "us"
+  },
+  {
+   "id": "n25",
+   "title": "Third wave of ‘hoax’ bomb threats targets 27 passenger flights across Europe",
+   "summary": "Bomb threats have affected at least 27 flights in Europe on Thursday , including in France, Bulgaria, Italy, Austria, Belgium and the Czech Republic.",
+   "link": "https://www.abc.net.au/news/2026-11-05/bomb-threat-diverts-planes-across-europe/107352984",
+   "published": "2026-11-05T09:41:32.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n26",
+   "title": "Tech companies hit by new AI worries on positive day for most markets",
+   "summary": "Apart from tech stocks, shares mostly gained on Thursday after Wall Street rallied following the midterm elections, with the Dow Jones Industrial Average jumping more than 3% after President Donald Trump’s party lost its sole control of Washington.View on euronews",
+   "link": "https://www.euronews.com/2026/11/05/shares-advance-after-wall-street-rally-following-us-midterm-elections?.tsrc=rss",
+   "published": "2026-11-05T08:54:25.000Z",
+   "source": "Yahoo Finance",
+   "region": "aus"
+  },
+  {
+   "id": "n27",
+   "title": "WA farmers say reported canola crop failures could cost millions",
+   "summary": "Farmers across Australia's largest canola-producing region consider legal action over reported failures of multiple strains of canola.",
+   "link": "https://www.abc.net.au/news/2026-11-05/popular-canola-varities-leading-to-crop-losses-western-australia/107295904",
+   "published": "2026-11-05T08:22:38.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n28",
+   "title": "Smart glasses present 'elevated risk' to patients, says NT Health",
+   "summary": "The Northern Territory health department has issued a ban to its staff around the use of smart glasses, as part of an internal department review into its privacy policies triggered by a recent breach.",
+   "link": "https://www.abc.net.au/news/2026-11-05/nt-health-issues-ban-on-meta-glasses-after-privacy-breach-at-rdh/107349740",
+   "published": "2026-11-05T07:37:21.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n29",
+   "title": "Deputy governor concedes RBA is losing Australians' trust to manage inflation",
+   "summary": "Trust in the RBA is under strain \"just as we need it most\", RBA deputy governor warns.",
+   "link": "https://www.abc.net.au/news/2026-11-05/rba-andrew-hauser-trust-in-the-rba-is-deteriorating/107351696",
+   "published": "2026-11-05T07:03:45.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n30",
+   "title": "ASX jumps to two-month high on US blue wave",
+   "summary": "Technology stocks soared more than 10 per cent as the ASX 200 closed at its highest level in two months, after a decisive Democrat election win rattled global markets.",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/asx-200-surges-to-twomonth-high-as-us-election-results-spark-broad-market-rally/news-story/7c363e0169285535279c4bafb86f1256?.tsrc=rss",
+   "published": "2026-11-05T06:39:01.000Z",
+   "source": "Yahoo Finance",
+   "region": "aus"
+  },
+  {
+   "id": "n31",
+   "title": "Former mining town's preschool again at risk of lead exposure",
+   "summary": "The Captains Flat community has concerns about how ongoing lead exposure risks are being managed in their hometown, after elevated lead levels were detected at their preschool.",
+   "link": "https://www.abc.net.au/news/2026-11-05/captains-flat-nsw-preschool-exposure-to-lead/107348348",
+   "published": "2026-11-05T06:32:43.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n32",
+   "title": "Australian Stocks Rally as Investors Cheer US Midterm Results; NextDC Surges on Share Raid Disclosure",
+   "summary": "Australian shares surged on Thursday, tracking Wall Street gains after the Democratic Party gained c",
+   "link": "https://au.finance.yahoo.com/news/australian-stocks-rally-investors-cheer-052817662.html?.tsrc=rss",
+   "published": "2026-11-05T05:28:17.000Z",
+   "source": "Yahoo Finance",
+   "region": "aus"
+  },
+  {
+   "id": "n33",
+   "title": "REA Group shares rally on strong Q1 revenue",
+   "summary": "Investing.com -- Rea Group (ASX:REA) shares rose sharply on Thursday after the Australian advertising firm clocked strong revenue growth in its fiscal first quarter.",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/rea-group-shares-rally-strong-045237440.html?.tsrc=rss",
+   "published": "2026-11-05T04:52:37.000Z",
+   "source": "Yahoo Finance",
+   "region": "aus"
+  },
+  {
+   "id": "n34",
+   "title": "Stock already being cleared as David Jones goes into administration",
+   "summary": "David Jones customers have rushed to spend gift cards hours after news broke the retailer's future was in serious jeopardy.",
+   "link": "https://www.abc.net.au/news/2026-11-05/customers-rush-to-spend-david-jones-gift-cards/107350168",
+   "published": "2026-11-05T04:32:35.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n35",
+   "title": "Woodside to axe 500 jobs, sparking fears for WA workers",
+   "summary": "Gas giant Woodside Energy announces it will slash at least 500 jobs from its global workforce as part of plans to cut costs by $550 million a year from 2028.",
+   "link": "https://www.abc.net.au/news/2026-11-05/woodside-energy-to-slash-more-than-500-jobs/107349938",
+   "published": "2026-11-05T03:53:31.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n36",
+   "title": "Big batteries ready to power one-third of ACT for hours if needed",
+   "summary": "The ACT government expects the project to eventually be cost-positive, generating revenue for the territory.",
+   "link": "https://www.abc.net.au/news/2026-11-05/canberra-big-battery-storage-system/107348964",
+   "published": "2026-11-05T03:16:33.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  },
+  {
+   "id": "n37",
+   "title": "Janus Electric targets $65M North America revenue",
+   "summary": "Janus Electric CEO and managing director Ben Hutt talked with Proactive about the company’s latest operational and funding developments, including its North American order book, investment from battery partner Electrovaya and the rollout of its Horizon Two strategy. Janus has strengthened its ability to execute on its delivery plans after arranging a working capital facility with Commonwealth Bank and securing a A$2 million strategic investment from Electrovaya. He said the funding arrangements would help support the company’s supply chain, inventory requirements and delivery schedule for cust",
+   "link": "https://finance.yahoo.com/video/janus-electric-targets-65m-north-023200588.html?.tsrc=rss",
+   "published": "2026-11-05T02:32:00.000Z",
+   "source": "Yahoo Finance",
+   "region": "aus"
+  },
+  {
+   "id": "n38",
+   "title": "ASX Midday Sector Update: Information Technology Shares Rally, Energy Declines",
+   "summary": "Information technology stocks surged over 8% in midday trading Thursday, mirroring overnight Wall St",
+   "link": "https://au.finance.yahoo.com/news/asx-midday-sector-information-technology-013132459.html?.tsrc=rss",
+   "published": "2026-11-05T01:31:32.000Z",
+   "source": "Yahoo Finance",
+   "region": "aus"
+  },
+  {
+   "id": "n39",
+   "title": "NAB shares slump 7% to three-week low as FY26 cash earnings miss",
+   "summary": "Investing.com -- National Australia Bank shares slumped on Thursday after the lender reported weaker full-year earnings, with higher credit impairment charges and software-related costs weighing on profitability.",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/nab-shares-slump-7-three-010359852.html?.tsrc=rss",
+   "published": "2026-11-05T01:03:59.000Z",
+   "source": "Yahoo Finance",
+   "region": "aus"
+  },
+  {
+   "id": "n40",
+   "title": "New Spirit of Tasmania ferry delayed in Geelong after steering 'fault'",
+   "summary": "Spirit of Tasmania IV arrives four hours late in Geelong with a tugboat escort after suffering a steering issue similar to one under investigation on the other new ferry, Spirit V.",
+   "link": "https://www.abc.net.au/news/2026-11-05/spirit-of-tasmania-iv-delayed-journey-to-geelong/107348698",
+   "published": "2026-11-05T00:44:45.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  }
+ ],
+ "errors": []
+}
