@@ -1,0 +1,24 @@
+{
+ "mediaId": "18072472214602525",
+ "storyId": "18376622497211078",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-05T20:41:20.049Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Hits Two-Month High",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/asx-200-surges-to-twomonth-high-as-us-election-results-spark-broad-market-rally/news-story/7c363e0169285535279c4bafb86f1256?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Nasdaq Dives In Tech Rout",
+   "source": "Yahoo Finance",
+   "link": "https://www.cbsnews.com/news/stocks-midterm-elections-tech-companies-ai-data-centers/?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Woodside To Cut 500 Jobs",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-05/woodside-energy-to-slash-more-than-500-jobs/107349938"
+  }
+ }
+}
