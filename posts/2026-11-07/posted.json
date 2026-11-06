@@ -1,0 +1,24 @@
+{
+ "mediaId": "18094846619194495",
+ "storyId": "18634944760001305",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-06T20:30:56.058Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Pulled Down By Global Rout",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/australian-shares-slide-after-morning-plunge-amid-worldwide-market-selloff/news-story/eb7e0d462ca5674863934f53c8c9f23d?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Wall Street Steadies After Rout",
+   "source": "Yahoo Finance",
+   "link": "https://www.cbsnews.com/news/stocks-tech-sell-off-nasdaq-correction-dow/?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Qantas Flags Dearer Fares",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-06/qantas-jetstar-fare-increases-fuel-prices/107355602"
+  }
+ }
+}
