@@ -1,0 +1,24 @@
+{
+ "mediaId": "18089138681333449",
+ "storyId": "17877174051594938",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-09T20:30:47.359Z",
+ "stories": {
+  "aus": {
+   "headline": "ASIC Probes Bathla Collapse",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-10/asic-launches-investigation-into-bathla-group/107365198"
+  },
+  "us": {
+   "headline": "Dow Jumps 500 As Nvidia Sinks",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/m/6fc3228f-8806-33c0-9e3b-4402850ebacd/stock-market-today%3A-dow-pops%2C.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Boeing To Cut 5% Of Jet Staff",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/11/09/boeing-layoffs-commercial-airplane.html"
+  }
+ }
+}
