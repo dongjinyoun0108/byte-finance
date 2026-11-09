@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n25",
+      "title": "ASIC launches investigation into collapsed Bathla Group",
+      "summary": "Corporate regulator ASIC launches a formal investigation into collapsed property giant Bathla Group, which owes creditors at least $3.4 billion.",
+      "link": "https://www.abc.net.au/news/2026-11-10/asic-launches-investigation-into-bathla-group/107365198",
+      "published": "2026-11-09T18:00:00.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    },
+    {
+      "id": "n23",
+      "title": "Stock Market Today: Dow Pops, Finance Play Hits Buy Zone; Details Emerge On Jensen Huang Probe (Live Coverage)",
+      "summary": "The Dow Jones index rallies 500 points Monday as oil prices drop. Nvidia stock dives on the probe into CEO Jensen Huang.",
+      "link": "https://finance.yahoo.com/m/6fc3228f-8806-33c0-9e3b-4402850ebacd/stock-market-today%3A-dow-pops%2C.html?.tsrc=rss",
+      "published": "2026-11-09T18:09:52.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n1",
+      "title": "Boeing to cut 5% of commercial airplane workers as production increase takes longer than expected",
+      "summary": "Boeing has been working to stabilize production rates of its bestselling 737 Max planes, which are made outside of Seattle.",
+      "link": "https://www.cnbc.com/2026/11/09/boeing-layoffs-commercial-airplane.html",
+      "published": "2026-11-09T19:35:58.000Z",
+      "source": "CNBC",
+      "region": "us"
+    }
+  ],
+  "aus": {
+    "item_id": "n25",
+    "tag": "Property",
+    "headline": "ASIC Probes Bathla Collapse",
+    "body": "The corporate watchdog has opened a formal probe into the failed property developer.",
+    "why": "The failed developer owes creditors at least $3.4b.",
+    "figure": "$3.4b",
+    "figure_label": "Owed to creditors, at least",
+    "mood": "worried"
+  },
+  "us": {
+    "item_id": "n23",
+    "tag": "Wall Street",
+    "headline": "Dow Jumps 500 As Nvidia Sinks",
+    "body": "The Dow gained 500 points on Monday while Nvidia shares slid amid a probe into its CEO.",
+    "why": "Falling oil prices helped lift US shares overnight.",
+    "figure": "+500",
+    "figure_label": "Dow Jones points, Monday",
+    "mood": "celebrating"
+  },
+  "biz": {
+    "item_id": "n1",
+    "tag": "Big business",
+    "headline": "Boeing To Cut 5% Of Jet Staff",
+    "body": "Boeing is cutting 5% of its commercial plane workforce as a production lift runs slow.",
+    "why": "Boeing is still working to steady 737 Max output rates.",
+    "figure": "5%",
+    "figure_label": "Commercial plane jobs cut",
+    "mood": "shocked"
+  }
+}
