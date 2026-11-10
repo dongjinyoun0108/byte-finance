@@ -1,0 +1,24 @@
+{
+ "mediaId": "18091462967285963",
+ "storyId": "17973139884191130",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-10T20:31:01.259Z",
+ "stories": {
+  "aus": {
+   "headline": "Consumer Confidence Slumps",
+   "source": "Yahoo Finance",
+   "link": "https://www.proactiveinvestors.com/companies/news/1101471/consumer-confidence-slump-puts-asx-retailers-and-discretionary-stocks-in-focus-1101471.html?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Chip Stock Rout Nears $5 Trillion",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/article/chip-stocks-slide-nears-5-trillion-as-nvidia-hits-most-extreme-selling-level-since-2019-191532559.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Qantas Cuts 850 Jobs",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-10/850-jobs-to-go-from-qantas-as-airline-moves-roles-overseas/107368120"
+  }
+ }
+}
