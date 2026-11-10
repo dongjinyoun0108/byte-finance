@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n34",
+      "title": "Consumer confidence slump puts ASX retailers and discretionary stocks in focus",
+      "summary": "Australian consumer-facing stocks are back in focus after confidence fell to a four-year low, raising fresh concerns about discretionary spending heading into the crucial Christmas trading period. The Westpac–Melbourne Institute Consumer Sentiment Index fell 2.7% to 78.2 in November from 80.4...",
+      "link": "https://www.proactiveinvestors.com/companies/news/1101471/consumer-confidence-slump-puts-asx-retailers-and-discretionary-stocks-in-focus-1101471.html?.tsrc=rss",
+      "published": "2026-11-10T00:21:00.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    },
+    {
+      "id": "n11",
+      "title": "Chip stocks' slide nears $5 trillion as Nvidia hits most extreme selling level since 2019",
+      "summary": "Nvidia and memory stocks are dragging chips lower again after a hot inflation report, even as most S&P 500 stocks hold up.",
+      "link": "https://finance.yahoo.com/markets/article/chip-stocks-slide-nears-5-trillion-as-nvidia-hits-most-extreme-selling-level-since-2019-191532559.html?.tsrc=rss",
+      "published": "2026-11-10T19:15:32.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n33",
+      "title": "Qantas sends corporate roles overseas as airline slashes 850 jobs",
+      "summary": "Qantas announces it will slash 850 roles in the coming years, with the first changes expected to be in place by mid-2027.",
+      "link": "https://www.abc.net.au/news/2026-11-10/850-jobs-to-go-from-qantas-as-airline-moves-roles-overseas/107368120",
+      "published": "2026-11-10T01:49:36.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    }
+  ],
+  "aus": {
+    "item_id": "n34",
+    "tag": "Economy",
+    "headline": "Consumer Confidence Slumps",
+    "body": "Westpac's consumer sentiment gauge dropped to 78.2 in November, a four-year low.",
+    "why": "Weaker confidence puts retail spending in focus ahead of Christmas.",
+    "figure": "78.2",
+    "figure_label": "Consumer sentiment index",
+    "mood": "worried"
+  },
+  "us": {
+    "item_id": "n11",
+    "tag": "Wall Street",
+    "headline": "Chip Stock Rout Nears $5 Trillion",
+    "body": "Nvidia and memory makers dragged semiconductors down again after hot inflation data.",
+    "why": "Nvidia shares face their heaviest pressure since 2019.",
+    "figure": "$5t",
+    "figure_label": "Chip stock slide, nearly",
+    "mood": "shocked"
+  },
+  "biz": {
+    "item_id": "n33",
+    "tag": "Big business",
+    "headline": "Qantas Cuts 850 Jobs",
+    "body": "Qantas is moving corporate roles offshore, cutting 850 jobs over the coming years.",
+    "why": "First changes are slated to take effect by mid-2027.",
+    "figure": "850",
+    "figure_label": "Qantas roles to go",
+    "mood": "newspaper"
+  }
+}
