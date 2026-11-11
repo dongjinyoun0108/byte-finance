@@ -1,0 +1,24 @@
+{
+ "mediaId": "18126290969296301",
+ "storyId": "18111187583241949",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-11T20:30:46.704Z",
+ "stories": {
+  "aus": {
+   "headline": "Investor Home Loans Plunge",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-11/plunge-in-new-home-loans-result-of-property-investors/107373668"
+  },
+  "us": {
+   "headline": "Wall Street Rallies On AI",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-jump-coreweave-185545602.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "David Jones To Shut 19 Stores",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-11/david-jones-to-close-stores/107372854"
+  }
+ }
+}
