@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "n28",
+      "source": "ABC News",
+      "title": "Sharpest home loan drop on record as property investors exit market",
+      "summary": "Investor loans fell by 31 per cent in the three months to September, a fact welcomed by Housing Minister Clare O'Neil despite more modest falls for homebuyer loans.",
+      "link": "https://www.abc.net.au/news/2026-11-11/plunge-in-new-home-loans-result-of-property-investors/107373668"
+    },
+    {
+      "id": "n17",
+      "source": "Yahoo Finance",
+      "title": "Update: US Equity Indexes Jump as CoreWeave's Strong Quarterly Results, Guidance Boost AI Trade",
+      "summary": "(Updates with index/price moves, macroeconomic data, and company/geopolitical news from the first pa",
+      "link": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-jump-coreweave-185545602.html?.tsrc=rss"
+    },
+    {
+      "id": "n32",
+      "source": "ABC News",
+      "title": "David Jones's receiver reveals list of 19 stores set to close",
+      "summary": "The retailer, which has 38 stores nationally, was placed in voluntary administration less than a week ago. Staff in the affected locations are being briefed.",
+      "link": "https://www.abc.net.au/news/2026-11-11/david-jones-to-close-stores/107372854"
+    }
+  ],
+  "aus": {
+    "item_id": "n28",
+    "tag": "Property",
+    "headline": "Investor Home Loans Plunge",
+    "body": "Investor loans dropped 31% over the September quarter, the sharpest fall on record.",
+    "why": "Property investors are pulling back from the housing market.",
+    "figure": "-31%",
+    "figure_label": "Fall in investor loans",
+    "mood": "shocked"
+  },
+  "us": {
+    "item_id": "n17",
+    "tag": "Wall Street",
+    "headline": "Wall Street Rallies On AI",
+    "body": "US share indexes jumped after CoreWeave posted strong quarterly results and guidance.",
+    "why": "Wall Street often sets the tone for the ASX the next day.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "celebrating"
+  },
+  "biz": {
+    "item_id": "n32",
+    "tag": "Retail",
+    "headline": "David Jones To Shut 19 Stores",
+    "body": "The receiver for David Jones has named 19 of its 38 stores that will close.",
+    "why": "Staff at the affected stores are now being briefed.",
+    "figure": "19",
+    "figure_label": "Stores closing, of 38",
+    "mood": "worried"
+  }
+}
