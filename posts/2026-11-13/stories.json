@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n1",
+      "title": "Financial pain of outer suburbs fuelled demise of David Jones, experts say",
+      "summary": "After 188 years, David Jones announced it would close 19 stores, most of them in Sydney's outer suburbs.",
+      "link": "https://www.abc.net.au/news/2026-11-13/nsw-david-jones-sydney-store-closure-suburban-economic-strain/107380310",
+      "published": "2026-11-12T19:33:29.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    },
+    {
+      "id": "n3",
+      "title": "Black Friday for homeowners as rates go up",
+      "summary": "Millions of Australians’ bills will rise from Friday, as the major banks officially pass on the Melbourne Cup Day interest rate hike to mortgage holders.",
+      "link": "https://www.news.com.au/finance/economy/interest-rates/mortgage-rates-starting-with-five-vanish-as-big-four-banks-lift-variable-loans/news-story/37e99f4e120493d00dbf7df6e1193892?.tsrc=rss",
+      "published": "2026-11-12T19:29:41.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    },
+    {
+      "id": "n15",
+      "title": "Nvidia Stock Hammered As CEO Resigns In Disgrace",
+      "summary": "Nvidia stock received another round of downgrades and price-target cuts on Wall Street in the wake of the latest CEO revelations.",
+      "link": "https://finance.yahoo.com/m/bd774c13-5dc3-3d4c-ba55-5184f381438a/nvidia-stock-hammered-as-ceo.html?.tsrc=rss",
+      "published": "2026-11-12T19:00:40.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    }
+  ],
+  "aus": {
+    "item_id": "n3",
+    "tag": "Interest rates",
+    "headline": "Banks Pass On Rate Hike",
+    "body": "Major banks are passing the Melbourne Cup Day rate rise on to borrowers from Friday.",
+    "why": "Millions of Australian home loan bills go up from today.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "worried"
+  },
+  "us": {
+    "item_id": "n15",
+    "tag": "Tech",
+    "headline": "Nvidia CEO Quits, Shares Slide",
+    "body": "Nvidia stock copped more analyst downgrades and target cuts after its boss resigned.",
+    "why": "Nvidia is a giant in the share markets that super funds hold.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "shocked"
+  },
+  "biz": {
+    "item_id": "n1",
+    "tag": "Retail",
+    "headline": "David Jones Shuts 19 Stores",
+    "body": "After 188 years, David Jones plans to close 19 stores, mostly in outer Sydney.",
+    "why": "Shoppers and staff in outer Sydney lose their local department store.",
+    "figure": "19",
+    "figure_label": "Stores closing",
+    "mood": "worried"
+  }
+}
