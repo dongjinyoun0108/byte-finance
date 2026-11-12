@@ -1,0 +1,24 @@
+{
+ "mediaId": "18223072921342775",
+ "storyId": "18020486138951715",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-12T20:31:02.572Z",
+ "stories": {
+  "aus": {
+   "headline": "Banks Pass On Rate Hike",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/economy/interest-rates/mortgage-rates-starting-with-five-vanish-as-big-four-banks-lift-variable-loans/news-story/37e99f4e120493d00dbf7df6e1193892?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Nvidia CEO Quits, Shares Slide",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/m/bd774c13-5dc3-3d4c-ba55-5184f381438a/nvidia-stock-hammered-as-ceo.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "David Jones Shuts 19 Stores",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-13/nsw-david-jones-sydney-store-closure-suburban-economic-strain/107380310"
+  }
+ }
+}
