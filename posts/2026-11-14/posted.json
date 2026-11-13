@@ -1,0 +1,24 @@
+{
+ "mediaId": "18069927632783949",
+ "storyId": "17971068687196494",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-13T20:30:47.317Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Slides As AI Boss Quits",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/asx-falls-as-global-markets-tumble-after-nvidia-boss-jensen-huang-resigns/news-story/2ca133d1bbfb7a2d047d606fcf21051b?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Chipmakers Drag Down Wall Street",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-fall-nvidia-190946104.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Paladin Sinks On $525m Raise",
+   "source": "Yahoo Finance",
+   "link": "https://au.finance.yahoo.com/news/australian-shares-close-lower-paladin-052605703.html?.tsrc=rss"
+  }
+ }
+}
