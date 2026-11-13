@@ -1,0 +1,61 @@
+{
+ "items": [
+  {
+   "id": "n20",
+   "title": "‘Less certain’: ASX falls after AI boss quits",
+   "summary": "The man who built the AI boom has resigned, sending Australia’s sharemarket lower and leaving investors uncertain about the technology trade.",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/asx-falls-as-global-markets-tumble-after-nvidia-boss-jensen-huang-resigns/news-story/2ca133d1bbfb7a2d047d606fcf21051b?.tsrc=rss",
+   "published": "2026-11-13T06:31:00.000Z",
+   "source": "Yahoo Finance",
+   "region": "aus"
+  },
+  {
+   "id": "n10",
+   "title": "Update: US Equity Indexes Fall as Nvidia Debacle Hits Chipmakers, Long Treasury Yields Jump on 'Elevated' Producer Prices",
+   "summary": "(Updates with index/price moves and company news from the first paragraph.) US equity indexes fel",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-fall-nvidia-190946104.html?.tsrc=rss",
+   "published": "2026-11-13T19:09:46.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n23",
+   "title": "Australian Shares Close Lower; Paladin Energy Tumbles After AU$525 Million Capital Raise",
+   "summary": "Australian shares opened lower on Friday and could not recover through the close of trading, as the",
+   "link": "https://au.finance.yahoo.com/news/australian-shares-close-lower-paladin-052605703.html?.tsrc=rss",
+   "published": "2026-11-13T05:26:05.000Z",
+   "source": "Yahoo Finance",
+   "region": "aus"
+  }
+ ],
+ "aus": {
+  "item_id": "n20",
+  "tag": "ASX",
+  "headline": "ASX Slides As AI Boss Quits",
+  "body": "Local shares dropped after the man behind the AI boom resigned.",
+  "why": "Investors here now face less certainty about the AI-driven tech trade.",
+  "figure": null,
+  "figure_label": null,
+  "mood": "worried"
+ },
+ "us": {
+  "item_id": "n10",
+  "tag": "Wall Street",
+  "headline": "Chipmakers Drag Down Wall Street",
+  "body": "US share indexes fell as the Nvidia fallout hit chipmakers and long bond yields jumped.",
+  "why": "Elevated US producer prices pushed up long-term borrowing costs.",
+  "figure": null,
+  "figure_label": null,
+  "mood": "shocked"
+ },
+ "biz": {
+  "item_id": "n23",
+  "tag": "Mining",
+  "headline": "Paladin Sinks On $525m Raise",
+  "body": "Paladin Energy shares slumped following a $525 million capital raising.",
+  "why": "The fall came on a weak day for the Australian sharemarket.",
+  "figure": "$525m",
+  "figure_label": "Capital raised",
+  "mood": "thinking"
+ }
+}
