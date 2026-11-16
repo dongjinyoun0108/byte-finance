@@ -1,0 +1,24 @@
+{
+ "mediaId": "18023363330945614",
+ "storyId": "18061467236645712",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-16T20:30:46.109Z",
+ "stories": {
+  "aus": {
+   "headline": "Mining Tax's $135b What-If",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-17/kevin-rudd-labor-mining-super-profits-tax-budget-135-billion-pbo/107389174"
+  },
+  "us": {
+   "headline": "AI Curbs Sink Wall Street",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/technology/ai/articles/us-equity-indexes-sink-big-192245914.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Coles Probes Cyber Attack",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-16/coles-investigates-cybersecurity-breach-but-little-detail/107390824"
+  }
+ }
+}
