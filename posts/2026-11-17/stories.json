@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n16",
+      "title": "Rudd-era mining tax could have boosted budget by $135b",
+      "summary": "Labor's abandoned mining tax, which led to the 2010 toppling of Kevin Rudd, could have improved the budget by $135 billion, a Parliamentary Budget Office analysis finds.",
+      "link": "https://www.abc.net.au/news/2026-11-17/kevin-rudd-labor-mining-super-profits-tax-budget-135-billion-pbo/107389174",
+      "published": "2026-11-16T18:00:00.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    },
+    {
+      "id": "n8",
+      "title": "Update: US Equity Indexes Sink as Big Tech Dives After Commerce Department Plans Curbs to Advanced AI Infrastructure Access",
+      "summary": "(Updates with index/price moves, macroeconomic data, and company news from the first paragraph.)",
+      "link": "https://finance.yahoo.com/technology/ai/articles/us-equity-indexes-sink-big-192245914.html?.tsrc=rss",
+      "published": "2026-11-16T19:22:45.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n30",
+      "title": "Coles investigates cyber attack but provides little detail",
+      "summary": "Coles has told customers to \"remain vigilant\" as it investigates a cyber incident, but says it has not identified customer or employee data being compromised at this stage.",
+      "link": "https://www.abc.net.au/news/2026-11-16/coles-investigates-cybersecurity-breach-but-little-detail/107390824",
+      "published": "2026-11-16T05:00:02.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    }
+  ],
+  "aus": {
+    "item_id": "n16",
+    "tag": "Economy",
+    "headline": "Mining Tax's $135b What-If",
+    "body": "Budget analysts say Labor's scrapped mining tax could have lifted the budget by $135b.",
+    "why": "Shows how much revenue a resources tax might have raised.",
+    "figure": "$135b",
+    "figure_label": "Possible budget boost",
+    "mood": "thinking"
+  },
+  "us": {
+    "item_id": "n8",
+    "tag": "Wall Street",
+    "headline": "AI Curbs Sink Wall Street",
+    "body": "US stocks fell as big tech slid on plans to curb access to advanced AI infrastructure.",
+    "why": "Big US tech moves can sway global share markets.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "shocked"
+  },
+  "biz": {
+    "item_id": "n30",
+    "tag": "Retail",
+    "headline": "Coles Probes Cyber Attack",
+    "body": "Coles is looking into a cyber incident but says no customer data appears hit so far.",
+    "why": "Coles shoppers are being told to stay alert.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "worried"
+  }
+}
