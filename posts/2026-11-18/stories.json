@@ -1,0 +1,61 @@
+{
+ "items": [
+  {
+   "id": "n31",
+   "title": "Sea of red as ASX caught in global rout",
+   "summary": "Major miners and banks have dragged the ASX 200 down 1.79 per cent, with BHP alone shedding nearly 5 per cent as markets brace for Nvidia’s make-or-break quarterly results.",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/australian-shares-slide-18-per-cent-amid-global-tech-rout-and-wall-street-jitters/news-story/3fc04f683e7afeaa8599aaa8ff5e9dda?.tsrc=rss",
+   "published": "2026-11-17T06:43:01.000Z",
+   "source": "Yahoo Finance",
+   "region": "aus"
+  },
+  {
+   "id": "n16",
+   "title": "Update: US Equity Indexes Fall as Technology Leads Sector Declines Ahead of Nvidia's Results",
+   "summary": "(Updates with index/price moves, macroeconomic data, and company news from the first paragraph.)",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-fall-technology-191117746.html?.tsrc=rss",
+   "published": "2026-11-17T19:11:17.000Z",
+   "source": "Yahoo Finance",
+   "region": "us"
+  },
+  {
+   "id": "n38",
+   "title": "Bunnings cuts 230 jobs in partial offshoring of tech services",
+   "summary": "Hardware giant Bunnings will cut 230 jobs as it looks to offshore a section of its technology department.",
+   "link": "https://www.abc.net.au/news/2026-11-17/bunnings-layoffs-and-offshoring/107394860",
+   "published": "2026-11-17T03:23:03.000Z",
+   "source": "ABC News",
+   "region": "aus"
+  }
+ ],
+ "aus": {
+  "item_id": "n31",
+  "tag": "ASX",
+  "headline": "ASX Hit By Global Sell-Off",
+  "body": "The ASX 200 fell 1.79% as miners and banks slid, with BHP down nearly 5%.",
+  "why": "Many Australian super funds hold big stakes in BHP and the banks.",
+  "figure": "-1.79%",
+  "figure_label": "ASX 200 on Tuesday",
+  "mood": "worried"
+ },
+ "us": {
+  "item_id": "n16",
+  "tag": "Wall Street",
+  "headline": "Tech Drags Wall Street Lower",
+  "body": "US share indexes slipped, led by tech stocks, ahead of Nvidia's quarterly results.",
+  "why": "Moves on Wall Street often flow through to the ASX the next day.",
+  "figure": null,
+  "figure_label": null,
+  "mood": "thinking"
+ },
+ "biz": {
+  "item_id": "n38",
+  "tag": "Retail",
+  "headline": "Bunnings Cuts 230 Jobs",
+  "body": "Bunnings is shedding 230 roles as it moves part of its tech team offshore.",
+  "why": "Bunnings is one of the country's biggest retail employers.",
+  "figure": "230",
+  "figure_label": "Jobs cut",
+  "mood": "shocked"
+ }
+}
