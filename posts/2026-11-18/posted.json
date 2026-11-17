@@ -1,0 +1,24 @@
+{
+ "mediaId": "18452083702126523",
+ "storyId": "18042556430841546",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-17T20:30:56.389Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Hit By Global Sell-Off",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/australian-shares-slide-18-per-cent-amid-global-tech-rout-and-wall-street-jitters/news-story/3fc04f683e7afeaa8599aaa8ff5e9dda?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Tech Drags Wall Street Lower",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-fall-technology-191117746.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Bunnings Cuts 230 Jobs",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-17/bunnings-layoffs-and-offshoring/107394860"
+  }
+ }
+}
