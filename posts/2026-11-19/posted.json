@@ -1,0 +1,24 @@
+{
+ "mediaId": "18150541168529721",
+ "storyId": "17880227448573154",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-18T20:31:11.572Z",
+ "stories": {
+  "aus": {
+   "headline": "David Jones To Shed 1,500 Jobs",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-18/david-jones-store-closures-jobs-to-go/107400402"
+  },
+  "us": {
+   "headline": "Nvidia Sales More Than Double",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/technology/ai/articles/nvidias-130-billion-forecast-sparks-190535668.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Target Shares Jump 7%",
+   "source": "CNBC",
+   "link": "https://www.cnbc.com/2026/11/18/target-tgt-q3-2026-earnings.html"
+  }
+ }
+}
