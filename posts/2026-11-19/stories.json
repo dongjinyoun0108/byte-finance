@@ -1,0 +1,55 @@
+{
+ "items": [
+  {
+   "id": "n11",
+   "source": "Yahoo Finance",
+   "title": "Nvidia's $130 Billion Forecast Sparks Fresh AI Stock Rally",
+   "summary": "Nvidia's third-quarter revenue more than doubled to $115.84 billion, marking its 17th consecutive earnings estimate beat.",
+   "link": "https://finance.yahoo.com/technology/ai/articles/nvidias-130-billion-forecast-sparks-190535668.html?.tsrc=rss"
+  },
+  {
+   "id": "n25",
+   "source": "CNBC",
+   "title": "Target shares rise 7% as retailer posts best sales growth in five years, hikes guidance",
+   "summary": "Target beat third-quarter sales expectations and raised its guidance as it continues a turnaround effort.",
+   "link": "https://www.cnbc.com/2026/11/18/target-tgt-q3-2026-earnings.html"
+  },
+  {
+   "id": "n30",
+   "source": "ABC News",
+   "title": "Half of David Jones job cuts are casual staff with no entitlements",
+   "summary": "More than 1,500 jobs are going, and many of them are casuals with no entitlements, as the retailer's receiver closes half the department store's network.",
+   "link": "https://www.abc.net.au/news/2026-11-18/david-jones-store-closures-jobs-to-go/107400402"
+  }
+ ],
+ "aus": {
+  "item_id": "n30",
+  "tag": "Jobs",
+  "headline": "David Jones To Shed 1,500 Jobs",
+  "body": "Receivers are closing half of David Jones' stores; many lost jobs belong to casuals.",
+  "why": "Many of the affected workers leave without entitlements.",
+  "figure": "1,500+",
+  "figure_label": "Jobs going",
+  "mood": "worried"
+ },
+ "us": {
+  "item_id": "n11",
+  "tag": "Tech",
+  "headline": "Nvidia Sales More Than Double",
+  "body": "Nvidia's third-quarter revenue reached $115.84 billion, its 17th straight estimate beat.",
+  "why": "The result sparked a fresh rally across AI stocks.",
+  "figure": "$115.8b",
+  "figure_label": "Third-quarter revenue",
+  "mood": "celebrating"
+ },
+ "biz": {
+  "item_id": "n25",
+  "tag": "Retail",
+  "headline": "Target Shares Jump 7%",
+  "body": "The retailer topped what analysts expected for quarterly sales and raised its outlook.",
+  "why": "Sales are rising at the chain's fastest pace in half a decade.",
+  "figure": "+7%",
+  "figure_label": "Target share price",
+  "mood": "finger_gun"
+ }
+}
