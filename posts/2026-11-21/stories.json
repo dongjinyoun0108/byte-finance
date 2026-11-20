@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n23",
+      "title": "Australian Shares End Sharply Lower; Megaport Tumbles After First Strike Against Remuneration",
+      "summary": "Australian stocks took a beating on Friday, with all sectors on the ASX flashing red following deep",
+      "link": "https://au.finance.yahoo.com/news/australian-shares-end-sharply-lower-052840158.html?.tsrc=rss",
+      "published": "2026-11-20T05:28:40.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    },
+    {
+      "id": "n8",
+      "title": "Update: S&P 500, Dow Enter Correction Territory; Anthropic Tumbles Following Record Debut",
+      "summary": "(Updates with latest market prices and developments.) The S&P 500 and the Dow Jones Industrial Av",
+      "link": "https://finance.yahoo.com/markets/stocks/articles/p-500-dow-enter-correction-190855362.html?.tsrc=rss",
+      "published": "2026-11-20T19:08:55.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n22",
+      "title": "A third of David Jones staff told employment ends days after Christmas",
+      "summary": "More than 1,600 David Jones staff have been issued with redundancy notices after the iconic retailer went into voluntary administration earlier this month",
+      "link": "https://www.abc.net.au/news/2026-11-20/david-jones-staff-issued-with-redundancy-notices/107411092",
+      "published": "2026-11-20T06:28:43.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    }
+  ],
+  "aus": {
+    "item_id": "n23",
+    "tag": "ASX",
+    "headline": "ASX Slumps As Every Sector Falls",
+    "body": "Every ASX sector closed in the red on Friday, and Megaport slid after a pay strike.",
+    "why": "A broad local sell-off hits the super balances of many Australians.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "worried"
+  },
+  "us": {
+    "item_id": "n8",
+    "tag": "Wall Street",
+    "headline": "S&P 500 And Dow Hit Correction",
+    "body": "The S&P 500 and Dow slid into a correction as Anthropic shares fell after a record debut.",
+    "why": "Big Wall Street swings often flow through to the ASX and super funds.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "shocked"
+  },
+  "biz": {
+    "item_id": "n22",
+    "tag": "Retail",
+    "headline": "David Jones Cuts 1,600 Jobs",
+    "body": "Over 1,600 David Jones workers got redundancy notices after it entered administration.",
+    "why": "A third of staff at an iconic Aussie retailer lose work just after Christmas.",
+    "figure": "1,600+",
+    "figure_label": "Staff given redundancy notices",
+    "mood": "worried"
+  }
+}
