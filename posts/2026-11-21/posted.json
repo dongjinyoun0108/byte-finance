@@ -1,0 +1,24 @@
+{
+ "mediaId": "17914933569564403",
+ "storyId": "18032161202863182",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-20T20:30:53.919Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Slumps As Every Sector Falls",
+   "source": "Yahoo Finance",
+   "link": "https://au.finance.yahoo.com/news/australian-shares-end-sharply-lower-052840158.html?.tsrc=rss"
+  },
+  "us": {
+   "headline": "S&P 500 And Dow Hit Correction",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/p-500-dow-enter-correction-190855362.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "David Jones Cuts 1,600 Jobs",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-20/david-jones-staff-issued-with-redundancy-notices/107411092"
+  }
+ }
+}
