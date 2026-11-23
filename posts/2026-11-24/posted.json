@@ -1,0 +1,24 @@
+{
+ "mediaId": "17913316515569839",
+ "storyId": "18491261782119469",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-23T20:30:56.377Z",
+ "stories": {
+  "aus": {
+   "headline": "Chalmers Rules Out Recession",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-23/chalmers-flags-net-spending-cuts-in-mid-year-budget/107417628"
+  },
+  "us": {
+   "headline": "Tech Rally Adds Nearly $2 Trillion",
+   "source": "Yahoo Finance",
+   "link": "https://www.proactiveinvestors.com/companies/news/1102286/tech-stocks-surge-as-nvidia-rally-adds-2-trillion-to-nasdaq-100-1102286.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Downer Wins $1.1b Power Line Deal",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/downer-shares-jump-over-3-040347254.html?.tsrc=rss"
+  }
+ }
+}
