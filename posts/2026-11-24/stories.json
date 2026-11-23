@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n24",
+      "title": "Jim Chalmers says he doesn't expect a recession, but 'things might get a bit harder'",
+      "summary": "The Treasurer said the government was on track for cuts to more than cover any new spending in next month's mid-year budget update and that forecasts would project higher unemployment and lower growth.",
+      "link": "https://www.abc.net.au/news/2026-11-23/chalmers-flags-net-spending-cuts-in-mid-year-budget/107417628",
+      "published": "2026-11-23T05:18:24.000Z",
+      "source": "ABC News",
+      "region": "aus"
+    },
+    {
+      "id": "n14",
+      "title": "Tech stocks surge as Nvidia rally adds $2 trillion to Nasdaq 100",
+      "summary": "US technology stocks staged a broad rally Monday, with gains across chipmakers, AI infrastructure providers and software companies adding nearly $2 trillion to the Nasdaq 100's market capitalization as investors welcomed Jensen Huang's return to Nvidia Corp (NASDAQ:NVDA, XETRA:NVD). The...",
+      "link": "https://www.proactiveinvestors.com/companies/news/1102286/tech-stocks-surge-as-nvidia-rally-adds-2-trillion-to-nasdaq-100-1102286.html?.tsrc=rss",
+      "published": "2026-11-23T19:20:00.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n25",
+      "title": "Downer shares jump over 3% on $730 million NSW transmission contract",
+      "summary": "Investing.com -- Downer EDI shares rose more than 3% on Monday after the Australian infrastructure group secured an about A$1.1 billion ($730 million) contract to deliver transmission line works for the Hunter Transmission Project in New South Wales.",
+      "link": "https://finance.yahoo.com/markets/stocks/articles/downer-shares-jump-over-3-040347254.html?.tsrc=rss",
+      "published": "2026-11-23T04:03:47.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    }
+  ],
+  "aus": {
+    "item_id": "n24",
+    "tag": "Economy",
+    "headline": "Chalmers Rules Out Recession",
+    "body": "Treasurer says cuts will cover new spending as the jobs and growth outlook weakens.",
+    "why": "The budget update points to a tougher year for jobs and growth.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "thinking"
+  },
+  "us": {
+    "item_id": "n14",
+    "tag": "Wall Street",
+    "headline": "Tech Rally Adds Nearly $2 Trillion",
+    "body": "US tech shares jumped Monday as Jensen Huang returned to lead Nvidia.",
+    "why": "Many Australians hold US tech shares through their super.",
+    "figure": "$2t",
+    "figure_label": "Nasdaq 100 value added",
+    "mood": "celebrating"
+  },
+  "biz": {
+    "item_id": "n25",
+    "tag": "Deals",
+    "headline": "Downer Wins $1.1b Power Line Deal",
+    "body": "Downer EDI shares rose over 3% after it landed a big NSW transmission contract.",
+    "why": "It is a major local infrastructure job in the Hunter region of NSW.",
+    "figure": "A$1.1b",
+    "figure_label": "Hunter Transmission contract",
+    "mood": "finger_gun"
+  }
+}
