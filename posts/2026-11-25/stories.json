@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "n33",
+      "source": "Yahoo Finance",
+      "title": "Nvidia CEO return sparks market rally",
+      "summary": "The ASX 200 has snapped its eight-day losing streak off the back of a global rally, sparked by the reinstatement of Nvidia chief Jensen Huang.",
+      "link": "https://www.news.com.au/finance/markets/australian-markets/asx-snaps-eightday-losing-streak-as-return-of-nvidia-chief-jensen-huang-sparks-global-rally/news-story/9271b14d3041093e717b80266b96db48?.tsrc=rss"
+    },
+    {
+      "id": "n17",
+      "source": "Yahoo Finance",
+      "title": "The S&P 500 Lost More Than 8% in a Week for Only the 13th Time Since 1950. Here's How the Other 12 Played Out.",
+      "summary": "Eight of the earlier 12 left the index up a year later. Is this as comforting as it seems?",
+      "link": "https://www.fool.com/investing/2026/11/24/the-s-and-p-500-lost-more-than-8-in-a-week-for-only-the-13th-time-since-1950-here-s-how-the-other-12-played-out/?.tsrc=rss"
+    },
+    {
+      "id": "n37",
+      "source": "ABC News",
+      "title": "Queensland tungsten mine to supply critical mineral to US military",
+      "summary": "A tungsten mine in Far North Queensland will become a key supplier to the US Department of Defense as part of major expansion plans.",
+      "link": "https://www.abc.net.au/news/2026-11-24/queensland-tungsten-to-develop-us-military-equipment/107421986"
+    }
+  ],
+  "aus": {
+    "item_id": "n33",
+    "tag": "ASX",
+    "headline": "ASX Snaps Losing Streak",
+    "body": "The ASX 200 ended an eight-day slide amid a global rally after Huang's Nvidia return.",
+    "why": "Local shares sit in most Australians' super funds.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "celebrating"
+  },
+  "us": {
+    "item_id": "n17",
+    "tag": "Wall Street",
+    "headline": "S&P 500 Suffers Rare 8% Week",
+    "body": "The S&P 500 fell over 8% in one week, only the 13th time that has happened since 1950.",
+    "why": "Many Australians hold US shares through their super.",
+    "figure": "-8%",
+    "figure_label": "S&P 500 weekly drop",
+    "mood": "shocked"
+  },
+  "biz": {
+    "item_id": "n37",
+    "tag": "Mining",
+    "headline": "Qld Tungsten Mine Lands US Deal",
+    "body": "A Far North Qld tungsten miner will help supply the US Defense Department as it expands.",
+    "why": "It ties a local critical minerals project to a major US customer.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "finger_gun"
+  }
+}
