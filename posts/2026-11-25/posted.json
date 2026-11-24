@@ -1,0 +1,24 @@
+{
+ "mediaId": "18115680029132745",
+ "storyId": "18136400971683011",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-24T20:30:54.169Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Snaps Losing Streak",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/asx-snaps-eightday-losing-streak-as-return-of-nvidia-chief-jensen-huang-sparks-global-rally/news-story/9271b14d3041093e717b80266b96db48?.tsrc=rss"
+  },
+  "us": {
+   "headline": "S&P 500 Suffers Rare 8% Week",
+   "source": "Yahoo Finance",
+   "link": "https://www.fool.com/investing/2026/11/24/the-s-and-p-500-lost-more-than-8-in-a-week-for-only-the-13th-time-since-1950-here-s-how-the-other-12-played-out/?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Qld Tungsten Mine Lands US Deal",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-24/queensland-tungsten-to-develop-us-military-equipment/107421986"
+  }
+ }
+}
