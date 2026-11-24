@@ -482,5 +482,245 @@
         "body": "Market cap is the share price times shares on issue, so P/E also equals market cap divided by total profit."
       }
     ]
+  },
+  {
+    "id": "stamp-duty",
+    "title": "What is\nstamp duty?",
+    "pose": "worried",
+    "tags": [
+      "#StampDuty",
+      "#HomeLoans"
+    ],
+    "steps": [
+      {
+        "head": "A state tax on property",
+        "body": "Stamp duty, also called transfer duty, is a one-off tax that state and territory governments charge on a property purchase."
+      },
+      {
+        "head": "What sets the amount",
+        "body": "The amount depends on where the property is, its value and the circumstances of the person taking it on."
+      },
+      {
+        "head": "When it is paid",
+        "figure": "30 days",
+        "figureLabel": "to pay after settlement",
+        "body": "It typically needs to be paid within 30 days of settlement, as an upfront cost on top of the loan deposit."
+      },
+      {
+        "head": "First home concessions",
+        "body": "Depending on the state or territory, first home purchasers may be eligible for an exemption, rebate or concession."
+      }
+    ]
+  },
+  {
+    "id": "recession",
+    "title": "What is a\nrecession?",
+    "pose": "newspaper",
+    "tags": [
+      "#Recession",
+      "#AustralianEconomy"
+    ],
+    "steps": [
+      {
+        "head": "No single definition",
+        "body": "A recession is generally a sustained period of weak or negative GDP growth with a significant rise in unemployment."
+      },
+      {
+        "head": "The technical version",
+        "figure": "2",
+        "figureLabel": "quarters of negative real GDP growth",
+        "body": "The media often uses a technical recession: two quarters in a row of negative growth in real GDP."
+      },
+      {
+        "head": "Why it can mislead",
+        "body": "GDP figures get revised, and growth can be weak but still positive while unemployment rises sharply."
+      },
+      {
+        "head": "Other measures",
+        "body": "Some look at GDP per person, which strips out population growth. Others use rules based on the jobless rate."
+      }
+    ]
+  },
+  {
+    "id": "payslip",
+    "title": "Reading a\npayslip",
+    "pose": "coffee",
+    "tags": [
+      "#Payslip",
+      "#Superannuation"
+    ],
+    "steps": [
+      {
+        "head": "Gross to net",
+        "body": "Gross pay is earnings before anything comes out. Net pay is what lands in the bank after tax is withheld."
+      },
+      {
+        "head": "Tax withheld",
+        "body": "Employers withhold tax from each pay and send it to the ATO. It counts towards the final tax bill for the year."
+      },
+      {
+        "head": "Super on top",
+        "figure": "12%",
+        "figureLabel": "compulsory super rate",
+        "body": "Employers also pay compulsory super into a super fund, at 12% of ordinary time earnings, on top of pay."
+      },
+      {
+        "head": "Paid with each payday",
+        "figure": "7 days",
+        "figureLabel": "business days to reach the fund",
+        "body": "Under Payday Super, from 1 July 2026 the super has to reach the fund within 7 business days of payday."
+      }
+    ]
+  },
+  {
+    "id": "bull-bear",
+    "title": "Bull vs bear\nmarkets",
+    "pose": "shocked",
+    "tags": [
+      "#ShareMarket",
+      "#ASX"
+    ],
+    "steps": [
+      {
+        "head": "Two animal nicknames",
+        "body": "A bull market is a long stretch of rising share prices. A bear market is a long stretch of falling ones."
+      },
+      {
+        "head": "The bear line",
+        "figure": "20%",
+        "figureLabel": "drop from a high",
+        "body": "A fall of 20% from a recent high is often the level considered a bear market."
+      },
+      {
+        "head": "Markets, not one share",
+        "body": "The labels usually describe a whole market or index, like the S&P/ASX 200, rather than one company."
+      },
+      {
+        "head": "Measured from the peak",
+        "body": "Because the 20% is measured from a high, a bear market can only be confirmed after prices have already fallen."
+      }
+    ]
+  },
+  {
+    "id": "interest-free-days",
+    "title": "Interest-free days,\nexplained",
+    "pose": "finger_gun",
+    "tags": [
+      "#CreditCards",
+      "#PersonalFinance"
+    ],
+    "steps": [
+      {
+        "head": "Days without interest",
+        "body": "Interest-free days are the number of days a credit card does not charge interest on purchases."
+      },
+      {
+        "head": "Full balance only",
+        "body": "They only apply if the full balance is paid by the due date. Otherwise, interest is charged on purchases."
+      },
+      {
+        "head": "When the clock starts",
+        "body": "The interest-free period usually starts on the first day of the billing cycle, not on the day of the purchase."
+      },
+      {
+        "head": "Fees sit outside it",
+        "body": "Annual fees, late fees and cash advance fees are separate costs from the purchase interest rate."
+      }
+    ]
+  },
+  {
+    "id": "shared-equity",
+    "title": "Shared equity\nhome schemes",
+    "pose": "kangaroo",
+    "tags": [
+      "#FirstHome",
+      "#HomeLoans"
+    ],
+    "steps": [
+      {
+        "head": "The government co-owns",
+        "body": "Under the Australian Government’s shared equity scheme, the government pays part of the price and keeps a share of the home."
+      },
+      {
+        "head": "A small deposit",
+        "figure": "2%",
+        "figureLabel": "minimum deposit",
+        "body": "Eligible people need a deposit of at least 2% and a home loan from a participating lender."
+      },
+      {
+        "head": "The government’s share",
+        "figure": "40%",
+        "figureLabel": "top share for a new home",
+        "body": "The government can contribute up to 30% of the price of an existing home, or up to 40% for a new one."
+      },
+      {
+        "head": "Not a grant",
+        "body": "The share is repaid when the home is sold or the share is bought back, based on the property’s value at that time."
+      }
+    ]
+  },
+  {
+    "id": "tax-return",
+    "title": "How a tax\nreturn works",
+    "pose": "thinking",
+    "tags": [
+      "#TaxReturn",
+      "#ATO"
+    ],
+    "steps": [
+      {
+        "head": "The financial year",
+        "body": "Australia’s financial year runs from 1 July to 30 June. A tax return reports income and deductions for that year."
+      },
+      {
+        "head": "Income statement first",
+        "figure": "14 July",
+        "figureLabel": "employers finalise pay data",
+        "body": "Employers have until 14 July to finalise pay data. It shows in myGov as an income statement marked Tax ready."
+      },
+      {
+        "head": "The due date",
+        "figure": "31 Oct",
+        "figureLabel": "deadline for self-lodgers",
+        "body": "People lodging their own return need to lodge by 31 October. Registered tax agents can have later due dates."
+      },
+      {
+        "head": "Paying a tax bill",
+        "figure": "21 Nov",
+        "figureLabel": "payment due date",
+        "body": "If a self-lodged return from 1 July to 31 October ends in a tax bill, payment is due by 21 November."
+      }
+    ]
+  },
+  {
+    "id": "bonus-interest",
+    "title": "How bonus interest\nworks",
+    "pose": "surfing",
+    "tags": [
+      "#Savings",
+      "#Banking"
+    ],
+    "steps": [
+      {
+        "head": "The standard rate",
+        "figure": "0–1%",
+        "figureLabel": "typical transaction account rate",
+        "body": "Savings accounts pay a standard interest rate. Transaction accounts usually pay between 0% and 1%."
+      },
+      {
+        "head": "Bonus with conditions",
+        "figure": "$500",
+        "figureLabel": "example monthly deposit rule",
+        "body": "Many savings accounts add a bonus rate when conditions are met, such as regular deposits of $500 a month."
+      },
+      {
+        "head": "Introductory rates",
+        "body": "Some banks offer a higher rate for a short time, often only to new account holders."
+      },
+      {
+        "head": "What differs",
+        "body": "The rate, how often interest is paid, fees, balance limits and withdrawal rules all vary between accounts."
+      }
+    ]
   }
 ]

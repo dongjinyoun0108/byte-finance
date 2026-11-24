@@ -3788,5 +3788,1017 @@
     ]
    }
   ]
+ },
+ "stamp-duty": {
+  "type": "flow",
+  "field": "#CFE8D8",
+  "endPose": "worried",
+  "nodes": {
+   "buy": {
+    "x": 220,
+    "y": 140,
+    "label": "Property purchase",
+    "w": 300,
+    "tone": "blue"
+   },
+   "state": {
+    "x": 780,
+    "y": 140,
+    "label": "State or territory",
+    "sub": "charges transfer duty",
+    "w": 300,
+    "tone": "ink"
+   },
+   "factors": {
+    "x": 780,
+    "y": 420,
+    "label": "What sets the amount",
+    "sub": "location, value, circumstances",
+    "w": 320
+   },
+   "settle": {
+    "x": 220,
+    "y": 420,
+    "label": "Settlement",
+    "sub": "duty paid soon after",
+    "w": 300,
+    "tone": "gold"
+   },
+   "conc": {
+    "x": 500,
+    "y": 680,
+    "label": "First home concessions",
+    "sub": "exemption, rebate or concession",
+    "w": 360,
+    "tone": "mint"
+   }
+  },
+  "edges": [
+   {
+    "id": "bs",
+    "from": "buy",
+    "to": "state",
+    "label": "one-off tax"
+   },
+   {
+    "id": "fs",
+    "from": "factors",
+    "to": "state",
+    "dashed": true
+   },
+   {
+    "id": "bt",
+    "from": "buy",
+    "to": "settle"
+   },
+   {
+    "id": "cs",
+    "from": "conc",
+    "to": "state",
+    "dashed": true,
+    "label": "may reduce"
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "buy",
+     "state",
+     "bs"
+    ],
+    "flow": [
+     "bs"
+    ],
+    "focus": [
+     "buy",
+     "state"
+    ]
+   },
+   {
+    "show": [
+     "factors",
+     "fs"
+    ],
+    "flow": [
+     "fs"
+    ],
+    "focus": [
+     "state",
+     "factors"
+    ]
+   },
+   {
+    "show": [
+     "settle",
+     "bt"
+    ],
+    "flow": [
+     "bt"
+    ],
+    "focus": [
+     "buy",
+     "settle"
+    ],
+    "badge": "settle"
+   },
+   {
+    "show": [
+     "conc",
+     "cs"
+    ],
+    "focus": [
+     "conc",
+     "state"
+    ],
+    "highlight": [
+     "conc"
+    ]
+   }
+  ]
+ },
+ "recession": {
+  "type": "flow",
+  "field": "#F4E2A2",
+  "endPose": "newspaper",
+  "nodes": {
+   "gdp": {
+    "x": 220,
+    "y": 140,
+    "label": "Real GDP",
+    "sub": "weak or negative growth",
+    "w": 300,
+    "tone": "blue"
+   },
+   "jobs": {
+    "x": 780,
+    "y": 140,
+    "label": "Unemployment",
+    "sub": "significant rise",
+    "w": 300,
+    "tone": "red"
+   },
+   "rec": {
+    "x": 500,
+    "y": 400,
+    "label": "Recession",
+    "w": 300,
+    "tone": "ink"
+   },
+   "tech": {
+    "x": 200,
+    "y": 660,
+    "label": "Technical recession",
+    "sub": "quarters of negative growth",
+    "w": 320,
+    "tone": "gold"
+   },
+   "other": {
+    "x": 790,
+    "y": 660,
+    "label": "Other measures",
+    "sub": "GDP per person, jobless rules",
+    "w": 320,
+    "tone": "mint"
+   }
+  },
+  "edges": [
+   {
+    "id": "gr",
+    "from": "gdp",
+    "to": "rec"
+   },
+   {
+    "id": "jr",
+    "from": "jobs",
+    "to": "rec"
+   },
+   {
+    "id": "tr",
+    "from": "tech",
+    "to": "rec",
+    "label": "media shorthand"
+   },
+   {
+    "id": "or",
+    "from": "other",
+    "to": "rec",
+    "dashed": true
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "gdp",
+     "jobs",
+     "rec",
+     "gr",
+     "jr"
+    ],
+    "flow": [
+     "gr",
+     "jr"
+    ],
+    "focus": [
+     "gdp",
+     "jobs",
+     "rec"
+    ]
+   },
+   {
+    "show": [
+     "tech",
+     "tr"
+    ],
+    "flow": [
+     "tr"
+    ],
+    "focus": [
+     "tech",
+     "rec"
+    ],
+    "badge": "tech",
+    "badgeSide": "right"
+   },
+   {
+    "focus": [
+     "gdp",
+     "jobs",
+     "tech"
+    ],
+    "wobble": [
+     "tech"
+    ],
+    "highlight": [
+     "jobs"
+    ]
+   },
+   {
+    "show": [
+     "other",
+     "or"
+    ],
+    "focus": [
+     "other",
+     "rec",
+     "tech"
+    ],
+    "highlight": [
+     "other"
+    ]
+   }
+  ]
+ },
+ "payslip": {
+  "type": "flow",
+  "field": "#DDD6F3",
+  "endPose": "coffee",
+  "nodes": {
+   "gross": {
+    "x": 500,
+    "y": 110,
+    "label": "Gross pay",
+    "sub": "before anything comes out",
+    "w": 320,
+    "tone": "blue"
+   },
+   "tax": {
+    "x": 180,
+    "y": 400,
+    "label": "Tax withheld",
+    "sub": "sent to the ATO",
+    "w": 280,
+    "tone": "red"
+   },
+   "net": {
+    "x": 500,
+    "y": 400,
+    "label": "Net pay",
+    "sub": "into the bank",
+    "w": 280,
+    "tone": "mint"
+   },
+   "emp": {
+    "x": 820,
+    "y": 400,
+    "label": "Employer",
+    "w": 280
+   },
+   "fund": {
+    "x": 820,
+    "y": 680,
+    "label": "Super fund",
+    "sub": "compulsory super",
+    "w": 300,
+    "tone": "gold"
+   }
+  },
+  "edges": [
+   {
+    "id": "gt",
+    "from": "gross",
+    "to": "tax"
+   },
+   {
+    "id": "gn",
+    "from": "gross",
+    "to": "net"
+   },
+   {
+    "id": "ef",
+    "from": "emp",
+    "to": "fund",
+    "label": "on top of pay"
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "gross",
+     "net",
+     "gn"
+    ],
+    "flow": [
+     "gn"
+    ],
+    "focus": [
+     "gross",
+     "net"
+    ]
+   },
+   {
+    "show": [
+     "tax",
+     "gt"
+    ],
+    "flow": [
+     "gt"
+    ],
+    "focus": [
+     "gross",
+     "tax"
+    ]
+   },
+   {
+    "show": [
+     "emp",
+     "fund",
+     "ef"
+    ],
+    "flow": [
+     "ef"
+    ],
+    "focus": [
+     "emp",
+     "fund"
+    ],
+    "badge": "fund",
+    "badgeSide": "left"
+   },
+   {
+    "focus": [
+     "fund",
+     "emp"
+    ],
+    "badge": "fund",
+    "badgeSide": "left",
+    "highlight": [
+     "fund"
+    ]
+   }
+  ]
+ },
+ "bull-bear": {
+  "type": "flow",
+  "field": "#C8DAF2",
+  "endPose": "shocked",
+  "nodes": {
+   "bull": {
+    "x": 220,
+    "y": 140,
+    "label": "Bull market",
+    "sub": "prices rising for a while",
+    "w": 300,
+    "tone": "mint"
+   },
+   "bear": {
+    "x": 780,
+    "y": 140,
+    "label": "Bear market",
+    "sub": "prices falling for a while",
+    "w": 300,
+    "tone": "red"
+   },
+   "high": {
+    "x": 500,
+    "y": 420,
+    "label": "Recent high",
+    "w": 280,
+    "tone": "gold"
+   },
+   "index": {
+    "x": 200,
+    "y": 680,
+    "label": "Whole market or index",
+    "w": 320,
+    "tone": "blue"
+   },
+   "after": {
+    "x": 790,
+    "y": 680,
+    "label": "Confirmed afterwards",
+    "sub": "measured from the peak",
+    "w": 320,
+    "tone": "ink"
+   }
+  },
+  "edges": [
+   {
+    "id": "hb",
+    "from": "high",
+    "to": "bear",
+    "label": "big fall"
+   },
+   {
+    "id": "bh",
+    "from": "bull",
+    "to": "high"
+   },
+   {
+    "id": "ib",
+    "from": "index",
+    "to": "high",
+    "dashed": true
+   },
+   {
+    "id": "ha",
+    "from": "high",
+    "to": "after",
+    "dashed": true
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "bull",
+     "bear"
+    ],
+    "focus": [
+     "bull",
+     "bear"
+    ]
+   },
+   {
+    "show": [
+     "high",
+     "bh",
+     "hb"
+    ],
+    "flow": [
+     "bh",
+     "hb"
+    ],
+    "focus": [
+     "high",
+     "bear"
+    ],
+    "badge": "high",
+    "badgeSide": "below",
+    "wobble": [
+     "bear"
+    ]
+   },
+   {
+    "show": [
+     "index",
+     "ib"
+    ],
+    "focus": [
+     "index",
+     "high"
+    ],
+    "highlight": [
+     "index"
+    ]
+   },
+   {
+    "show": [
+     "after",
+     "ha"
+    ],
+    "flow": [
+     "ha"
+    ],
+    "focus": [
+     "after",
+     "high",
+     "bear"
+    ]
+   }
+  ]
+ },
+ "interest-free-days": {
+  "type": "flow",
+  "field": "#F3D5CE",
+  "endPose": "finger_gun",
+  "nodes": {
+   "card": {
+    "x": 220,
+    "y": 140,
+    "label": "Card purchases",
+    "w": 300,
+    "tone": "blue"
+   },
+   "ifd": {
+    "x": 780,
+    "y": 140,
+    "label": "Interest-free days",
+    "sub": "no interest on purchases",
+    "w": 320,
+    "tone": "mint"
+   },
+   "full": {
+    "x": 780,
+    "y": 420,
+    "label": "Full balance by due date",
+    "w": 340,
+    "tone": "gold"
+   },
+   "part": {
+    "x": 220,
+    "y": 420,
+    "label": "Anything less",
+    "sub": "interest on purchases",
+    "w": 300,
+    "tone": "red"
+   },
+   "cycle": {
+    "x": 220,
+    "y": 680,
+    "label": "Billing cycle start",
+    "sub": "when the period begins",
+    "w": 300
+   },
+   "fees": {
+    "x": 780,
+    "y": 680,
+    "label": "Fees",
+    "sub": "annual, late, cash advance",
+    "w": 320,
+    "tone": "ink"
+   }
+  },
+  "edges": [
+   {
+    "id": "ci",
+    "from": "card",
+    "to": "ifd"
+   },
+   {
+    "id": "fi",
+    "from": "full",
+    "to": "ifd",
+    "label": "keeps it"
+   },
+   {
+    "id": "cp",
+    "from": "card",
+    "to": "part",
+    "dashed": true
+   },
+   {
+    "id": "yc",
+    "from": "cycle",
+    "to": "card",
+    "bend": 0.3,
+    "dashed": true
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "card",
+     "ifd",
+     "ci"
+    ],
+    "flow": [
+     "ci"
+    ],
+    "focus": [
+     "card",
+     "ifd"
+    ]
+   },
+   {
+    "show": [
+     "full",
+     "part",
+     "fi",
+     "cp"
+    ],
+    "flow": [
+     "fi",
+     "cp"
+    ],
+    "focus": [
+     "full",
+     "part",
+     "ifd"
+    ],
+    "wobble": [
+     "part"
+    ]
+   },
+   {
+    "show": [
+     "cycle",
+     "yc"
+    ],
+    "focus": [
+     "cycle",
+     "card"
+    ],
+    "highlight": [
+     "cycle"
+    ]
+   },
+   {
+    "show": [
+     "fees"
+    ],
+    "focus": [
+     "fees",
+     "ifd"
+    ],
+    "highlight": [
+     "fees"
+    ]
+   }
+  ]
+ },
+ "shared-equity": {
+  "type": "flow",
+  "field": "#C9DDF1",
+  "endPose": "kangaroo",
+  "nodes": {
+   "owner": {
+    "x": 200,
+    "y": 130,
+    "label": "Home owner",
+    "sub": "deposit plus home loan",
+    "w": 300,
+    "tone": "blue"
+   },
+   "home": {
+    "x": 500,
+    "y": 400,
+    "label": "The home",
+    "w": 260,
+    "tone": "gold"
+   },
+   "gov": {
+    "x": 800,
+    "y": 130,
+    "label": "Australian Government",
+    "sub": "pays part of the price",
+    "w": 320,
+    "tone": "ink"
+   },
+   "lender": {
+    "x": 200,
+    "y": 680,
+    "label": "Participating lender",
+    "w": 320
+   },
+   "repay": {
+    "x": 800,
+    "y": 680,
+    "label": "Share repaid",
+    "sub": "when sold or bought back",
+    "w": 320,
+    "tone": "mint"
+   }
+  },
+  "edges": [
+   {
+    "id": "oh",
+    "from": "owner",
+    "to": "home"
+   },
+   {
+    "id": "gh",
+    "from": "gov",
+    "to": "home",
+    "label": "keeps a share"
+   },
+   {
+    "id": "lo",
+    "from": "lender",
+    "to": "owner",
+    "dashed": true
+   },
+   {
+    "id": "hr",
+    "from": "home",
+    "to": "repay"
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "owner",
+     "gov",
+     "home",
+     "oh",
+     "gh"
+    ],
+    "flow": [
+     "oh",
+     "gh"
+    ],
+    "focus": [
+     "owner",
+     "gov",
+     "home"
+    ]
+   },
+   {
+    "show": [
+     "lender",
+     "lo"
+    ],
+    "flow": [
+     "lo"
+    ],
+    "focus": [
+     "owner",
+     "lender"
+    ],
+    "badge": "owner",
+    "badgeSide": "below"
+   },
+   {
+    "focus": [
+     "gov",
+     "home"
+    ],
+    "badge": "home",
+    "badgeSide": "below",
+    "highlight": [
+     "gov"
+    ]
+   },
+   {
+    "show": [
+     "repay",
+     "hr"
+    ],
+    "flow": [
+     "hr"
+    ],
+    "focus": [
+     "home",
+     "repay"
+    ]
+   }
+  ]
+ },
+ "tax-return": {
+  "type": "flow",
+  "field": "#CFE8D8",
+  "endPose": "thinking",
+  "nodes": {
+   "year": {
+    "x": 500,
+    "y": 110,
+    "label": "Financial year",
+    "sub": "1 July to 30 June",
+    "w": 320,
+    "tone": "blue"
+   },
+   "stmt": {
+    "x": 200,
+    "y": 400,
+    "label": "Income statement",
+    "sub": "marked Tax ready in myGov",
+    "w": 320,
+    "tone": "mint"
+   },
+   "ret": {
+    "x": 800,
+    "y": 400,
+    "label": "Tax return",
+    "sub": "income and deductions",
+    "w": 300,
+    "tone": "ink"
+   },
+   "bill": {
+    "x": 800,
+    "y": 690,
+    "label": "Tax bill, if any",
+    "w": 300,
+    "tone": "red"
+   }
+  },
+  "edges": [
+   {
+    "id": "ys",
+    "from": "year",
+    "to": "stmt"
+   },
+   {
+    "id": "sr",
+    "from": "stmt",
+    "to": "ret",
+    "label": "feeds into"
+   },
+   {
+    "id": "rb",
+    "from": "ret",
+    "to": "bill"
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "year",
+     "ret"
+    ],
+    "focus": [
+     "year",
+     "ret"
+    ]
+   },
+   {
+    "show": [
+     "stmt",
+     "ys",
+     "sr"
+    ],
+    "flow": [
+     "ys",
+     "sr"
+    ],
+    "focus": [
+     "stmt",
+     "year"
+    ],
+    "badge": "stmt",
+    "badgeSide": "below"
+   },
+   {
+    "focus": [
+     "ret",
+     "stmt"
+    ],
+    "badge": "ret",
+    "badgeSide": "below",
+    "highlight": [
+     "ret"
+    ]
+   },
+   {
+    "show": [
+     "bill",
+     "rb"
+    ],
+    "flow": [
+     "rb"
+    ],
+    "focus": [
+     "ret",
+     "bill"
+    ],
+    "badge": "bill",
+    "badgeSide": "left"
+   }
+  ]
+ },
+ "bonus-interest": {
+  "type": "flow",
+  "field": "#F4E2A2",
+  "endPose": "surfing",
+  "nodes": {
+   "txn": {
+    "x": 200,
+    "y": 140,
+    "label": "Transaction account",
+    "w": 320
+   },
+   "sav": {
+    "x": 800,
+    "y": 140,
+    "label": "Savings account",
+    "sub": "standard rate",
+    "w": 300,
+    "tone": "blue"
+   },
+   "bonus": {
+    "x": 800,
+    "y": 420,
+    "label": "Bonus rate",
+    "sub": "when conditions are met",
+    "w": 300,
+    "tone": "gold"
+   },
+   "intro": {
+    "x": 200,
+    "y": 680,
+    "label": "Introductory rate",
+    "sub": "short time, new customers",
+    "w": 320,
+    "tone": "mint"
+   },
+   "cmp": {
+    "x": 800,
+    "y": 680,
+    "label": "What differs",
+    "sub": "fees, limits, withdrawals",
+    "w": 300,
+    "tone": "ink"
+   }
+  },
+  "edges": [
+   {
+    "id": "ts",
+    "from": "txn",
+    "to": "sav",
+    "label": "moved to savings"
+   },
+   {
+    "id": "sb",
+    "from": "sav",
+    "to": "bonus",
+    "label": "conditions"
+   },
+   {
+    "id": "is",
+    "from": "intro",
+    "to": "sav",
+    "dashed": true
+   },
+   {
+    "id": "cb",
+    "from": "cmp",
+    "to": "bonus",
+    "dashed": true
+   }
+  ],
+  "steps": [
+   {
+    "show": [
+     "txn",
+     "sav",
+     "ts"
+    ],
+    "flow": [
+     "ts"
+    ],
+    "focus": [
+     "txn",
+     "sav"
+    ],
+    "badge": "txn",
+    "badgeSide": "below"
+   },
+   {
+    "show": [
+     "bonus",
+     "sb"
+    ],
+    "flow": [
+     "sb"
+    ],
+    "focus": [
+     "sav",
+     "bonus"
+    ],
+    "badge": "bonus",
+    "badgeSide": "left"
+   },
+   {
+    "show": [
+     "intro",
+     "is"
+    ],
+    "focus": [
+     "intro",
+     "sav"
+    ],
+    "highlight": [
+     "intro"
+    ]
+   },
+   {
+    "show": [
+     "cmp",
+     "cb"
+    ],
+    "focus": [
+     "cmp",
+     "bonus",
+     "sav"
+    ]
+   }
+  ]
  }
 }
