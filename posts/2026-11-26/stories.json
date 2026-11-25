@@ -1,0 +1,61 @@
+{
+ "items": [
+  {
+   "id": "n25",
+   "source": "Yahoo Finance",
+   "region": "aus",
+   "title": "Hot inflation sinks ASX, rate cut hopes",
+   "summary": "Investors’ hopes of an early interest rate cut have been crushed after Australia’s headline inflation surged to 4.9 per cent, sending the sharemarket lower for the ninth time in 10 sessions.",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/australian-shares-tumble-after-hotterthanexpected-inflation-figures-crush-rate-relief-hopes/news-story/9421e3c898c73f6393a868b027f65000?.tsrc=rss",
+   "published": "2026-11-25T06:56:03.000Z"
+  },
+  {
+   "id": "n6",
+   "source": "Yahoo Finance",
+   "region": "us",
+   "title": "S&P puts NVIDIA on CreditWatch over governance concerns",
+   "summary": "Investing.com -- S&P Global Ratings placed NVIDIA on CreditWatch with negative implications Wednesday, citing concerns about the company's management and governance framework following recent news about its chief executive and potential export control violations.",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/p-puts-nvidia-creditwatch-over-192625970.html?.tsrc=rss",
+   "published": "2026-11-25T19:26:25.000Z"
+  },
+  {
+   "id": "n29",
+   "source": "ABC News",
+   "region": "aus",
+   "title": "Probe finds Chevron knowingly vented huge methane plume over WA's Pilbara",
+   "summary": "An investigation finds that the huge plumes of methane that set off a United Nations warning in August were purposefully vented by Chevron from its Gorgon LNG plant.",
+   "link": "https://www.abc.net.au/news/2026-11-25/chevron-methane-plumes-deliberately-vented-says-regulator/107416308",
+   "published": "2026-11-25T03:00:50.000Z"
+  }
+ ],
+ "aus": {
+  "item_id": "n25",
+  "tag": "Inflation",
+  "headline": "Inflation Hits 4.9%",
+  "body": "Headline inflation jumped to 4.9%, and the sharemarket slid again.",
+  "why": "Hopes of an early rate cut for borrowers have faded.",
+  "figure": "4.9%",
+  "figure_label": "Headline inflation",
+  "mood": "shocked"
+ },
+ "us": {
+  "item_id": "n6",
+  "tag": "Tech",
+  "headline": "Nvidia Put On Credit Watch",
+  "body": "S&P Global Ratings flagged Nvidia for a possible downgrade over governance worries.",
+  "why": "S&P also pointed to possible breaches of export controls.",
+  "figure": null,
+  "figure_label": null,
+  "mood": "worried"
+ },
+ "biz": {
+  "item_id": "n29",
+  "tag": "Big business",
+  "headline": "Chevron Vented Methane",
+  "body": "An investigation found Chevron deliberately released methane from its Gorgon LNG plant.",
+  "why": "The Pilbara plume triggered a UN warning back in August.",
+  "figure": null,
+  "figure_label": null,
+  "mood": "thinking"
+ }
+}
