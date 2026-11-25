@@ -1,0 +1,24 @@
+{
+ "mediaId": "18097790249467125",
+ "storyId": "18498944224111723",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-25T20:30:49.884Z",
+ "stories": {
+  "aus": {
+   "headline": "Inflation Hits 4.9%",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/australian-shares-tumble-after-hotterthanexpected-inflation-figures-crush-rate-relief-hopes/news-story/9421e3c898c73f6393a868b027f65000?.tsrc=rss"
+  },
+  "us": {
+   "headline": "Nvidia Put On Credit Watch",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/p-puts-nvidia-creditwatch-over-192625970.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Chevron Vented Methane",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-25/chevron-methane-plumes-deliberately-vented-says-regulator/107416308"
+  }
+ }
+}
