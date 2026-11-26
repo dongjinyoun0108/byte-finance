@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "n18",
+      "source": "ABC News",
+      "title": "Hundreds of Sydney apartment buyers see $24m in deposits vanish",
+      "summary": "Almost 300 home buyers were waiting to get the keys to their newly built apartments in Sydney's Dee Why and Blacktown.",
+      "link": "https://www.abc.net.au/news/2026-11-26/landmark-dee-why-blacktown-projects-missing-unit-deposits-sydney/107431556"
+    },
+    {
+      "id": "n9",
+      "source": "Yahoo Finance",
+      "title": "Chevron Stocks Rise 1.06% as Brent Jumps 3.5% on Saudi Refinery Attack Claim",
+      "summary": "Chevron outpaced a flat Exxon Mobil after Yemen's Houthis said they struck Ras Tanura, sending Brent to $94.61.",
+      "link": "https://finance.yahoo.com/energy/articles/chevron-stocks-rise-1-06-184046291.html?.tsrc=rss"
+    },
+    {
+      "id": "n17",
+      "source": "ABC News",
+      "title": "Flight Centre investigating mass cyber breach",
+      "summary": "The travel agency has apologised as it investigates a cyber breach believed to have exposed a significant number of customer records, including passport details.",
+      "link": "https://www.abc.net.au/news/2026-11-26/flight-centre-investigating-cyber-breach-passports-details/107432534"
+    }
+  ],
+  "aus": {
+    "item_id": "n18",
+    "tag": "Property",
+    "headline": "Sydney Buyers Lose $24m Deposits",
+    "body": "Almost 300 buyers of new flats in Dee Why and Blacktown have had their deposits vanish.",
+    "why": "Shows what is at stake for buyers of newly built apartments.",
+    "figure": "$24m",
+    "figure_label": "Deposits gone",
+    "mood": "shocked"
+  },
+  "us": {
+    "item_id": "n9",
+    "tag": "Commodities",
+    "headline": "Oil Jumps On Saudi Attack Claim",
+    "body": "Brent climbed 3.5% to $94.61 as Yemen's Houthis claimed a strike on a Saudi refinery.",
+    "why": "Global oil prices feed into what Australians pay at the bowser.",
+    "figure": "$94.61",
+    "figure_label": "Brent crude price",
+    "mood": "worried"
+  },
+  "biz": {
+    "item_id": "n17",
+    "tag": "Big business",
+    "headline": "Flight Centre Probes Cyber Breach",
+    "body": "The travel firm is probing a hack that may have exposed customer passport details.",
+    "why": "Passport details are among the records believed to be exposed.",
+    "figure": null,
+    "figure_label": null,
+    "mood": "worried"
+  }
+}
