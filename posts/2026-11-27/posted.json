@@ -1,0 +1,24 @@
+{
+ "mediaId": "18130270298482261",
+ "storyId": "18130461100917751",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-26T20:30:57.519Z",
+ "stories": {
+  "aus": {
+   "headline": "Sydney Buyers Lose $24m Deposits",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-26/landmark-dee-why-blacktown-projects-missing-unit-deposits-sydney/107431556"
+  },
+  "us": {
+   "headline": "Oil Jumps On Saudi Attack Claim",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/energy/articles/chevron-stocks-rise-1-06-184046291.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "Flight Centre Probes Cyber Breach",
+   "source": "ABC News",
+   "link": "https://www.abc.net.au/news/2026-11-26/flight-centre-investigating-cyber-breach-passports-details/107432534"
+  }
+ }
+}
