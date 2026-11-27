@@ -1,0 +1,61 @@
+{
+  "items": [
+    {
+      "id": "n18",
+      "title": "ASX rallies as tech and mining giants shine",
+      "summary": "Despite a hotter-than-expected inflation reading, the ASX 200 has surged 0.80 per cent as global markets and soaring commodity prices overwhelmed concerns about rate hikes.",
+      "link": "https://www.news.com.au/finance/markets/australian-markets/australian-shares-jump-after-global-market-rebound-drives-strong-commodity-and-tech-gains/news-story/827bcafc08752c1b7eaf93c7ab7fa92a?.tsrc=rss",
+      "published": "2026-11-27T06:23:48.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    },
+    {
+      "id": "n14",
+      "title": "S&P 500 Posts Year's Largest Weekly Gain Led by Materials, Technology",
+      "summary": "The Standard & Poor's 500 index rose 5.6% this week as the materials and technology sectors led a br",
+      "link": "https://finance.yahoo.com/markets/stocks/articles/p-500-posts-apos-largest-183955223.html?.tsrc=rss",
+      "published": "2026-11-27T18:39:55.000Z",
+      "source": "Yahoo Finance",
+      "region": "us"
+    },
+    {
+      "id": "n31",
+      "title": "WiseTech shares jump 16.7% to nearly 10-month high as FY27 outlook holds",
+      "summary": "Investing.com -- WiseTech Global shares surged to a nearly 10-month high on Friday after the logistics software provider expressed confidence in achieving its annual revenue forecast, with stronger CargoWise trading and lower operating costs supporting its outlook.",
+      "link": "https://finance.yahoo.com/markets/stocks/articles/wisetech-shares-jump-16-7-010325664.html?.tsrc=rss",
+      "published": "2026-11-27T01:03:25.000Z",
+      "source": "Yahoo Finance",
+      "region": "aus"
+    }
+  ],
+  "aus": {
+    "item_id": "n18",
+    "tag": "ASX",
+    "headline": "ASX Climbs As Miners Shine",
+    "body": "The ASX 200 rose 0.80% as global markets and strong commodity prices lifted shares.",
+    "why": "A hot inflation reading failed to stop local shares climbing.",
+    "figure": "+0.80%",
+    "figure_label": "ASX 200 gain",
+    "mood": "celebrating"
+  },
+  "us": {
+    "item_id": "n14",
+    "tag": "Wall Street",
+    "headline": "S&P 500 Has Best Week Of Year",
+    "body": "The S&P 500 gained 5.6% this week, with materials and tech stocks out in front.",
+    "why": "Big moves on Wall Street often shape how the ASX trades.",
+    "figure": "+5.6%",
+    "figure_label": "S&P 500 weekly gain",
+    "mood": "finger_gun"
+  },
+  "biz": {
+    "item_id": "n31",
+    "tag": "Tech",
+    "headline": "WiseTech Jumps To 10-Month High",
+    "body": "WiseTech Global shares rose 16.7% after it backed its annual revenue target.",
+    "why": "A major local tech name is back near its best level in ten months.",
+    "figure": "+16.7%",
+    "figure_label": "Share price jump",
+    "mood": "shocked"
+  }
+}
