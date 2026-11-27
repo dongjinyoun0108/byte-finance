@@ -1,0 +1,24 @@
+{
+ "mediaId": "18211844011324656",
+ "storyId": "18121614731056909",
+ "username": "byte.finance.au",
+ "format": "3:4",
+ "postedAt": "2026-11-27T20:30:45.175Z",
+ "stories": {
+  "aus": {
+   "headline": "ASX Climbs As Miners Shine",
+   "source": "Yahoo Finance",
+   "link": "https://www.news.com.au/finance/markets/australian-markets/australian-shares-jump-after-global-market-rebound-drives-strong-commodity-and-tech-gains/news-story/827bcafc08752c1b7eaf93c7ab7fa92a?.tsrc=rss"
+  },
+  "us": {
+   "headline": "S&P 500 Has Best Week Of Year",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/p-500-posts-apos-largest-183955223.html?.tsrc=rss"
+  },
+  "biz": {
+   "headline": "WiseTech Jumps To 10-Month High",
+   "source": "Yahoo Finance",
+   "link": "https://finance.yahoo.com/markets/stocks/articles/wisetech-shares-jump-16-7-010325664.html?.tsrc=rss"
+  }
+ }
+}
